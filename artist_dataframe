@@ -45,6 +45,6 @@ def tracks_info(album_tracks):
         track_explicit_lyrics = track.explicit_lyrics
         track_gain = track.gain
         track_contributors = track.contributors
-    return track_title,track_duration_seconds,track_position,track_disk_number,track_explicit_lyrics,track_gain,track_contributors
+    return track_title,track_duration,track_position,track_disk_number,track_explicit_lyrics,track_gain,track_contributors
 
 
