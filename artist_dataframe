@@ -33,3 +33,18 @@ def album_info(albums):
         album_release_date = album.release_date.strftime("%d/%m/%Y")
         album_tracks = album.tracks
     return album_title,album_genres,album_nb_tracks,album_fans,album_release_date,album_tracks
+    
+ 
+# Recebe faixas e retorna os dados de cada uma extraídos da plataforma Deezer
+def tracks_info(album_tracks):
+    for track in album_tracks:
+        track_title = track.title
+        track_duration = time.strftime("%M:%S", time.gmtime(track.duration))
+        track_position = track.track_position
+        track_disk_number = track.disk_number
+        track_explicit_lyrics = track.explicit_lyrics
+        track_gain = track.gain
+        track_contributors = track.contributors
+    return track_title,track_duration_seconds,track_position,track_disk_number,track_explicit_lyrics,track_gain,track_contributors
+
+
