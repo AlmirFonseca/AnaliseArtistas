@@ -13,3 +13,14 @@ def artist_info(searched_artist):
     artist_nb_fans = artist.nb_fan
     artist_albums = artist.get_albums()
     return artist_name,artist_nb_album,artist_nb_fans,artist_albums
+
+
+# Extrai dados dos albuns na plataforma Deezer
+def album_info(albums):
+    for album in albums:
+        album_title = album.title
+        album_nb_tracks = album.nb_tracks
+        album_fans = album.fans
+        album_release_date = album.release_date.strftime("%d/%m/%Y")
+        album_tracks = album.tracks
+    return album_title,album_nb_tracks,album_fans,album_release_date,album_tracks
