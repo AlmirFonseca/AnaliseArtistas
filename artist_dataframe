@@ -1,0 +1,15 @@
+# Importa as bibliotecas necessárias 
+import deezer
+import pandas as pd
+import time
+
+
+# Extrai dados de um artista na plataforma Deezer
+def artist_info(searched_artist):
+    client = deezer.Client() #Sincroniza com a plataforma 
+    artist = client.search_artists(searched_artist)[0] #Retorna o primeiro resultado para o artista pesquisado
+    artist_name = artist.name
+    artist_nb_album = artist.nb_album
+    artist_nb_fans = artist.nb_fan
+    artist_albums = artist.get_albums()
+    return artist_name,artist_nb_album,artist_nb_fans,artist_albums
