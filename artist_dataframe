@@ -4,7 +4,7 @@ import pandas as pd
 import time
 
 
-# Extrai dados de um artista na plataforma Deezer
+# Recebe o nome de um artista ou banda e retorna seus dados extraídos da plataforma Deezer
 def artist_info(searched_artist):
     client = deezer.Client() #Sincroniza com a plataforma 
     artist = client.search_artists(searched_artist)[0] #Retorna o primeiro resultado para o artista pesquisado
@@ -23,7 +23,7 @@ def genres(album):
     album_genres_str = "/".join(album_genres_list)
     return album_genres_str
     
-# Extrai dados dos albuns na plataforma Deezer
+# Recebe um álbum e retorna seus dados extraídos da plataforma Deezer
 def album_info(albums):
     for album in albums:
         album_title = album.title
