@@ -33,6 +33,17 @@ def album_info(album):
     album_tracks = album.tracks
     return album_title,album_genres,album_nb_tracks,album_fans,album_release_date,album_tracks
     
+    
+# Recebe uma faixa e retorna os seus contribuintes em formato de string
+def contribuitors(track):
+    track_contributors = track.contributors 
+    track_contributors_list = []
+    for contributor in track_contributors:
+        track_contributors_list.append(contributor.name) #Adiciona em uma lista os nomes dos contribuintes
+        track_contributors_str = "/".join(track_contributors_list)#Transforma a lista em uma string
+    return track_contributors_str
+    
+
 # Recebe faixas e retorna os dados de cada uma extraídos da plataforma Deezer
 def tracks_info(album_tracks):
     for track in album_tracks:
@@ -42,7 +53,7 @@ def tracks_info(album_tracks):
         track_disk_number = track.disk_number
         track_explicit_lyrics = track.explicit_lyrics
         track_gain = track.gain
-        track_contributors = track.contributors
+        track_contributors = contribuitors(track) #Utiliza a função de apoio contribuitors
     return track_title,track_duration,track_position,track_disk_number,track_explicit_lyrics,track_gain,track_contributors
 
 
