@@ -17,24 +17,22 @@ def artist_info(searched_artist):
 # Recebe um álbum e retorna os seus gêneros em formato de string
 def genres(album): 
     album_genres_list = []
-    album_genres=album.genres
+    album_genres = album.genres
     for genre in album_genres:
-        album_genres_list.append(genre.name)
-    album_genres_str = "/".join(album_genres_list)
+        album_genres_list.append(genre.name) #Adiciona em uma lista os nomes dos gêneros
+    album_genres_str = "/".join(album_genres_list) #Transforma a lista em uma string
     return album_genres_str
     
 # Recebe um álbum e retorna seus dados extraídos da plataforma Deezer
-def album_info(albums):
-    for album in albums:
-        album_title = album.title
-        album_genres = genres(album)
-        album_nb_tracks = album.nb_tracks
-        album_fans = album.fans
-        album_release_date = album.release_date.strftime("%d/%m/%Y")
-        album_tracks = album.tracks
+def album_info(album):
+    album_title = album.title
+    album_genres = genres(album)
+    album_nb_tracks = album.nb_tracks
+    album_fans = album.fans
+    album_release_date = album.release_date.strftime("%d/%m/%Y")
+    album_tracks = album.tracks
     return album_title,album_genres,album_nb_tracks,album_fans,album_release_date,album_tracks
     
- 
 # Recebe faixas e retorna os dados de cada uma extraídos da plataforma Deezer
 def tracks_info(album_tracks):
     for track in album_tracks:
