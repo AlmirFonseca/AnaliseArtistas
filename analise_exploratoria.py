@@ -81,5 +81,10 @@ def palavra_comuns_letras(dataframe):
     contador = collections.Counter(lista_palavras)
     mais_comuns = contador.most_common(10)
     print(mais_comuns)
+    
+# Imprime as 10 palavras mais comuns nas letras de cada álbum
+def letras_comuns_album(dataframe):
+    dataframe.groupby('Álbum').apply(palavra_comuns_letras)
+    
 
     
