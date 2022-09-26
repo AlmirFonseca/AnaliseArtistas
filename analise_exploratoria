@@ -15,3 +15,7 @@ def menos_ouvidas(dataframe):
 # Imprime as 3 músicas mais longas na história do artista
 def mais_longas(dataframe):
     print(dataframe.nlargest(3, 'Duração',keep='all'))
+    
+# Imprime as 3 músicas menos longas na história do artista
+def menos_longas(dataframe):
+    print(dataframe.nsmallest(3, 'Duração',keep='all'))
