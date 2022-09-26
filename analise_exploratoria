@@ -3,6 +3,7 @@
 #Importe as bibliotecas necessárias
 import pandas as pd
 import numpy as np
+import collections
 
 # Imprime as 3 músicas mais ouvidas por álbum
 def mais_ouvidas_album(dataframe):
@@ -40,4 +41,17 @@ def menos_longas(dataframe):
 def duracao_popularidade(dataframe):
     correlacao = dataframe.corr(method ='pearson')
     print(correlacao.loc["Duração","Popularidade"])
+    
+# Imprime as 3 palavras mais comuns nos títulos dos álbuns
+def palavra_comuns_album(dataframe):
+    albuns = dataframe.index.get_level_values(0)
+    lista_albuns = list(dict.fromkeys(albuns))
+    lista_palavras = []
+    for album in lista_albuns:
+        palavras = album.split()
+        for palavra in palavras:
+            lista_palavras.append(palavra) 
+    contador = collections.Counter(lista_palavras)
+    mais_comuns = contador.most_common(3)
+    print(mais_comuns)
     
