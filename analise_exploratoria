@@ -69,3 +69,17 @@ def palavra_comuns_titulo(dataframe):
     mais_comuns = contador.most_common(3)
     print(mais_comuns)
     
+# Imprime as 10 palavras mais comuns nas letras das músicas
+def palavra_comuns_letras(dataframe):
+    letras = dataframe["Letras"]
+    lista_letras = list(dict.fromkeys(letras))
+    lista_palavras = []
+    for letra in lista_letras:
+        palavras = letra.split()
+        for palavra in palavras:
+            lista_palavras.append(palavra) 
+    contador = collections.Counter(lista_palavras)
+    mais_comuns = contador.most_common(10)
+    print(mais_comuns)
+
+    
