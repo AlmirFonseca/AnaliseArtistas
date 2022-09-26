@@ -7,7 +7,10 @@ import numpy as np
 # Imprime as 3 músicas mais ouvidas por álbum
 def mais_ouvidas_album(dataframe):
     print(dataframe.groupby('Álbum')['Popularidade'].nlargest(3,keep='all'))
-
+    
+def menos_ouvidas_album(dataframe):
+    print(dataframe.groupby('Álbum')['Popularidade'].nsmallest(3,keep='all'))
+    
 # Imprime as 3 músicas mais ouvidas na história do artista
 def mais_ouvidas(dataframe):
     print(dataframe.nlargest(3, 'Popularidade',keep='all'))
