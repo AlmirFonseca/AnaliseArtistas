@@ -7,7 +7,8 @@ import numpy as np
 # Imprime as 3 músicas mais ouvidas por álbum
 def mais_ouvidas_album(dataframe):
     print(dataframe.groupby('Álbum')['Popularidade'].nlargest(3,keep='all'))
-    
+ 
+# Imprime as 3 músicas menos ouvidas por álbum   
 def menos_ouvidas_album(dataframe):
     print(dataframe.groupby('Álbum')['Popularidade'].nsmallest(3,keep='all'))
     
@@ -34,3 +35,9 @@ def mais_longas(dataframe):
 # Imprime as 3 músicas menos longas na história do artista
 def menos_longas(dataframe):
     print(dataframe.nsmallest(3, 'Duração',keep='all'))
+ 
+# Imprime a correlação de Pearson entre Duração e Popularidade
+def duracao_popularidade(dataframe):
+    correlacao = dataframe.corr(method ='pearson')
+    print(correlacao.loc["Duração","Popularidade"])
+    
