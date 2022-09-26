@@ -11,6 +11,10 @@ def mais_ouvidas_album(dataframe):
 def menos_ouvidas_album(dataframe):
     print(dataframe.groupby('Álbum')['Popularidade'].nsmallest(3,keep='all'))
     
+# Imprime as 3 músicas mais longas por álbum
+def mais_longas_album(dataframe):
+    print(dataframe.groupby('Plataforma')['Duração'].nlargest(3,keep='all'))
+    
 # Imprime as 3 músicas mais ouvidas na história do artista
 def mais_ouvidas(dataframe):
     print(dataframe.nlargest(3, 'Popularidade',keep='all'))
