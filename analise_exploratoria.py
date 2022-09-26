@@ -19,7 +19,7 @@ def mais_longas_album(dataframe):
     
 # Imprime as 3 músicas menos longas por álbum
 def menos_longas_album(dataframe):
-    print(dataframe.groupby('Plataforma')['Duração'].nsmallest(3,keep='all'))
+    print(dataframe.groupby('Álbum')['Duração'].nsmallest(3,keep='all'))
    
 # Imprime as 3 músicas mais ouvidas na história do artista
 def mais_ouvidas(dataframe):
