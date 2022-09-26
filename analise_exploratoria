@@ -1,0 +1,9 @@
+# Análise exploratória
+
+#Importe as bibliotecas necessárias
+import pandas as pd
+import numpy as np
+
+# Imprime as 3 músicas mais ouvidas na história do artista
+def mais_ouvidas(dataframe):
+    print(dataframe.nlargest(3, 'Popularidade',keep='all'))
