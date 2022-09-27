@@ -1,5 +1,6 @@
 import json
 import re
+import os
 
 import lyricsgenius
 import numpy as np
@@ -100,8 +101,8 @@ def get_album_tracks(albums):
                 track_release_date = None
                 print("Ocorreu um erro inesperado durante a analise da data de lançamento da faixa:", e)
             
+            # Tenta obter a letra da música
             try:
-                # Tenta obter a letra da música
                 track_dict = genius.search_song(song_id=track_id, get_full_info=False)
                 track_lyrics = track_dict.lyrics
                 
@@ -135,6 +136,34 @@ def get_album_tracks(albums):
     # A função retorna uma lista de dicionários, onde cada dicionário contém os dados que descrevem cada faixa
     return tracks
 
+# Gera um dataframe a partir dos dados coletados, com a opção de salvar o dataframe num arquivo ".csv"
+def generate_dataframe(artist_name, tracks, save_csv = False):
+    # Obtém o nome das colunas do dataframe a partir dos dados que cada faixa possui
+    dataframe_columns = list(tracks[0].keys())
+
+    # Inicializa uma lista para acumular os dados de cada faixa
+    track_list = []
+    
+    # Itera sobre cada faixa, coletando seus dados e acumulando na lista criada
+    for track in tracks:
+        track_list.append(list(track.values()))
+        
+    # Gera um pandas DataFrame a partir dos dados coletados
+    tracks_dataframe = pd.DataFrame(data=track_list, columns=dataframe_columns)
+    
+    # Caso o usuário deseje salvar o dataframe num arquivo ".csv"
+    if save_csv:
+        # Gera um caminho relativo, com o nome do artista
+        csv_path = f"Letras - {artist_name}.csv"
+        
+        # Salva o dataframe num arquivo ".csv"
+        tracks_dataframe.to_csv(csv_path, sep=";", encoding="utf-8-sig")
+        # Exibe uma mensagem de sucesso e exibe o local do arquivo gerado
+        print("O arquivo CSV foi gerado e salvo em:\n", os.path.abspath(csv_path))
+
+    # A função retorna o dataframe gerado
+    return tracks_dataframe
+
 # Obtém o nome e o id do artista
 artist_name, artist_id = get_artist_info("Coldplay")
 
@@ -144,4 +173,5 @@ albums = get_albums_info(artist_id)
 # Obtém uma lista de faixas, contendo seu álbum, seu número, seu nome, sua data de lançamento e sua letra
 tracks = get_album_tracks(albums)
 
-print(tracks)
+# Gera um dataframe contendo os dados coletados a partir da API da Genius
+tracks_dataframe = generate_dataframe(artist_name, tracks, save_csv=True)
