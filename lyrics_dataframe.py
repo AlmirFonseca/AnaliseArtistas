@@ -1,16 +1,15 @@
 import json
 import re
 
+import lyricsgenius
 import numpy as np
 import pandas as pd
-
-from lyricsgenius import Genius
 
 # Armazena o token de acesso, obtido através da plataforma Genius
 access_token = "u2SqMOrCtzWwY9xGxI6PiLn5aVqnhzWMiaMWB2BmrfuvJQL-Z_nQ4pv8gJej4isU"
 
 # Instancia o objeto principal da API do Genius
-genius = Genius(access_token, timeout=60, retries=10)
+genius = lyricsgenius.Genius(access_token, timeout=60, retries=10)
 
 # Extrai os dados do artista através do seu nome
 def get_artist_info(artist_name):
@@ -30,6 +29,8 @@ def get_albums_info(artist_id):
     while next_page != None:
         # Recebe o resultado da busca pelos álbuns de um artista
         album_response = genius.artist_albums(artist_id, page=next_page)
+        
+        print(album_response)
         
         # Verifica se existe mais alguma página de resultados a ser buscada
         next_page = album_response.get("next_page")
@@ -74,7 +75,16 @@ def get_album_tracks(albums):
             # Extrai o nome, id e data de lançamento da faixa
             track_name = track_data.get("title")
             track_id = track_data.get("id")
-            track_release_date = track_data.get("release_date_components")
+            track_release_date_components = track_data.get("release_date_components")
+            
+            try:
+                # Converte o dicionário que contém os componentes da data para um datetime
+                track_release_date = lyricsgenius.utils.convert_to_datetime(track_release_date_components).date()
+            
+            # Caso ocorra algum erro durante a conversão ou a API não disponibilize a data de lançamento da faixa
+            except Exception as e:
+                track_release_date = None
+                print("Ocorreu um erro inesperado:", e)
             
             try:
                 # Tenta obter a letra da música
@@ -104,6 +114,7 @@ def get_album_tracks(albums):
             print(track_counter, track_name)
             
             # DEBUG: acelera o processo de debug, permitindo a análise de uma música por álbum
+            # print(tracks)
             break
             
     # A função retorna uma lista de dicionários, onde cada dicionário contém os dados que descrevem cada faixa
