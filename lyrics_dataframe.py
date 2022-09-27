@@ -50,8 +50,72 @@ def get_albums_info(artist_id):
     # Retorna a lista de álbums gerada
     return albums_list
 
+# Extrai os dados de cada faixa através do id do álbum
+def get_album_tracks(albums):
+    # Inicializa um contador de faixas processadas
+    track_counter = 0
+    
+    # Inicializa uma lista para armazenar as faixas
+    tracks = []
+    
+    # Itera sobre cada álbum
+    for album in albums:
+        # Coleta a lista de faixas de cada álbum a partir de seu id
+        album_tracks = genius.album_tracks(album.get("id"))
+        
+        # Itera sobre cada faixa do album
+        for track in album_tracks.get("tracks"):
+            # Extrai o número da faixa
+            track_number = track.get("number")
+            
+            # Acessa os metadados da faixa
+            track_data = track.get("song")
+            
+            # Extrai o nome, id e data de lançamento da faixa
+            track_name = track_data.get("title")
+            track_id = track_data.get("id")
+            track_release_date = track_data.get("release_date_components")
+            
+            try:
+                # Tenta obter a letra da música
+                track_dict = genius.search_song(song_id=track_id, get_full_info=False)
+                track_lyrics = track_dict.lyrics
+                
+            # Caso ocorra alguma exceção, consideraremos que nenhuma letra foi encontrada para a música
+            except AttributeError:
+                track_lyrics = ""
+            
+            except Exception as e:
+                print("Ocorreu um erro inesperado:", e)
+                track_lyrics = ""
+                
+            # Armazena os dados coletados num dicionário
+            track_dict = {"album_name": album.get("name"),
+                           "track_number": track_number,
+                           "track_name": track_name,
+                           "track_release_date": track_release_date,
+                           "track_lyrics": track_lyrics}
+            
+            # Adiciona o dicionário gerado à lista de faixas
+            tracks.append(track_dict)
+            
+            # Incrementa e exibe o contador e o nome da faixa processada
+            track_counter += 1
+            print(track_counter, track_name)
+            
+            # DEBUG: acelera o processo de debug, permitindo a análise de uma música por álbum
+            break
+            
+    # A função retorna uma lista de dicionários, onde cada dicionário contém os dados que descrevem cada faixa
+    return tracks
+
 # Obtém o nome e o id do artista
 artist_name, artist_id = get_artist_info("Coldplay")
 
 # Obtém uma lista de álbuns, contendo seu nome e id do álbum
 albums = get_albums_info(artist_id)
+
+# Obtém uma lista de faixas, contendo seu álbum, seu número, seu nome, sua data de lançamento e sua letra
+tracks = get_album_tracks(albums)
+
+print(tracks)
