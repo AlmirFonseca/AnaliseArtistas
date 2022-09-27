@@ -30,20 +30,29 @@ def get_albums_info(artist_id):
         # Recebe o resultado da busca pelos álbuns de um artista
         album_response = genius.artist_albums(artist_id, page=next_page)
         
-        print(album_response)
-        
         # Verifica se existe mais alguma página de resultados a ser buscada
         next_page = album_response.get("next_page")
         
         # Itera sobre cada álbum
         for album in album_response.get("albums"):
-            # Extrai o nome e id do álbum
+            # Extrai o nome, id e data de lançamento do álbum
             album_name = album.get("name")
             album_id = album.get("id")
+            album_release_date_components = album.get("release_date_components")
+            
+            # Tenta converter os componentes da data de lançamento (dia, mês e ano) num único datetime
+            try:
+                album_release_date = lyricsgenius.utils.convert_to_datetime(album_release_date_components).date()
+            
+            # Caso ocorra algum erro durante a conversão ou a API não disponibilize a data de lançamento do álbum
+            except Exception as e:
+                album_release_date = None
+                print("Ocorreu um erro inesperado durante a analise da data de lançamento do álbum:", e)
             
             # Armazena esses dados num dicionario
             album_dict = {"id": album_id,
-                          "name": album_name}
+                          "name": album_name,
+                          "release_date": album_release_date}
             
             # Adiciona o dicionário gerado à lista de álbuns
             albums_list.append(album_dict)
@@ -61,8 +70,13 @@ def get_album_tracks(albums):
     
     # Itera sobre cada álbum
     for album in albums:
+        # Acessa as informações de cada álbum
+        album_id = album.get("id")
+        album_name = album.get("name")
+        album_release_date = album.get("release_date")
+        
         # Coleta a lista de faixas de cada álbum a partir de seu id
-        album_tracks = genius.album_tracks(album.get("id"))
+        album_tracks = genius.album_tracks(album_id)
         
         # Itera sobre cada faixa do album
         for track in album_tracks.get("tracks"):
@@ -77,14 +91,14 @@ def get_album_tracks(albums):
             track_id = track_data.get("id")
             track_release_date_components = track_data.get("release_date_components")
             
+            # Tenta converter os componentes da data de lançamento (dia, mês e ano) num único datetime
             try:
-                # Converte o dicionário que contém os componentes da data para um datetime
                 track_release_date = lyricsgenius.utils.convert_to_datetime(track_release_date_components).date()
             
             # Caso ocorra algum erro durante a conversão ou a API não disponibilize a data de lançamento da faixa
             except Exception as e:
                 track_release_date = None
-                print("Ocorreu um erro inesperado:", e)
+                print("Ocorreu um erro inesperado durante a analise da data de lançamento da faixa:", e)
             
             try:
                 # Tenta obter a letra da música
@@ -100,7 +114,8 @@ def get_album_tracks(albums):
                 track_lyrics = ""
                 
             # Armazena os dados coletados num dicionário
-            track_dict = {"album_name": album.get("name"),
+            track_dict = {"album_name": album_name,
+                          "album_release_date": album_release_date,
                            "track_number": track_number,
                            "track_name": track_name,
                            "track_release_date": track_release_date,
