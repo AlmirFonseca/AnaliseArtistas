@@ -10,7 +10,8 @@ import pandas as pd
 access_token = "u2SqMOrCtzWwY9xGxI6PiLn5aVqnhzWMiaMWB2BmrfuvJQL-Z_nQ4pv8gJej4isU"
 
 # Instancia o objeto principal da API do Genius
-genius = lyricsgenius.Genius(access_token, timeout=60, retries=10)
+genius = lyricsgenius.Genius(access_token, timeout=60, retries=10, 
+                             verbose=False, remove_section_headers=True)
 
 # Extrai os dados do artista através do seu nome
 def get_artist_info(artist_name):
@@ -48,7 +49,7 @@ def get_albums_info(artist_id):
             # Caso ocorra algum erro durante a conversão ou a API não disponibilize a data de lançamento do álbum
             except Exception as e:
                 album_release_date = None
-                print("Ocorreu um erro inesperado durante a analise da data de lançamento do álbum:", e)
+                print("Ocorreu um erro inesperado durante a analise da data de lançamento do álbum: ", album_name, "\n", e, sep="")
             
             # Armazena esses dados num dicionario
             album_dict = {"id": album_id,
@@ -76,6 +77,9 @@ def get_album_tracks(albums):
         album_name = album.get("name")
         album_release_date = album.get("release_date")
         
+        print("\n", "=-"*30, "\n", sep="")
+        print("Analisando álbum:", album_name)
+        
         # Coleta a lista de faixas de cada álbum a partir de seu id
         album_tracks = genius.album_tracks(album_id)
         
@@ -99,7 +103,7 @@ def get_album_tracks(albums):
             # Caso ocorra algum erro durante a conversão ou a API não disponibilize a data de lançamento da faixa
             except Exception as e:
                 track_release_date = None
-                print("Ocorreu um erro inesperado durante a analise da data de lançamento da faixa:", e)
+                print("Ocorreu um erro inesperado durante a analise da data de lançamento da faixa: ", track_name, "\n", e, sep="")
             
             # Tenta obter a letra da música
             try:
@@ -127,11 +131,11 @@ def get_album_tracks(albums):
             
             # Incrementa e exibe o contador e o nome da faixa processada
             track_counter += 1
-            print(track_counter, track_name)
+            print(track_counter, "-", track_name)
             
             # DEBUG: acelera o processo de debug, permitindo a análise de uma música por álbum
             # print(tracks)
-            break
+            # break
             
     # A função retorna uma lista de dicionários, onde cada dicionário contém os dados que descrevem cada faixa
     return tracks
@@ -159,7 +163,7 @@ def generate_dataframe(artist_name, tracks, save_csv = False):
         # Salva o dataframe num arquivo ".csv"
         tracks_dataframe.to_csv(csv_path, sep=";", encoding="utf-8-sig")
         # Exibe uma mensagem de sucesso e exibe o local do arquivo gerado
-        print("O arquivo CSV foi gerado e salvo em:\n", os.path.abspath(csv_path))
+        print("O arquivo CSV foi gerado e salvo em:\n", os.path.abspath(csv_path), sep="")
 
     # A função retorna o dataframe gerado
     return tracks_dataframe
