@@ -6,12 +6,14 @@ import lyricsgenius
 import numpy as np
 import pandas as pd
 
+from bs4 import BeautifulSoup
+
 # Armazena o token de acesso, obtido através da plataforma Genius
 access_token = "u2SqMOrCtzWwY9xGxI6PiLn5aVqnhzWMiaMWB2BmrfuvJQL-Z_nQ4pv8gJej4isU"
 
 # Instancia o objeto principal da API do Genius
 genius = lyricsgenius.Genius(access_token, timeout=60, retries=10, 
-                             verbose=False, remove_section_headers=True)
+                              verbose=False, remove_section_headers=True)
 
 # Extrai os dados do artista através do seu nome
 def get_artist_info(artist_name):
@@ -40,16 +42,7 @@ def get_albums_info(artist_id):
             # Extrai o nome, id e data de lançamento do álbum
             album_name = album.get("name")
             album_id = album.get("id")
-            album_release_date_components = album.get("release_date_components")
-            
-            # Tenta converter os componentes da data de lançamento (dia, mês e ano) num único datetime
-            try:
-                album_release_date = lyricsgenius.utils.convert_to_datetime(album_release_date_components).date()
-            
-            # Caso ocorra algum erro durante a conversão ou a API não disponibilize a data de lançamento do álbum
-            except Exception as e:
-                album_release_date = None
-                print("Ocorreu um erro inesperado durante a analise da data de lançamento do álbum: ", album_name, "\n", e, sep="")
+            album_release_date = date_components_to_datetime(album.get("release_date_components"), album_name, "Álbum")
             
             # Armazena esses dados num dicionario
             album_dict = {"id": album_id,
@@ -94,16 +87,7 @@ def get_album_tracks(albums):
             # Extrai o nome, id e data de lançamento da faixa
             track_name = track_data.get("title")
             track_id = track_data.get("id")
-            track_release_date_components = track_data.get("release_date_components")
-            
-            # Tenta converter os componentes da data de lançamento (dia, mês e ano) num único datetime
-            try:
-                track_release_date = lyricsgenius.utils.convert_to_datetime(track_release_date_components).date()
-            
-            # Caso ocorra algum erro durante a conversão ou a API não disponibilize a data de lançamento da faixa
-            except Exception as e:
-                track_release_date = None
-                print("Ocorreu um erro inesperado durante a analise da data de lançamento da faixa: ", track_name, "\n", e, sep="")
+            track_release_date = date_components_to_datetime(track_data.get("release_date_components"), track_name, "Faixa")
             
             # Tenta obter a letra da música
             try:
@@ -133,9 +117,7 @@ def get_album_tracks(albums):
             track_counter += 1
             print(track_counter, "-", track_name)
             
-            # DEBUG: acelera o processo de debug, permitindo a análise de uma música por álbum
-            # print(tracks)
-            # break
+            break
             
     # A função retorna uma lista de dicionários, onde cada dicionário contém os dados que descrevem cada faixa
     return tracks
@@ -167,6 +149,20 @@ def generate_dataframe(artist_name, tracks, save_csv = False):
 
     # A função retorna o dataframe gerado
     return tracks_dataframe
+
+# Gera um datetime a partir de seus componentes (ano, mês e dia)
+def date_components_to_datetime(date_components, content_name, content_type):
+    # Tenta converter os componentes da data de lançamento (dia, mês e ano) num único datetime
+    try:
+        datetime = lyricsgenius.utils.convert_to_datetime(date_components).date()
+    
+    # Caso ocorra algum erro durante a conversão ou a API não disponibilize a data de lançamento da faixa
+    except Exception as e:
+        datetime = None
+        print(f"Ocorreu um erro inesperado durante a analise da data de lançamento de: {content_name} ({content_type}): \n {e}", sep="")
+    
+    # Retorna o datetime gerado a partir dos componentes (ano, mês e dia)
+    return datetime
 
 # Obtém o nome e o id do artista
 artist_name, artist_id = get_artist_info("Coldplay")
