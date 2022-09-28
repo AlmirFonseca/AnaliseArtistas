@@ -31,8 +31,8 @@ def least_listened(dataframe):
     return dataframe.nsmallest(3, 'Popularidade',keep='all')
 
 # Imprime as 3 músicas mais longas na história do artista
-def mais_longas(dataframe):
-    print(dataframe.nlargest(3, 'Duração',keep='all'))
+def longest(dataframe):
+    return dataframe.nlargest(3, 'Duração',keep='all')
     
 # Imprime as 3 músicas menos longas na história do artista
 def menos_longas(dataframe):
