@@ -27,8 +27,8 @@ def most_listened(dataframe):
     return dataframe.nlargest(3, 'Popularidade',keep='all')
 
 # Imprime as 3 músicas menos ouvidas na história do artista
-def menos_ouvidas(dataframe):
-    print(dataframe.nsmallest(3, 'Popularidade',keep='all'))
+def least_listened(dataframe):
+    return dataframe.nsmallest(3, 'Popularidade',keep='all')
 
 # Imprime as 3 músicas mais longas na história do artista
 def mais_longas(dataframe):
