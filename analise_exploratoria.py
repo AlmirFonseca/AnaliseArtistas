@@ -39,9 +39,9 @@ def shortest(dataframe):
     return dataframe.nsmallest(3, 'Duração',keep='all')
  
 # Imprime a correlação de Pearson entre Duração e Popularidade
-def duracao_popularidade(dataframe):
-    correlacao = dataframe.corr(method ='pearson')
-    print(correlacao.loc["Duração","Popularidade"])
+def duration_popularity(dataframe):
+    correlation = dataframe.corr(method ='pearson')
+    return correlation.loc["Duração","Popularidade"]
     
 # Imprime as 3 palavras mais comuns nos títulos dos álbuns
 def palavra_comuns_album(dataframe):
