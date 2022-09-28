@@ -11,8 +11,8 @@ def most_listened_by_album(dataframe):
  
  
 # Imprime as 3 músicas menos ouvidas por álbum   
-def menos_ouvidas_album(dataframe):
-    print(dataframe.groupby('Álbum')['Popularidade'].nsmallest(3,keep='all'))
+def least_listened_by_album(dataframe):
+    return dataframe.groupby('Álbum')['Popularidade'].nsmallest(3,keep='all')
     
 # Imprime as 3 músicas mais longas por álbum
 def mais_longas_album(dataframe):
