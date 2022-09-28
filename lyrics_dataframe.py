@@ -121,8 +121,6 @@ def get_tracks_info(albums):
             track_counter += 1
             print(track_counter, "-", track_name)
             
-            break
-            
     # A função retorna uma lista de dicionários, onde cada dicionário contém os dados que descrevem cada faixa
     return tracks
 
@@ -168,14 +166,25 @@ def date_components_to_datetime(date_components, content_name, content_type):
     # Retorna o datetime gerado a partir dos componentes (ano, mês e dia)
     return datetime
 
-# Obtém o nome e o id do artista
-artist_name, artist_id = get_artist_info("Coldplay")
+# Utiliza a API do Genius e as funções acima para gerar um dataframe com as faixas e suas respectivas letras de um artista
+def get_lyrics_of(artist_name, save_csv = False):
+    # Obtém o nome e o id do artista
+    artist_name, artist_id = get_artist_info(artist_name)
+    
+    # Obtém uma lista de álbuns, contendo seu nome e id do álbum
+    albums = get_albums_info(artist_id)
+    
+    # Obtém uma lista de faixas, contendo seu álbum, seu número, seu nome, sua data de lançamento e sua letra
+    tracks = get_tracks_info(albums)
+    
+    # Gera um dataframe contendo os dados coletados a partir da API da Genius
+    tracks_dataframe = generate_dataframe(artist_name, tracks, save_csv)
+    
+    # Retorna um dataframe, contendo dados sobre o álbum, sobre a faixa, e sua letra
+    return tracks_dataframe
 
-# Obtém uma lista de álbuns, contendo seu nome e id do álbum
-albums = get_albums_info(artist_id)
+ARTIST_NAME = "Coldplay"
 
-# Obtém uma lista de faixas, contendo seu álbum, seu número, seu nome, sua data de lançamento e sua letra
-tracks = get_tracks_info(albums)
+artist_lyrics = get_lyrics_of("Coldplay", save_csv=True)
 
-# Gera um dataframe contendo os dados coletados a partir da API da Genius
-tracks_dataframe = generate_dataframe(artist_name, tracks, save_csv=True)
+print(artist_lyrics)
