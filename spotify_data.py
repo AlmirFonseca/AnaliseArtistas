@@ -21,3 +21,14 @@ def spotify_object(client_credentials_manager):
 
 #sp = spotify_object(client_credentials_manager)
 #print(sp)
+
+# Função que realiza uma pesquisa sobre id de um artista
+def artist_id(sp, artist):
+    #Pesquisa na API por meio do nome do artista dado
+    artist = sp.search(artist, type="artist", limit=1)
+    #Armazena o ID do artista
+    artist_id = artist.get("artists").get("items")[0].get("id")
+    return artist_id
+
+#id = artist_id(sp, "coldplay")
+#print(id)
