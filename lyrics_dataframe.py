@@ -1,12 +1,7 @@
-import json
-import re
 import os
 
 import lyricsgenius
-import numpy as np
 import pandas as pd
-
-from bs4 import BeautifulSoup
 
 # Armazena o token de acesso, obtido através da plataforma Genius
 access_token = "u2SqMOrCtzWwY9xGxI6PiLn5aVqnhzWMiaMWB2BmrfuvJQL-Z_nQ4pv8gJej4isU"
@@ -159,7 +154,7 @@ def date_components_to_datetime(date_components, content_name, content_type):
     # Caso ocorra algum erro durante a conversão ou a API não disponibilize a data de lançamento da faixa
     except Exception as e:
         datetime = None
-        print(f"Ocorreu um erro inesperado durante a analise da data de lançamento de: {content_name} ({content_type}): \n {e}", sep="")
+        print(f"Ocorreu um erro inesperado durante a analise da data de lançamento de: {content_name} ({content_type}):\n{e}", sep="")
     
     # Retorna o datetime gerado a partir dos componentes (ano, mês e dia)
     return datetime
