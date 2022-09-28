@@ -50,8 +50,37 @@ def get_albums_info(artist_id):
     # Retorna a lista de álbums gerada
     return albums_list
 
+# Extrai as principais informações sobre uma faixa
+def extract_track_info(track):
+    # Extrai o número da faixa
+    track_number = track.get("number")
+    
+    # Acessa os metadados da faixa
+    track_data = track.get("song")
+    
+    # Extrai o nome, id e data de lançamento da faixa
+    track_name = track_data.get("title")
+    track_id = track_data.get("id")
+    track_release_date = date_components_to_datetime(track_data.get("release_date_components"), track_name, "Faixa")
+    
+    # Tenta obter a letra da música
+    try:
+        track_dict = genius.search_song(song_id=track_id, get_full_info=False)
+        track_lyrics = track_dict.lyrics
+        
+    # Caso ocorra alguma exceção, consideraremos que nenhuma letra foi encontrada para a música
+    except AttributeError:
+        track_lyrics = ""
+    
+    except Exception as e:
+        print("Ocorreu um erro inesperado:", e)
+        track_lyrics = ""
+        
+    # Retorna o número, nome, id, data de lançamento e a letra da faixa
+    return track_number, track_name, track_id, track_release_date, track_lyrics
+
 # Extrai os dados de cada faixa através do id do álbum
-def get_album_tracks(albums):
+def get_tracks_info(albums):
     # Inicializa um contador de faixas processadas
     track_counter = 0
     
@@ -73,30 +102,10 @@ def get_album_tracks(albums):
         
         # Itera sobre cada faixa do album
         for track in album_tracks.get("tracks"):
-            # Extrai o número da faixa
-            track_number = track.get("number")
             
-            # Acessa os metadados da faixa
-            track_data = track.get("song")
+            # Extrai as seguintes informações dos dados da faixa
+            track_number, track_name, track_id, track_release_date, track_lyrics = extract_track_info(track)
             
-            # Extrai o nome, id e data de lançamento da faixa
-            track_name = track_data.get("title")
-            track_id = track_data.get("id")
-            track_release_date = date_components_to_datetime(track_data.get("release_date_components"), track_name, "Faixa")
-            
-            # Tenta obter a letra da música
-            try:
-                track_dict = genius.search_song(song_id=track_id, get_full_info=False)
-                track_lyrics = track_dict.lyrics
-                
-            # Caso ocorra alguma exceção, consideraremos que nenhuma letra foi encontrada para a música
-            except AttributeError:
-                track_lyrics = ""
-            
-            except Exception as e:
-                print("Ocorreu um erro inesperado:", e)
-                track_lyrics = ""
-                
             # Armazena os dados coletados num dicionário
             track_dict = {"album_name": album_name,
                           "album_release_date": album_release_date,
@@ -166,7 +175,7 @@ artist_name, artist_id = get_artist_info("Coldplay")
 albums = get_albums_info(artist_id)
 
 # Obtém uma lista de faixas, contendo seu álbum, seu número, seu nome, sua data de lançamento e sua letra
-tracks = get_album_tracks(albums)
+tracks = get_tracks_info(albums)
 
 # Gera um dataframe contendo os dados coletados a partir da API da Genius
 tracks_dataframe = generate_dataframe(artist_name, tracks, save_csv=True)
