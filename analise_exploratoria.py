@@ -35,8 +35,8 @@ def longest(dataframe):
     return dataframe.nlargest(3, 'Duração',keep='all')
     
 # Imprime as 3 músicas menos longas na história do artista
-def menos_longas(dataframe):
-    print(dataframe.nsmallest(3, 'Duração',keep='all'))
+def shortest(dataframe):
+    return dataframe.nsmallest(3, 'Duração',keep='all')
  
 # Imprime a correlação de Pearson entre Duração e Popularidade
 def duracao_popularidade(dataframe):
