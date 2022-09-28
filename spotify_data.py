@@ -32,3 +32,14 @@ def artist_id(sp, artist):
 
 #id = artist_id(sp, "coldplay")
 #print(id)
+
+# Função que realiza uma pesquisa sobre nome oficial de um artista
+def artist_name(sp, artist):
+    #Pesquisa na API por meio do nome do artista dado
+    artist_info = sp.search(artist, type="artist", limit=1)
+    #Armazena o nome oficial do artista no Spotify
+    artist_name = artist_info.get("artists").get("items")[0].get("name")
+    return artist_name
+
+#name = artist_name(sp, "coldplay")
+#print(name)
