@@ -13,3 +13,11 @@ def autentication(client_id, client_secret):
 
 #client_credentials_manager = autentication(client_id, client_secret)
 #print(client_credentials_manager)
+
+# Função que instancia o objeto principal da API
+def spotify_object(client_credentials_manager):
+    sp = spotipy.Spotify(client_credentials_manager = client_credentials_manager)
+    return sp
+
+#sp = spotify_object(client_credentials_manager)
+#print(sp)
