@@ -72,17 +72,17 @@ def common_words_by_song(dataframe):
     
     
 # Imprime as 10 palavras mais comuns nas letras das músicas
-def palavra_comuns_letras(dataframe):
-    letras = dataframe["Letras"]
-    lista_letras = list(dict.fromkeys(letras))
-    lista_palavras = []
-    for letra in lista_letras:
-        palavras = letra.split()
-        for palavra in palavras:
-            lista_palavras.append(palavra) 
-    contador = collections.Counter(lista_palavras)
-    mais_comuns = contador.most_common(10)
-    print(mais_comuns)
+def common_words_by_lyrics(dataframe):
+    lyrics = dataframe["Letras"].str.upper()
+    lyrics_list = list(dict.fromkeys(lyrics))
+    words_list = []
+    for lyric in lyrics_list:
+        words = lyric.split()
+        for word in words:
+            words_list.append(word) 
+    counter = collections.Counter(words_list)
+    most_commom = counter.most_common(10)
+    return most_commom
     
 # Imprime as 10 palavras mais comuns nas letras de cada álbum
 def letras_comuns_album(dataframe):
