@@ -46,7 +46,10 @@ def artist_name(sp, artist):
         #Erros relacionados a credenciais inválidas são levantados pela própria spotipy
         artist_info = sp.search(artist, type="artist", limit=1)
         #Armazena o nome oficial do artista no Spotify
-        artist_name = artist_info.get("artists").get("items")[0].get("name")
+        try:
+            artist_name = artist_info.get("artists").get("items")[0].get("name")
+        except IndexError:
+            raise Exception("Nome de artista inserido não encontrado")
         return artist_name
 
 # Função que realiza coleta de dados sobre álbuns de artistas a partir
