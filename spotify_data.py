@@ -145,6 +145,12 @@ def artist_albums_track_data(sp, albums_data):
                 track_popularity = track.get("popularity")
                 track_id_explicit = track.get("explicit")
                 
+                #Como track_id_explicit recebe um booleano, convertemos para melhor legibilidade dos dados
+                if track_id_explicit == True:
+                    track_id_explicit = "Yes"
+                else:
+                    track_id_explicit = "No"
+                
                 track_duration_ms = track.get("duration_ms")
                 #Conversão da duração dada em ms para seg
                 track_duration_s = track_duration_ms / 1000
@@ -221,4 +227,4 @@ def artist_albums_track_data(sp, albums_data):
     return tracks_data
 
 #data_track = artist_albums_track_data(sp, albums_data_album)
-#print(artist_albums_track_data(sp, albums_data_album))
+#print(data_track)
