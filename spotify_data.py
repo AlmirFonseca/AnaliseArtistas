@@ -9,8 +9,13 @@ import pandas as pd
 
 # Função de Autenticação
 def autentication(client_id, client_secret):
-    credentials = SpotifyClientCredentials(client_id = client_id, client_secret = client_secret)
-    return credentials
+    if type(client_id) != str:
+        raise Exception("ID deve ser uma string!")
+    elif type(client_secret) != str:
+        raise Exception("Secret deve ser uma string!")
+    else:
+        credentials = SpotifyClientCredentials(client_id = client_id, client_secret = client_secret)
+        return credentials
 
 # Função que instancia o objeto principal da API
 def spotify_object(client_credentials_manager):
