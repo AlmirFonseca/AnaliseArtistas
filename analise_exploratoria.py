@@ -58,17 +58,18 @@ def common_words_by_album(dataframe):
     
     
 # Imprime as 3 palavras mais comuns nos títulos das músicas
-def palavra_comuns_titulo(dataframe):
-    musicas = dataframe.index.get_level_values(1)
-    lista_musicas = list(dict.fromkeys(musicas))
-    lista_palavras = []
-    for musica in lista_musicas:
-        palavras = musica.split()
-        for palavra in palavras:
-            lista_palavras.append(palavra) 
-    contador = collections.Counter(lista_palavras)
-    mais_comuns = contador.most_common(3)
-    print(mais_comuns)
+def common_words_by_song(dataframe):
+    songs = dataframe.index.get_level_values(1)
+    songs_list = list(dict.fromkeys( songs))
+    words_list = []
+    for song in songs_list:
+        words = song.split()
+        for word in words:
+            words_list.append(word) 
+    counter = collections.Counter(words_list)
+    most_commom = counter.most_common(3)
+    return most_commom
+    
     
 # Imprime as 10 palavras mais comuns nas letras das músicas
 def palavra_comuns_letras(dataframe):
