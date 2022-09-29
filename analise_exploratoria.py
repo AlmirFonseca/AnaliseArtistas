@@ -95,6 +95,23 @@ def most_popular_album(dataframe):
     popularity_sorted= mean_popularity.sort_values(ascending=False)
     most_popular = popularity_sorted.nlargest(1,keep='all')
     return most_popular
+
+# Retorna os 3 álbuns que mais aparecem nas letras das músicas
+def album_in_lyrics(dataframe):
+    albuns = dataframe.index.get_level_values(0)
+    albuns_series = pd.Series(albuns).str.upper()
+    albuns_array = albuns_series.unique()   
+    lyrics = dataframe["Letras"]
+    lyrics_series =  pd.Series(lyrics).str.upper()
+    lyrics_array = lyrics_series.unique()
+    match_dictionaty = {}
+    for album in albuns_array:
+        match_dictionaty[album] = 0
+        for lyric in lyrics_array:
+            match = lyric.count(album)
+            match_dictionaty[album] += match
+    matches_dataframe = pd.DataFrame(match_dictionaty.values(),match_dictionaty.keys(),["Frequência"])
+    return matches_dataframe["Frequência"].nlargest(3)
    
     
 
