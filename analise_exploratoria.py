@@ -85,8 +85,9 @@ def common_words_by_lyrics(dataframe):
     return most_commom
     
 # Imprime as 10 palavras mais comuns nas letras de cada álbum
-def letras_comuns_album(dataframe):
-    dataframe.groupby('Álbum').apply(palavra_comuns_letras)
+def common_words_lyrics_album(dataframe):
+    new_dataframe = dataframe.groupby('Álbum').apply(common_words_by_lyrics)
+    return new_dataframe
     
 
     
