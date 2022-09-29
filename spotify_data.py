@@ -46,53 +46,53 @@ def artist_name(sp, artist):
 
 # Função que realiza coleta de dados sobre álbuns de artistas a partir
 # do objeto principal da API, id do artista, e tipo de álbum ("single", "album")
-def artist_albums_data(sp, artist_id, album_type):
+def artist_albums_data(sp, artist_id, get_singles = False):
+    #get_singles -> True = Single and Album
+    #get_singles -> False (default) = Album
+
     # Criação de lista para armazenamento  dos dados dos álbuns do artista
     albums_data = list()
+
+    #Verificação se foi optado somente pelos Albums ou se Albums e Singles
+    if get_singles == True:
+        album_types =  ["Album", "Single"]
+    else:
+        album_types = ["Album"]
 
     # Criação de contador de quantidade de buscas realizadas
     # OBS: Realiza buscas em blocos de 50 resultados (limite máximo da API)
     i = 0
-    while True:
-        # Recebe a resposta da busca através da API
-        albums_response = sp.artist_albums(artist_id, limit=50, offset=i, album_type = album_type)
-        # Acessa a lista de álbuns
-        albums_list = albums_response.get("items")
+
+    for type in album_types:
+        while True:
+            # Recebe a resposta da busca através da API
+            albums_response = sp.artist_albums(artist_id, limit=50, offset=i, album_type = type)
+            # Acessa a lista de álbuns
+            albums_list = albums_response.get("items")
+                
+            # Itera sobre cada álbum
+            for album in albums_list:
+                
+                # Recolhe os principais dados de cada álbum
+                album_id = album.get("id")
+                album_name = album.get("name")
+                album_release_date = album.get("release_date")
+                album_num_tracks = album.get("total_tracks")
+                
+                # Armazena os dados num dicionário
+                album_dict = {"id" : album_id,
+                            "name" : album_name,
+                            "release_date" : album_release_date,
+                            "num_tracks" : album_num_tracks}
+                
+                # Acumula os dicionários na lista criada
+                albums_data.append(album_dict)
             
-        # Itera sobre cada álbum
-        for album in albums_list:
-            
-            # Recolhe os principais dados de cada álbum
-            album_id = album.get("id")
-            album_name = album.get("name")
-            album_release_date = album.get("release_date")
-            album_num_tracks = album.get("total_tracks")
-            
-            # Armazena os dados num dicionário
-            album_dict = {"id" : album_id,
-                        "name" : album_name,
-                        "release_date" : album_release_date,
-                        "num_tracks" : album_num_tracks}
-            
-            # Acumula os dicionários na lista criada
-            albums_data.append(album_dict)
-        
-        # Checa se ainda há mais álbuns a serem buscados
-        if albums_response.get("next") == None:
-            break
-        i += 50
+            # Checa se ainda há mais álbuns a serem buscados
+            if albums_response.get("next") == None:
+                break
+            i += 50
     return albums_data
-
-#albums_data_single = artist_albums_data(sp, id, "single")
-#albums_data_album = artist_albums_data(sp, id, "album")
-#print(albums_data_single, "\n", sep = "")
-#print(albums_data_album, "\n", sep = "")
-
-# Caso desejemos recolher os dados de outros discos além dos "album", como os "single",
-# devemos repetir o mesmo bloco, alterando o parâmetro  da função "album_type = single"
-
-# Se os dados forem ser acumulados numa mesma lista de discos, será necessário recolher
-# e armazenar o tipo do disco (album ou single) em alguma variável
 
 # Função que coleta os dados de cada faixa de cada álbum
 def artist_albums_track_data(sp, albums_data):
