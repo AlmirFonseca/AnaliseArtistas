@@ -31,7 +31,10 @@ def artist_id(sp, artist):
         #Erros relacionados a credenciais inválidas são levantados pela própria spotipy
         artist = sp.search(artist, type="artist", limit=1)
         #Armazena o ID do artista
-        artist_id = artist.get("artists").get("items")[0].get("id")
+        try:
+            artist_id = artist.get("artists").get("items")[0].get("id")
+        except IndexError:
+            raise Exception("Nome de artista inserido não encontrado")
         return artist_id
 
 # Função que realiza uma pesquisa sobre nome oficial de um artista
