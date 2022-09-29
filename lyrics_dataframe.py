@@ -145,7 +145,7 @@ def generate_dataframe(artist_name, tracks, save_csv = False):
         csv_path = f"Letras - {artist_name}.csv"
         
         # Salva o dataframe num arquivo ".csv"
-        tracks_dataframe.to_csv(csv_path, sep=";", encoding="utf-8-sig")
+        tracks_dataframe.to_csv(csv_path, sep=";", encoding="utf-8-sig", index=False)
         # Exibe uma mensagem de sucesso e exibe o local do arquivo gerado
         print("O arquivo CSV foi gerado e salvo em:\n", os.path.abspath(csv_path), sep="")
 
