@@ -19,11 +19,14 @@ def spotify_object(client_credentials_manager):
 
 # Função que realiza uma pesquisa sobre id de um artista
 def artist_id(sp, artist):
-    #Pesquisa na API por meio do nome do artista dado
-    artist = sp.search(artist, type="artist", limit=1)
-    #Armazena o ID do artista
-    artist_id = artist.get("artists").get("items")[0].get("id")
-    return artist_id
+    if type(artist) != str:
+        raise Exception("Não foi inserido uma entrada de artista válida")
+    else:
+        #Pesquisa na API por meio do nome do artista dado
+        artist = sp.search(artist, type="artist", limit=1)
+        #Armazena o ID do artista
+        artist_id = artist.get("artists").get("items")[0].get("id")
+        return artist_id
 
 # Função que realiza uma pesquisa sobre nome oficial de um artista
 def artist_name(sp, artist):
