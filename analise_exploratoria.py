@@ -113,6 +113,21 @@ def album_in_lyrics(dataframe):
     matches_dataframe = pd.DataFrame(match_dictionaty.values(),match_dictionaty.keys(),["Frequência"])
     return matches_dataframe["Frequência"].nlargest(3)
    
-    
+# Retorna as 3 canções que mais aparecem nas letras das músicas    
+def song_in_lyrics(dataframe):
+    songs = dataframe.index.get_level_values(1)
+    songs_series = pd.Series(songs).str.upper()
+    songs_array = songs_series.unique()   
+    lyrics = dataframe["Letras"]
+    lyrics_series =  pd.Series(lyrics).str.upper()
+    lyrics_array = lyrics_series.unique()
+    match_dictionaty = {}
+    for song in songs_array:
+        match_dictionaty[song] = 0
+        for lyric in lyrics_array:
+            match = lyric.count(song)
+            match_dictionaty[song] += match
+    matches_dataframe = pd.DataFrame(match_dictionaty.values(),match_dictionaty.keys(),["Frequência"])
+    return matches_dataframe["Frequência"].nlargest(3)
 
     
