@@ -1,6 +1,7 @@
 import spotipy #pip install spotipy
 from spotipy.oauth2 import SpotifyClientCredentials 
 import time
+import pandas as pd
 
 # Define as credenciais para o uso da API
 # client_id = "6a1edef9875b4c79a81e70db08f91c79"
@@ -11,16 +12,10 @@ def autentication(client_id, client_secret):
     credentials = SpotifyClientCredentials(client_id = client_id, client_secret = client_secret)
     return credentials
 
-#client_credentials_manager = autentication(client_id, client_secret)
-#print(client_credentials_manager)
-
 # Função que instancia o objeto principal da API
 def spotify_object(client_credentials_manager):
     sp = spotipy.Spotify(client_credentials_manager = client_credentials_manager)
     return sp
-
-#sp = spotify_object(client_credentials_manager)
-#print(sp)
 
 # Função que realiza uma pesquisa sobre id de um artista
 def artist_id(sp, artist):
@@ -30,9 +25,6 @@ def artist_id(sp, artist):
     artist_id = artist.get("artists").get("items")[0].get("id")
     return artist_id
 
-#id = artist_id(sp, "coldplay")
-#print(id)
-
 # Função que realiza uma pesquisa sobre nome oficial de um artista
 def artist_name(sp, artist):
     #Pesquisa na API por meio do nome do artista dado
@@ -40,9 +32,6 @@ def artist_name(sp, artist):
     #Armazena o nome oficial do artista no Spotify
     artist_name = artist_info.get("artists").get("items")[0].get("name")
     return artist_name
-
-#name = artist_name(sp, "coldplay")
-#print(name)
 
 # Função que realiza coleta de dados sobre álbuns de artistas a partir
 # do objeto principal da API, id do artista, e tipo de álbum ("single", "album")
@@ -145,12 +134,13 @@ def artist_albums_track_data(sp, albums_data):
                 track_popularity = track.get("popularity")
                 track_id_explicit = track.get("explicit")
                 
-                #Como track_id_explicit recebe um booleano, convertemos para melhor legibilidade dos dados
+                #Como o track_id_explicit recebe um booleano, podemos convertê-lo para uma string 
+                # de "Yes" ou "No"
                 if track_id_explicit == True:
                     track_id_explicit = "Yes"
                 else:
                     track_id_explicit = "No"
-                
+
                 track_duration_ms = track.get("duration_ms")
                 #Conversão da duração dada em ms para seg
                 track_duration_s = track_duration_ms / 1000
@@ -197,7 +187,7 @@ def artist_albums_track_data(sp, albums_data):
                               "number" : track_number,
                               "artist_names" : track_artists_names,
                               "popularity" : track_popularity,
-                              "explicit" : track_id_explicit, #TODO verificar
+                              "explicit" : track_id_explicit, 
                               "duration" : track_duration_formatted,
                               "loudness" : track_loudness,
                               "tempo" : track_tempo,
@@ -226,5 +216,15 @@ def artist_albums_track_data(sp, albums_data):
             i += 50
     return tracks_data
 
-#data_track = artist_albums_track_data(sp, albums_data_album)
-#print(data_track)
+def get_spotify_data(client_id, client_secret, artist, get_singles = False):
+    client_credentials_manager = autentication(client_id, client_secret)
+    sp = spotify_object(client_credentials_manager)
+    name = artist_name(sp, artist)
+    id = artist_id(sp, name)
+    albums_data = artist_albums_data(sp, id, get_singles)
+    track_data = artist_albums_track_data(sp, albums_data)
+
+    df = pd.DataFrame(track_data)
+
+    return df
+    
