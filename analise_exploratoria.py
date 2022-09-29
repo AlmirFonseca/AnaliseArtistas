@@ -88,6 +88,14 @@ def common_words_by_lyrics(dataframe):
 def common_words_lyrics_album(dataframe):
     new_dataframe = dataframe.groupby('Álbum').apply(common_words_by_lyrics)
     return new_dataframe
+
+# Retorna o álbum mais popular com base na popularidade média de suas músicas
+def most_popular_album(dataframe):
+    mean_popularity = dataframe.groupby("Álbum")["Popularidade"].mean()
+    popularity_sorted= mean_popularity.sort_values(ascending=False)
+    most_popular = popularity_sorted.nlargest(1,keep='all')
+    return most_popular
+   
     
 
     
