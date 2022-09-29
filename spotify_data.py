@@ -28,6 +28,7 @@ def artist_id(sp, artist):
         raise Exception("Artista deve ser uma string!")
     else:
         #Pesquisa na API por meio do nome do artista dado
+        #Erros relacionados a credenciais inválidas são levantados pela própria spotipy
         artist = sp.search(artist, type="artist", limit=1)
         #Armazena o ID do artista
         artist_id = artist.get("artists").get("items")[0].get("id")
@@ -35,11 +36,15 @@ def artist_id(sp, artist):
 
 # Função que realiza uma pesquisa sobre nome oficial de um artista
 def artist_name(sp, artist):
-    #Pesquisa na API por meio do nome do artista dado
-    artist_info = sp.search(artist, type="artist", limit=1)
-    #Armazena o nome oficial do artista no Spotify
-    artist_name = artist_info.get("artists").get("items")[0].get("name")
-    return artist_name
+    if type(artist) != str:
+        raise Exception("Artista deve ser uma string!")
+    else:
+        #Pesquisa na API por meio do nome do artista dado
+        #Erros relacionados a credenciais inválidas são levantados pela própria spotipy
+        artist_info = sp.search(artist, type="artist", limit=1)
+        #Armazena o nome oficial do artista no Spotify
+        artist_name = artist_info.get("artists").get("items")[0].get("name")
+        return artist_name
 
 # Função que realiza coleta de dados sobre álbuns de artistas a partir
 # do objeto principal da API, id do artista, e tipo de álbum ("single", "album")
