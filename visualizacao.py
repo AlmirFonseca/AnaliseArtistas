@@ -19,3 +19,8 @@ def least_listened_plot(dataframe):
 def longest_plot(dataframe):
     data = ae.longest(dataframe)
     sns.barplot(data=data, x="Duração", y=data.index.get_level_values(1))
+    
+def shortest_plot(dataframe):
+    data = ae.shortest(dataframe)
+    sns.barplot(data=data, x="Duração", y=data.index.get_level_values(1))
+
