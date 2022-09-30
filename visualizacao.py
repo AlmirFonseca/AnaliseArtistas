@@ -11,3 +11,7 @@ sns.set_theme()
 def most_listened_plot(dataframe):
     data = ae.most_listened(dataframe)
     sns.barplot(data=data, x="Popularidade", y=data.index.get_level_values(1))
+
+def least_listened_plot(dataframe):
+    data = ae.least_listened(dataframe)
+    sns.barplot(data=data, x="Popularidade", y=data.index.get_level_values(1))
