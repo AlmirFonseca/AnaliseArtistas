@@ -48,7 +48,18 @@ def common_words_by_song_plot(dataframe):
     frequency = {}
     for tupla in resultado: 
         frequency[tupla[0]] = tupla[1]
-        
+    wc = WordCloud(background_color="white", max_words=1000)
+    wc.generate_from_frequencies(frequency)
+    plt.imshow(wc, interpolation="bilinear")
+    plt.axis("off")
+    plt.show()
+    
+    
+def common_words_by_album_plot(dataframe):
+    resultado = ae.common_words_by_album(dataframe)
+    frequency = {}
+    for tupla in resultado: 
+        frequency[tupla[0]] = tupla[1]
     wc = WordCloud(background_color="white", max_words=1000)
     wc.generate_from_frequencies(frequency)
     plt.imshow(wc, interpolation="bilinear")
