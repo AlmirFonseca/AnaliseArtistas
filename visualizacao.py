@@ -11,16 +11,20 @@ sns.set_theme()
 def most_listened_plot(dataframe):
     data = ae.most_listened(dataframe)
     sns.barplot(data=data, x="Popularidade", y=data.index.get_level_values(1))
+    plt.show()
 
 def least_listened_plot(dataframe):
     data = ae.least_listened(dataframe)
     sns.barplot(data=data, x="Popularidade", y=data.index.get_level_values(1))
+    plt.show()
     
 def longest_plot(dataframe):
     data = ae.longest(dataframe)
     sns.barplot(data=data, x="Duração", y=data.index.get_level_values(1))
+    plt.show()  
     
 def shortest_plot(dataframe):
     data = ae.shortest(dataframe)
     sns.barplot(data=data, x="Duração", y=data.index.get_level_values(1))
+    plt.show()
 
