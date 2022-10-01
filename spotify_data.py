@@ -76,6 +76,9 @@ def artist_albums_data(sp, artist_id, get_singles = False):
     for type in album_types:
         while True:
             # Recebe a resposta da busca através da API
+            # Pesquisa na API por meio do id do artista dado
+            # Erros relacionados a id inválido são levantados pela própria spotipy
+            # Erros relacionados a credenciais inválidas são levantados pela própria spotipy
             albums_response = sp.artist_albums(artist_id, limit=50, offset=i, album_type = type)
             # Acessa a lista de álbuns
             albums_list = albums_response.get("items")
@@ -112,11 +115,19 @@ def artist_albums_track_data(sp, albums_data):
     # Criação de lista para armazenamento  dos dados das faixas do artista de cada álbum
     tracks_data = list()    
 
+    if type(albums_data) != list:
+        raise Exception("albums_data aceita apenas listas")
+
     # Itera sobre cada álbum presente no albums_data (o próprio dict criado na função "artist_albums_data")
     for album in albums_data:
 
         # Recolhe o id de cada álbum
-        album_id = album.get("id")
+        try:
+            album_id = album.get("id")
+            if type(album_id) == None:
+                raise Exception("Dicionário sem ids")
+        except AttributeError:
+            raise Exception("A lista não contém dicionários no formato especificado")
 
         # Inicia uma lista vazia, que armazenará os IDs das faixas de cada álbum
         tracks_ids = list()
@@ -124,10 +135,13 @@ def artist_albums_track_data(sp, albums_data):
         # Cria um loop para obter da API os dados das faixas de cada álbum
         i = 0
         while True:
-        
+            # Erros relacionados a credenciais inválidas são levantados pela própria spotipy
             # Recebe os dados em blocos de 50 faixas
-            # Armazena cada faixa por álbum 
-            tracks = sp.album_tracks(album_id, limit=50, offset=i)
+            # Armazena cada faixa por álbum
+            try: 
+                tracks = sp.album_tracks(album_id, limit=50, offset=i)
+            except AttributeError:
+                raise Exception("Ids inválidos")
             # Armazena uma lista de faixas por álbum
             tracks_list = tracks.get("items")
             
@@ -275,4 +289,3 @@ def get_spotify_data(client_id, client_secret, artist, get_singles = False, save
     df = generate_dataframe(name, track_data, save_csv)
     return  df
 
-#print(get_spotify_data(client_id, client_secret, "coldplay", True, True))
