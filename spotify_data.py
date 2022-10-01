@@ -1,11 +1,13 @@
+import os
+
 import spotipy #pip install spotipy
 from spotipy.oauth2 import SpotifyClientCredentials 
 import time
 import pandas as pd
 
 # Define as credenciais para o uso da API
-# client_id = "6a1edef9875b4c79a81e70db08f91c79"
-# client_secret = "bd17a1c083284bd4882f1c0839a6df65"
+client_id = "6a1edef9875b4c79a81e70db08f91c79"
+client_secret = "bd17a1c083284bd4882f1c0839a6df65"
 
 # Função de Autenticação
 def autentication(client_id, client_secret):
@@ -201,9 +203,9 @@ def artist_albums_track_data(sp, albums_data):
                 # Armazena os dados num dicionário
                 track_dict = {"album_name": album.get("name"),
                               "album_date": album.get("release_date"),
-                              "name" : track_name,
+                              "track_name" : track_name,
                               "disc_number" : track_disc_number,
-                              "number" : track_number,
+                              "track_number" : track_number,
                               "artist_names" : track_artists_names,
                               "popularity" : track_popularity,
                               "explicit" : track_id_explicit, 
@@ -234,6 +236,34 @@ def artist_albums_track_data(sp, albums_data):
                 break
             i += 50
     return tracks_data
+
+# Gera um dataframe a partir dos dados coletados, com a opção de salvar o dataframe num arquivo ".csv"
+def generate_dataframe(artist_name, tracks_data, save_csv = False):
+    # Obtém o nome das colunas do dataframe a partir dos dados que cada faixa possui
+    dataframe_columns = list(tracks_data[0].keys())
+
+    # Inicializa uma lista para acumular os dados de cada faixa
+    track_list = []
+    
+    # Itera sobre cada faixa, coletando seus dados e acumulando na lista criada
+    for track in tracks_data:
+        track_list.append(list(track.values()))
+        
+    # Gera um pandas DataFrame a partir dos dados coletados
+    tracks_dataframe = pd.DataFrame(data=track_list, columns=dataframe_columns)
+    
+    # Caso o usuário deseje salvar o dataframe num arquivo ".csv"
+    if save_csv:
+        # Gera um caminho relativo, com o nome do artista
+        csv_path = f"Dados das faixas - {artist_name}.csv"
+        
+        # Salva o dataframe num arquivo ".csv"
+        tracks_dataframe.to_csv(csv_path, sep=";", encoding="utf-8-sig", index=False)
+        # Exibe uma mensagem de sucesso e exibe o local do arquivo gerado
+        print("O arquivo CSV foi gerado e salvo em:\n", os.path.abspath(csv_path), sep="")
+
+    # A função retorna o dataframe gerado
+    return tracks_dataframe
 
 def get_spotify_data(client_id, client_secret, artist, get_singles = False):
     client_credentials_manager = autentication(client_id, client_secret)
