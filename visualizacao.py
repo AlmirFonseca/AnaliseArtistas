@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 from PIL import Image
+from wordcloud import WordCloud
 
 sns.set_theme()
 
@@ -28,3 +29,14 @@ def shortest_plot(dataframe):
     sns.barplot(data=data, x="Duração", y=data.index.get_level_values(1))
     plt.show()
 
+    
+def common_words_by_lyrics_plot(dataframe):
+    resultado = ae.common_words_by_lyrics(dataframe)
+    frequency = {}
+    for tupla in resultado: 
+        frequency[tupla[0]] = tupla[1]
+    wc = WordCloud(background_color="white", max_words=1000)
+    wc.generate_from_frequencies(frequency)
+    plt.imshow(wc, interpolation="bilinear")
+    plt.axis("off")
+    plt.show()
