@@ -109,7 +109,7 @@ def get_tracks_info(albums):
             # Armazena os dados coletados num dicionário
             track_dict = {"album_name": album_name,
                           "album_release_date": album_release_date,
-                           "track_number": track_number,
+                           "track_number": int(track_number),
                            "track_name": track_name,
                            "track_release_date": track_release_date,
                            "track_lyrics": track_lyrics}
