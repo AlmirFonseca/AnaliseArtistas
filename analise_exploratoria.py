@@ -55,7 +55,7 @@ def duration_popularity(dataframe):
     correlation = dataframe.corr(method ='pearson')
     return correlation.loc["Duração","Popularidade"]
     
-# Imprime as 3 palavras mais comuns nos títulos dos álbuns
+# Imprime as 10 palavras mais comuns nos títulos dos álbuns
 def common_words_by_album(dataframe):
     albuns = dataframe.index.get_level_values(0)
     albuns_list = list(dict.fromkeys(albuns))
@@ -65,7 +65,7 @@ def common_words_by_album(dataframe):
         for word in words:
             words_list.append(word) 
     counter = collections.Counter(words_list)
-    most_commom = counter.most_common(3)
+    most_commom = counter.most_common(10)
     return most_commom
     
     
@@ -79,7 +79,7 @@ def common_words_by_song(dataframe):
         for word in words:
             words_list.append(word) 
     counter = collections.Counter(words_list)
-    most_commom = counter.most_common(3)
+    most_commom = counter.most_common(10)
     return most_commom
     
     
