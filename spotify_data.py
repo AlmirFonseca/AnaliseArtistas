@@ -265,15 +265,14 @@ def generate_dataframe(artist_name, tracks_data, save_csv = False):
     # A função retorna o dataframe gerado
     return tracks_dataframe
 
-def get_spotify_data(client_id, client_secret, artist, get_singles = False):
+def get_spotify_data(client_id, client_secret, artist, get_singles = False, save_csv = False):
     client_credentials_manager = autentication(client_id, client_secret)
     sp = spotify_object(client_credentials_manager)
     name = artist_name(sp, artist)
     id = artist_id(sp, name)
     albums_data = artist_albums_data(sp, id, get_singles)
     track_data = artist_albums_track_data(sp, albums_data)
+    df = generate_dataframe(name, track_data, save_csv)
+    return  df
 
-    df = pd.DataFrame(track_data)
-
-    return df
-    
+#print(get_spotify_data(client_id, client_secret, "coldplay", True, True))
