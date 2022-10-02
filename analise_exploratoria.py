@@ -168,3 +168,12 @@ def most_popular_album(dataframe):
     popularity_sorted= mean_popularity.sort_values(ascending=False)
     most_popular = popularity_sorted.nlargest(1,keep='all')
     return most_popular
+
+# Recebe um dataframe e retorna um dicionário com os gêneros encontrados em cada álbum
+def gender_album(dataframe):  
+    grouped = dataframe.groupby(level=0)
+    album_genres = {}
+    for album, new_df in grouped:
+        values = new_df["Genre"].values
+        album_genres[album]=unique_values(values)
+    return album_genres
