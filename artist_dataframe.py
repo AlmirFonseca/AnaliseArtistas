@@ -69,9 +69,9 @@ def discography(artist):
         song_data = {"Album": [], 
                      "Genre": [], 
                      "Release Date": [], 
+                     "Track Name": [], 
                      "Track Number": [], 
-                     "Track": [], 
-                     "Contribuitors": [], 
+                     "Artist Names": [], 
                      "Duration": [], 
                      "Explicit": [], 
                      "Gain": []}
@@ -96,8 +96,8 @@ def discography(artist):
                 song_data.get("Genre").append(album_genres)
                 song_data.get("Release Date").append(album_release_date)
                 song_data.get("Track Number").append(track_position)
-                song_data.get("Track").append(track_title)
-                song_data.get("Contribuitors").append(track_contributors)
+                song_data.get("Track Name").append(track_title)
+                song_data.get("Artist Names").append(track_contributors)
                 song_data.get("Duration").append(track_duration)
                 song_data.get("Explicit").append(track_explicit_lyrics)
                 song_data.get("Gain").append(track_gain)
