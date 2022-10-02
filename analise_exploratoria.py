@@ -1,4 +1,4 @@
-# Análise exploratória
+########################### Análise exploratória ##############################
 
 #Importe as bibliotecas necessárias
 import pandas as pd
@@ -11,8 +11,6 @@ def most_listened_by_album(dataframe):
     grouped = grouped.reset_index(level = 0)
     grouped.drop(columns='Album',inplace = True)
     return grouped
-
-
 
 # Recebe um dataframe e retorna as 3 músicas menos ouvidas por álbum  
 def least_listened_by_album(dataframe):
@@ -66,17 +64,17 @@ def albuns_awards(dataframe):
     grouped = dataframe.groupby(level=0)
     dictionary_quantity_awards = {}
     for album, album_dataframe in grouped:
-        awards = album_dataframe["Prêmios"].values
+        awards = album_dataframe["Awards"].values
         dictionary_quantity_awards[album]=len(unique_values(awards))
-    
     quantity_awards_dataframe = pd.DataFrame(dictionary_quantity_awards.values(),dictionary_quantity_awards.keys(),columns=["Awards"])
-    return quantity_awards_dataframe
+    most_recognized = quantity_awards_dataframe.nlargest(1,'Awards')
+    return most_recognized
 
 # Recebe um dataframe e retorna a correlação de Pearson entre duração e popularidade das músicas
 def duration_popularity(dataframe):
     correlation = dataframe.corr(method ='pearson')
     return correlation.loc["Duration","Popularity"]
-    
+  
 # Recebe um dataframe e retorna as 10 palavras mais comuns nos títulos dos álbuns
 def common_words_by_album(dataframe):
     albuns = dataframe.index.get_level_values(0)
