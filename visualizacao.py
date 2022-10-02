@@ -25,11 +25,13 @@ def least_listened_plot(dataframe):
     plot = sns.barplot(data=data, x="Popularity", y=data.index.get_level_values(1), color = 'g')
     plot.set(title='Menos ouvidas')
     plt.show()
-    
+
+# Recebe um dataframe e cria um gráfico de barras para a popularidade das músicas menos ouvidas     
 def longest_plot(dataframe):
     data = ae.longest(dataframe)
-    sns.barplot(data=data, x="Duration", y=data.index.get_level_values(1))
-    plt.show() 
+    plot = sns.barplot(data=data, x="Duration", y=data.index.get_level_values(1), color = 'g')
+    plot.set(title='Mais longas')
+    plt.show()
     
 def shortest_plot(dataframe):
     data = ae.shortest(dataframe)
