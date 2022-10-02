@@ -47,6 +47,12 @@ def albuns_awards_plot(dataframe):
     plot.set(title='Mais longas')
     plt.show()
 
+# Recebe um dataframe e cria um scatterplot que associa duração e popularidade 
+def duration_popularity_plot(dataframe):
+    plot = sns.scatterplot(data=dataframe, x="Duration", y="Popularity",color = 'g')
+    plot.set(title='Duração x Popularidade')
+    plt.show()
+
 # Recebe um dataframe e cria uma nuvem de palavras com as palavras mais comuns nas letras 
 def common_words_by_lyrics_plot(dataframe):
     resultado = ae.common_words_by_lyrics(dataframe)
