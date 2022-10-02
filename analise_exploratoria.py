@@ -50,7 +50,18 @@ def longest(dataframe):
 # Recebe um dataframe e retorna as 3 músicas menos longas na história do artista
 def shortest(dataframe):
     return dataframe.nsmallest(3, 'Duration',keep='all')
- 
+
+# Recebe uma lista com alguns itens separados por '/' e retorna um array com valores únicos
+def unique_values(array):
+    unique_values_array = []
+    for i in range(len(array)):
+        array_item = array[i].split("/")
+        for item in array_item:
+            unique_values_array.append(item)
+    unique_values_array = np.asarray(unique_values_array)
+    unique_values_array = np.unique(unique_values_array)
+    return unique_values_array 
+
 # Recebe um dataframe e retorna a correlação de Pearson entre duração e popularidade das músicas
 def duration_popularity(dataframe):
     correlation = dataframe.corr(method ='pearson')
