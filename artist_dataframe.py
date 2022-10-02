@@ -1,4 +1,4 @@
-# Importa as bibliotecas necessÃ¡rias 
+# Importa as bibliotecas necessárias 
 import deezer
 import pandas as pd
 import time
