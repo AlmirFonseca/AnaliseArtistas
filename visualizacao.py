@@ -40,6 +40,14 @@ def shortest_plot(dataframe):
     plot.set(title='Mais longas')
     plt.show()
 
+# Recebe um dataframe e cria gráficos de barras para a popularidade das músicas mais ouvidas por álbum    
+def most_listened_by_album_plot(dataframe):
+    grouped = dataframe.groupby(level=0)
+    for album, album_dataframe in grouped:
+        plot = sns.barplot(data=album_dataframe, x="Popularity", y=album_dataframe.index.get_level_values(1), color = 'g')
+        plot.set(title=f'Mais ouvidas em {album}')
+        plt.show()
+
 # Recebe um dataframe e cria um gráfico de barras para a quantidade de prêmios dos álbuns mais premiados 
 def albuns_awards_plot(dataframe):
     data = ae.albuns_awards(dataframe)
