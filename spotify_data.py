@@ -60,8 +60,8 @@ def artist_albums_data(sp, artist_id, get_singles = False):
     #get_singles -> True = Single and Album
     #get_singles -> False (default) = Album
 
-    # Criação de lista para armazenamento  dos dados dos álbuns do artista
-    albums_data = list()
+    # Criação de dicionário para armazenamento  dos dados dos álbuns do artista
+    albums_data = {}
 
     #Verificação se foi optado somente pelos Albums ou se Albums e Singles
     if get_singles == True:
@@ -93,18 +93,34 @@ def artist_albums_data(sp, artist_id, get_singles = False):
                 album_num_tracks = album.get("total_tracks")
                 
                 # Armazena os dados num dicionário
-                album_dict = {"id" : album_id,
+                album_dict = { 
+                            "id" : album_id,
                             "name" : album_name,
                             "release_date" : album_release_date,
                             "num_tracks" : album_num_tracks}
                 
-                # Acumula os dicionários na lista criada
-                albums_data.append(album_dict)
-            
+                # Acumula os dicionários no dicionário criado
+                # Verifica a existência de nome de álbum no dict gerado até o momento
+                if album_name in albums_data.keys():
+                    # Caso exista, é acessado o nome do dicionário já existente (old) e o novo, e a quantidade
+                    # de tracks
+                    num_tracks_album_old = albums_data.get(album_name).get("num_tracks")
+                    num_tracks_album_new = album_num_tracks
+                    #Caso a quantidade de tracks do novo seja maior que o antigo é sobreescrito pelo novo
+                    if num_tracks_album_new > num_tracks_album_old:
+                        albums_data[album_name] = album_dict
+                    else:
+                    #Caso não seja, é ignorado e descartado
+                        pass
+                else:
+                #Caso não exista, é adicionado ao dicionário
+                    albums_data[album_name] = album_dict
             # Checa se ainda há mais álbuns a serem buscados
             if albums_response.get("next") == None:
                 break
             i += 50
+    #Acessa os valores do dicionário e converte em uma lista
+    albums_data = list(albums_data.values())
     return albums_data
 
 # Função que coleta os dados de cada faixa de cada álbum
@@ -215,27 +231,28 @@ def artist_albums_track_data(sp, albums_data):
                 track_valence = track_audio_features.get("valence")
 
                 # Armazena os dados num dicionário
-                track_dict = {"album_name": album.get("name"),
-                              "album_date": album.get("release_date"),
-                              "track_name" : track_name,
-                              "disc_number" : track_disc_number,
-                              "track_number" : track_number,
-                              "artist_names" : track_artists_names,
-                              "popularity" : track_popularity,
-                              "explicit" : track_id_explicit, 
-                              "duration" : track_duration_formatted,
-                              "loudness" : track_loudness,
-                              "tempo" : track_tempo,
-                              "key" : track_key,
-                              "mode" : track_mode,
-                              "time_signature" : track_time_signature,
-                              "danceability" : track_danceability,
-                              "energy" : track_energy,
-                              "speechiness" : track_speechiness,
-                              "acousticness" : track_acousticness,
-                              "instrumentalness" : track_instrumentalness,
-                              "liveness" : track_liveness,
-                              "valence" : track_valence
+                track_dict = {"Album ID": album.get("id"),
+                              "Album Name": album.get("name"),
+                              "Release Date": album.get("release_date"),
+                              "Track Name" : track_name,
+                              "Disc Number" : track_disc_number,
+                              "Track Number" : track_number,
+                              "Artist Names" : track_artists_names,
+                              "Popularity" : track_popularity,
+                              "Explicit" : track_id_explicit, 
+                              "Duration" : track_duration_formatted,
+                              "Loudness" : track_loudness,
+                              "Tempo" : track_tempo,
+                              "Key" : track_key,
+                              "Mode" : track_mode,
+                              "Time Signature" : track_time_signature,
+                              "Danceability" : track_danceability,
+                              "Energy" : track_energy,
+                              "Speechiness" : track_speechiness,
+                              "Acousticness" : track_acousticness,
+                              "Instrumentalness" : track_instrumentalness,
+                              "Liveness" : track_liveness,
+                              "Valence" : track_valence
                               }
             
                 # Acumula os dicionários na lista criada
@@ -288,4 +305,3 @@ def get_spotify_data(client_id, client_secret, artist, get_singles = False, save
     track_data = artist_albums_track_data(sp, albums_data)
     df = generate_dataframe(name, track_data, save_csv)
     return  df
-
