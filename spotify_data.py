@@ -136,7 +136,7 @@ def artist_albums_track_data(sp, albums_data):
 
     # Itera sobre cada álbum presente no albums_data (o próprio dict criado na função "artist_albums_data")
     for album in albums_data:
-
+        
         # Recolhe o id de cada álbum
         try:
             album_id = album.get("id")
@@ -176,6 +176,10 @@ def artist_albums_track_data(sp, albums_data):
             tracks_list = tracks.get("tracks")
             
             # Itera sobre cada faixa, recolhendo os seus principais atributos
+
+            # Contador da quantidade de tracks já iterada por álbum resetado a cada álbum
+            track_count_album = 1
+
             for track in tracks_list:
                 track_id = track.get("id")
                 
@@ -199,7 +203,7 @@ def artist_albums_track_data(sp, albums_data):
                 track_duration_formatted = time.strftime("%M:%S", time.gmtime(track_duration_s))
                 
                 track_disc_number = track.get("disc_number")
-                track_number = track.get("track_number")
+                track_number = track_count_album
                 
                 track_artists_list = track.get("artists")
                 #Criação de lista para armazenamento de nomes dos artistas 
@@ -235,7 +239,7 @@ def artist_albums_track_data(sp, albums_data):
                               "Album Name": album.get("name"),
                               "Release Date": album.get("release_date"),
                               "Track Name" : track_name,
-                              "Disc Number" : track_disc_number,
+                              "Disc Number": track_disc_number,
                               "Track Number" : track_number,
                               "Artist Names" : track_artists_names,
                               "Popularity" : track_popularity,
@@ -262,10 +266,12 @@ def artist_albums_track_data(sp, albums_data):
                 track_counter += 1
                 print(track_counter)
 
+                track_count_album +=1
             # Checa se ainda há mais álbuns a serem buscados    
             if tracks.get("next") == None:
                 break
             i += 50
+
     return tracks_data
 
 # Gera um dataframe a partir dos dados coletados, com a opção de salvar o dataframe num arquivo ".csv"
@@ -305,3 +311,5 @@ def get_spotify_data(client_id, client_secret, artist, get_singles = False, save
     track_data = artist_albums_track_data(sp, albums_data)
     df = generate_dataframe(name, track_data, save_csv)
     return  df
+
+print(get_spotify_data(client_id, client_secret, "coldplay", True, True))
