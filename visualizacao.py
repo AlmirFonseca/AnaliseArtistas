@@ -1,4 +1,6 @@
 # Visualização
+
+# Importe as bibliotecas necessárias
 import Analise_exploratoria as ae
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -7,14 +9,16 @@ import numpy as np
 from PIL import Image
 from wordcloud import WordCloud
 
-sns.set_theme()
+# Use fundo preto para os gráficos
+plt.style.use("dark_background")
 
+# Recebe um dataframe e cria um gráfico de barras para a popularidade das músicas mais ouvidas 
 def most_listened_plot(dataframe):
     data = ae.most_listened(dataframe)
-    sns.barplot(data=data, x="Popularity", y=data.index.get_level_values(1))
+    plot = sns.barplot(data=data, x="Popularity", y=data.index.get_level_values(1), color = 'g')
+    plot.set(title='Mais ouvidas')
     plt.show()
-    
-    
+      
 def least_listened_plot(dataframe):
     data = ae.least_listened(dataframe)
     sns.barplot(data=data, x="Popularity", y=data.index.get_level_values(1))
