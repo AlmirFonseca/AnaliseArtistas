@@ -56,7 +56,7 @@ def artist_name(sp, artist):
 
 # Função que realiza coleta de dados sobre álbuns de artistas a partir
 # do objeto principal da API, id do artista, e tipo de álbum ("single", "album")
-def artist_albums_data(sp, artist_id, get_singles = False):
+def artist_albums_data(sp, artist_id, get_singles = False, duplicate = False):
     #get_singles -> True = Single and Album
     #get_singles -> False (default) = Album
 
@@ -99,21 +99,24 @@ def artist_albums_data(sp, artist_id, get_singles = False):
                             "release_date" : album_release_date,
                             "num_tracks" : album_num_tracks}
                 
-                # Acumula os dicionários no dicionário criado
-                # Verifica a existência de nome de álbum no dict gerado até o momento
-                if album_name in albums_data.keys():
-                    # Caso exista, é acessado o nome do dicionário já existente (old) e o novo, e a quantidade
-                    # de tracks
-                    num_tracks_album_old = albums_data.get(album_name).get("num_tracks")
-                    num_tracks_album_new = album_num_tracks
-                    #Caso a quantidade de tracks do novo seja maior que o antigo é sobreescrito pelo novo
-                    if num_tracks_album_new > num_tracks_album_old:
-                        albums_data[album_name] = album_dict
+                if duplicate == False:
+                    # Verifica a existência de nome de álbum no dict gerado até o momento
+                    if album_name in albums_data.keys():
+                        # Caso exista, é acessado o nome do dicionário já existente (old) e o novo, e a quantidade
+                        # de tracks
+                        num_tracks_album_old = albums_data.get(album_name).get("num_tracks")
+                        num_tracks_album_new = album_num_tracks
+                        #Caso a quantidade de tracks do novo seja maior que o antigo é sobreescrito pelo novo
+                        if num_tracks_album_new > num_tracks_album_old:
+                            albums_data[album_name] = album_dict
+                        else:
+                        #Caso não seja, é ignorado e descartado
+                            pass
                     else:
-                    #Caso não seja, é ignorado e descartado
-                        pass
+                        #Caso não exista, é adicionado ao dicionário
+                        albums_data[album_name] = album_dict
                 else:
-                #Caso não exista, é adicionado ao dicionário
+                    # Acumula os dicionários no dicionário criado
                     albums_data[album_name] = album_dict
             # Checa se ainda há mais álbuns a serem buscados
             if albums_response.get("next") == None:
@@ -302,14 +305,14 @@ def generate_dataframe(artist_name, tracks_data, save_csv = False):
     # A função retorna o dataframe gerado
     return tracks_dataframe
 
-def get_spotify_data(client_id, client_secret, artist, get_singles = False, save_csv = False):
+def get_spotify_data(client_id, client_secret, artist, get_singles = False, duplicate = False, save_csv = False):
     client_credentials_manager = autentication(client_id, client_secret)
     sp = spotify_object(client_credentials_manager)
     name = artist_name(sp, artist)
     id = artist_id(sp, name)
-    albums_data = artist_albums_data(sp, id, get_singles)
+    albums_data = artist_albums_data(sp, id, get_singles, duplicate)
     track_data = artist_albums_track_data(sp, albums_data)
     df = generate_dataframe(name, track_data, save_csv)
     return  df
 
-print(get_spotify_data(client_id, client_secret, "coldplay", True, True))
+print(get_spotify_data(client_id, client_secret, "billie ellish", get_singles = True, duplicate =  False, save_csv = True))
