@@ -1,4 +1,4 @@
-# Importa as bibliotecas necessárias 
+# Importa as bibliotecas necessÃ¡rias 
 import deezer
 import pandas as pd
 import time
@@ -65,7 +65,7 @@ def track_info(track):
 #Utiliza as outras funções para criar um dataframe com informações da discografia do artista
 def discography(artist):
     try:
-        #Cria um dicionário onde serão armazenadas as informações sobre a discografia do artista
+        #Cria um dicionário onde serÃ£o armazenadas as informações sobre a discografia do artista
         song_data = {"Album": [], 
                      "Genre": [], 
                      "Release Date": [], 
@@ -79,7 +79,7 @@ def discography(artist):
         artist_name, artist_nb_album, artist_nb_fans, artist_albums = artist_info(artist) # Busca os álbuns do artista
         for album in artist_albums:
             # album_data
-            album_title, album_genres, album_nb_tracks, album_fans, album_release_date, album_tracks = album_info(album) #Busca a informação de cada álbum
+            album_title, album_genres, album_nb_tracks, album_fans, album_release_date, album_tracks = album_info(album) #Busca a informação de cada album
             
             track_counter = 0
             
@@ -103,9 +103,9 @@ def discography(artist):
                 song_data.get("Gain").append(track_gain)
                 df_discografia = pd.DataFrame.from_dict(song_data) # Cria um dataframe a partir do dicionário
     except TypeError as te: #Avisa ao usuário caso a função não receba uma string
-        print("Essa fun��o deve receber uma string;",te)
+        print("Essa função deve receber uma string;",te)
     except IndexError as ie: #Avisa ao usuário caso o artista procurado não seja encontrado
-        print("Artista n�o encontrado;",ie)
+        print("Artista não encontrado;",ie)
     else:
         df_discografia.to_csv("discografia.csv", sep=";", encoding="utf-8-sig", index=False) #Converte o dataframe para um arquivo csv
         print("Arquivo criado com sucesso")
