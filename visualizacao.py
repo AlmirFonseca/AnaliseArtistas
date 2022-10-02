@@ -40,7 +40,13 @@ def shortest_plot(dataframe):
     plot.set(title='Mais longas')
     plt.show()
 
-  
+# Recebe um dataframe e cria um gráfico de barras para a quantidade de prêmios dos álbuns mais premiados 
+def albuns_awards_plot(dataframe):
+    data = ae.albuns_awards(dataframe)
+    plot = sns.barplot(data=data, x="Awards", y=data.index,color = 'g')
+    plot.set(title='Mais longas')
+    plt.show()
+    
 def common_words_by_lyrics_plot(dataframe):
     resultado = ae.common_words_by_lyrics(dataframe)
     frequency = {}
