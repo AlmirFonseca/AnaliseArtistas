@@ -99,7 +99,7 @@ def artist_albums_data(sp, artist_id, get_singles = False, duplicate = False):
                             "release_date" : album_release_date,
                             "num_tracks" : album_num_tracks}
                 
-                if duplicate == False:
+                if duplicate != True:
                     # Verifica a existência de nome de álbum no dict gerado até o momento
                     if album_name in albums_data.keys():
                         # Caso exista, é acessado o nome do dicionário já existente (old) e o novo, e a quantidade
@@ -139,6 +139,8 @@ def artist_albums_track_data(sp, albums_data):
 
     # Itera sobre cada álbum presente no albums_data (o próprio dict criado na função "artist_albums_data")
     for album in albums_data:
+        print("\n", "=-"*30, "\n", sep="")
+        print("Analisando álbum:", album.get("name"))
         
         # Recolhe o id de cada álbum
         try:
@@ -265,9 +267,9 @@ def artist_albums_track_data(sp, albums_data):
                 # Acumula os dicionários na lista criada
                 tracks_data.append(track_dict)
                 
-                # Imprime, no console, o número de músicas já processadas
+                # Imprime, no console, o número de músicas já processadas e o número da faixa  dentro do álbum
                 track_counter += 1
-                print(track_counter)
+                print("Faixa: ", track_count_album, " Nº de músicas: ", track_counter, "\n", sep="")
 
                 track_count_album +=1
             # Checa se ainda há mais álbuns a serem buscados    
@@ -315,4 +317,4 @@ def get_spotify_data(client_id, client_secret, artist, get_singles = False, dupl
     df = generate_dataframe(name, track_data, save_csv)
     return  df
 
-print(get_spotify_data(client_id, client_secret, "billie ellish", get_singles = True, duplicate =  False, save_csv = True))
+print(get_spotify_data(client_id, client_secret, "coldplay", get_singles = True, duplicate =  False, save_csv = True))
