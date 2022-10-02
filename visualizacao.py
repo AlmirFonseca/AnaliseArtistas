@@ -44,7 +44,8 @@ def shortest_plot(dataframe):
 def most_listened_by_album_plot(dataframe):
     grouped = dataframe.groupby(level=0)
     for album, album_dataframe in grouped:
-        plot = sns.barplot(data=album_dataframe, x="Popularity", y=album_dataframe.index.get_level_values(1), color = 'g')
+        data = ae.most_listened(album_dataframe)
+        plot = sns.barplot(data=data, x="Popularity", y=data.index.get_level_values(1), color = 'g')
         plot.set(title=f'Mais ouvidas em {album}')
         plt.show()
 
