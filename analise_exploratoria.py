@@ -62,6 +62,16 @@ def unique_values(array):
     unique_values_array = np.unique(unique_values_array)
     return unique_values_array 
 
+def albuns_awards(dataframe):
+    grouped = dataframe.groupby(level=0)
+    dictionary_quantity_awards = {}
+    for album, album_dataframe in grouped:
+        awards = album_dataframe["Prêmios"].values
+        dictionary_quantity_awards[album]=len(unique_values(awards))
+    
+    quantity_awards_dataframe = pd.DataFrame(dictionary_quantity_awards.values(),dictionary_quantity_awards.keys(),columns=["Awards"])
+    return quantity_awards_dataframe
+
 # Recebe um dataframe e retorna a correlação de Pearson entre duração e popularidade das músicas
 def duration_popularity(dataframe):
     correlation = dataframe.corr(method ='pearson')
