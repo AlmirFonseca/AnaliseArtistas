@@ -56,6 +56,16 @@ def least_listened_by_album_plot(dataframe):
         plot = sns.barplot(data=data, x="Popularity", y=data.index.get_level_values(1), color = 'g')
         plot.set(title=f'Menos ouvidas em {album}')
         plt.show()
+        
+# Recebe um dataframe e cria gráficos de barras para a duração das músicas mais longas por álbum 
+def longest_by_album_plot(dataframe):
+    grouped = dataframe.groupby(level=0)
+    for album, album_dataframe in grouped:
+        data = ae.longest(album_dataframe)
+        plot = sns.barplot(data=data, x="Duration", y=data.index.get_level_values(1), color = 'g')
+        plot.set(title=f'Menos longas em {album}')
+        plt.show()
+
  
 # Recebe um dataframe e cria um gráfico de barras para a quantidade de prêmios dos álbuns mais premiados 
 def albuns_awards_plot(dataframe):
