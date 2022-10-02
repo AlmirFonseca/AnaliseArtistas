@@ -46,7 +46,8 @@ def albuns_awards_plot(dataframe):
     plot = sns.barplot(data=data, x="Awards", y=data.index,color = 'g')
     plot.set(title='Mais longas')
     plt.show()
-    
+
+# Recebe um dataframe e cria uma nuvem de palavras com as palavras mais comuns nas letras 
 def common_words_by_lyrics_plot(dataframe):
     resultado = ae.common_words_by_lyrics(dataframe)
     frequency = {}
@@ -57,7 +58,8 @@ def common_words_by_lyrics_plot(dataframe):
     plt.imshow(wc, interpolation="bilinear")
     plt.axis("off")
     plt.show()
-      
+
+# Recebe um dataframe e cria uma nuvem de palavras com as palavras mais comuns nos títulos das faixas     
 def common_words_by_song_plot(dataframe):
     resultado = ae.common_words_by_song(dataframe)
     frequency = {}
@@ -68,7 +70,8 @@ def common_words_by_song_plot(dataframe):
     plt.imshow(wc, interpolation="bilinear")
     plt.axis("off")
     plt.show()
-     
+ 
+# Recebe um dataframe e cria uma nuvem de palavras com as palavras mais comuns nos títulos dos álbuns    
 def common_words_by_album_plot(dataframe):
     resultado = ae.common_words_by_album(dataframe)
     frequency = {}
