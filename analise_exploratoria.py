@@ -1,4 +1,4 @@
-########################### Análise exploratória ##############################
+# Análise exploratória 
 
 #Importe as bibliotecas necessárias
 import pandas as pd
@@ -14,21 +14,21 @@ def most_listened_by_album(dataframe):
 
 # Recebe um dataframe e retorna as 3 músicas menos ouvidas por álbum  
 def least_listened_by_album(dataframe):
-    grouped = dataframe.groupby('Album')['Popularity'].nsmallest(3,keep='all')# Agrupa por 'Album' e seleciona os 3 menores valores da coluna 'Popularity'
+    grouped = dataframe.groupby('Album')['Popularity'].nsmallest(3,keep='all') # Agrupa por 'Album' e seleciona os 3 menores valores da coluna 'Popularity'
     grouped = grouped.reset_index(level = 0)
     grouped.drop(columns='Album',inplace = True)
     return grouped
     
 # Recebe um dataframe e retorna as 3 músicas mais longas por álbum  
 def longest_by_album(dataframe):
-    grouped = dataframe.groupby('Album')['Duration'].nlargest(3,keep='all')# Agrupa por 'Album' e seleciona os 3 maiores valores da coluna 'Duration'
+    grouped = dataframe.groupby('Album')['Duration'].nlargest(3,keep='all') # Agrupa por 'Album' e seleciona os 3 maiores valores da coluna 'Duration'
     grouped = grouped.reset_index(level = 0)
     grouped.drop(columns='Album',inplace = True)
     return grouped
     
 # Recebe um dataframe e retorna as 3 músicas menos longas por álbum
 def shortest_by_album(dataframe):
-    grouped = dataframe.groupby('Album')['Duration'].nsmallest(3,keep='all')# Agrupa por 'Album' e seleciona os 3 menores valores da coluna 'Duration'
+    grouped = dataframe.groupby('Album')['Duration'].nsmallest(3,keep='all') # Agrupa por 'Album' e seleciona os 3 menores valores da coluna 'Duration'
     grouped = grouped.reset_index(level = 0)
     grouped.drop(columns='Album',inplace = True)
     return grouped
@@ -49,7 +49,7 @@ def longest(dataframe):
 def shortest(dataframe):
     return dataframe.nsmallest(3, 'Duration',keep='all')
 
-# Recebe uma lista com alguns itens separados por '/' e retorna um array com valores únicos
+# Recebe uma lista com algumas strings contendo itens separados por '/' e retorna um array com valores únicos dos itens
 def unique_values(array):
     unique_values_array = []
     for i in range(len(array)):
@@ -60,6 +60,7 @@ def unique_values(array):
     unique_values_array = np.unique(unique_values_array)
     return unique_values_array 
 
+# Recebe uma dataframe e retorna os 3 álbuns com mais prêmios
 def albuns_awards(dataframe):
     grouped = dataframe.groupby(level=0)
     dictionary_quantity_awards = {}
@@ -67,14 +68,14 @@ def albuns_awards(dataframe):
         awards = album_dataframe["Awards"].values
         dictionary_quantity_awards[album]=len(unique_values(awards))
     quantity_awards_dataframe = pd.DataFrame(dictionary_quantity_awards.values(),dictionary_quantity_awards.keys(),columns=["Awards"])
-    most_recognized = quantity_awards_dataframe.nlargest(1,'Awards')
+    most_recognized = quantity_awards_dataframe.nlargest(3,'Awards')
     return most_recognized
 
 # Recebe um dataframe e retorna a correlação de Pearson entre duração e popularidade das músicas
 def duration_popularity(dataframe):
     correlation = dataframe.corr(method ='pearson')
     return correlation.loc["Duration","Popularity"]
-  
+
 # Recebe um dataframe e retorna as 10 palavras mais comuns nos títulos dos álbuns
 def common_words_by_album(dataframe):
     albuns = dataframe.index.get_level_values(0)
@@ -88,7 +89,6 @@ def common_words_by_album(dataframe):
     most_commom = counter.most_common(10)
     return most_commom
     
-    
 # Recebe um dataframe e retorna as 10 palavras mais comuns nos títulos das músicas
 def common_words_by_song(dataframe):
     songs = dataframe.index.get_level_values(1)
@@ -101,7 +101,6 @@ def common_words_by_song(dataframe):
     counter = collections.Counter(words_list)
     most_commom = counter.most_common(10)
     return most_commom
-    
     
 # Recebe um dataframe e retorna as 10 palavras mais comuns nas letras das músicas
 def common_words_by_lyrics(dataframe):
@@ -120,7 +119,6 @@ def common_words_by_lyrics(dataframe):
 def common_words_lyrics_album(dataframe):
     new_dataframe = dataframe.groupby('Album').apply(common_words_by_lyrics)
     return new_dataframe
-
 
 # Recebe um dataframe e retorna os 3 álbuns que mais aparecem nas letras das músicas
 def album_in_lyrics(dataframe):
@@ -161,14 +159,13 @@ def explicit_popularity(dataframe):
     grouped = dataframe.groupby("Explicit")["Popularity"].mean()
     return grouped
 
-
 # Recebe um dataframe e retorna o álbum mais popular com base na popularidade média de suas músicas
 def most_popular_album(dataframe):
     mean_popularity = dataframe.groupby("Album")["Popularity"].mean()
     popularity_sorted= mean_popularity.sort_values(ascending=False)
     most_popular = popularity_sorted.nlargest(1,keep='all')
     return most_popular
-
+  
 # Recebe um dataframe e retorna um dicionário com os gêneros encontrados em cada álbum
 def gender_album(dataframe):  
     grouped = dataframe.groupby(level=0)
@@ -177,3 +174,4 @@ def gender_album(dataframe):
         values = new_df["Genre"].values
         album_genres[album]=unique_values(values)
     return album_genres
+
