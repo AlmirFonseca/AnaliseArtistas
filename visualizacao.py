@@ -80,7 +80,7 @@ def shortest_by_album_plot(dataframe):
 def albuns_awards_plot(dataframe):
     data = ae.albuns_awards(dataframe)
     plot = sns.barplot(data=data, x="Awards", y=data.index,color = 'g')
-    plot.set(title='Mais longas')
+    plot.set(title='Álbuns mais premiados')
     plt.show()
 
 # Recebe um dataframe e cria um scatterplot que associa duração e popularidade 
