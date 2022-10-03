@@ -124,18 +124,24 @@ def common_words_lyrics_album(dataframe):
 def album_in_lyrics(dataframe):
     albuns = dataframe.index.get_level_values(0)
     albuns_series = pd.Series(albuns).str.upper()
-    albuns_array = albuns_series.unique()   
+    albuns_array = albuns_series.unique()
+    words_list = []
+    for album in albuns_array:
+        words = album.split()
+        for word in words:
+            words_list.append(word) 
     lyrics = dataframe["Lyrics"]
     lyrics_series =  pd.Series(lyrics).str.upper()
     lyrics_array = lyrics_series.unique()
     match_dictionaty = {}
-    for album in albuns_array:
-        match_dictionaty[album] = 0
+    for word in words_list:
+        match_dictionaty[word] = 0
         for lyric in lyrics_array:
-            match = lyric.count(album)
-            match_dictionaty[album] += match
+            match = lyric.count(word)
+            match_dictionaty[word] += match
     matches_dataframe = pd.DataFrame(match_dictionaty.values(),match_dictionaty.keys(),["Frequency"])
     return matches_dataframe["Frequency"].nlargest(3)
+   
    
 # Recebe um dataframe e retorna as 3 canções que mais aparecem nas letras das músicas    
 def song_in_lyrics(dataframe):
