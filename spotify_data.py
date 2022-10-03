@@ -5,6 +5,20 @@ from spotipy.oauth2 import SpotifyClientCredentials
 import time
 import pandas as pd
 
+### Possíveis erros de spotifyData.py ###
+## Erros na função que irá para a main.py ##
+## Erro de conexão:
+#     -> Gerar print("Sem conexão à internet")
+## Credenciais inválidas (client_id, client_secret):
+#     -> Se as duas entradas forem incompatíveis/inválidas, erro! 
+#     -> Gerar print("credenciais inválidas"), exceção gerada pela API
+#     -> Se as credenciais são inválidas, nada será gerado, produzido, ou pesquisado
+## Nome de artista inválido (artist):
+#     -> Se o nome do artista for inválido, erro! 
+#     -> Gerar print("nome de artista inválido")
+#     -> Se o nome do artista é inválido, nada será gerado, produzido, ou pesquisado
+## (get_singles, duplicate, save_csv,) são por default (False, False, False), caso sejam inválidos, será utilizada o default
+
 # Define as credenciais para o uso da API
 client_id = "6a1edef9875b4c79a81e70db08f91c79"
 client_secret = "bd17a1c083284bd4882f1c0839a6df65"
