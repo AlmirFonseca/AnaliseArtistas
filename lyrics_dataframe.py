@@ -40,9 +40,9 @@ def get_albums_info(artist_id):
             album_release_date = date_components_to_datetime(album.get("release_date_components"), album_name, "Álbum")
             
             # Armazena esses dados num dicionario
-            album_dict = {"id": album_id,
-                          "name": album_name,
-                          "release_date": album_release_date}
+            album_dict = {"Album ID": album_id,
+                          "Album Name": album_name,
+                          "Release Date": album_release_date}
             
             # Adiciona o dicionário gerado à lista de álbuns
             albums_list.append(album_dict)
@@ -90,9 +90,9 @@ def get_tracks_info(albums):
     # Itera sobre cada álbum
     for album in albums:
         # Acessa as informações de cada álbum
-        album_id = album.get("id")
-        album_name = album.get("name")
-        album_release_date = album.get("release_date")
+        album_id = album.get("Album ID")
+        album_name = album.get("Album Name")
+        album_release_date = album.get("Release Date")
         
         print("\n", "=-"*30, "\n", sep="")
         print("Analisando álbum:", album_name)
@@ -107,12 +107,12 @@ def get_tracks_info(albums):
             track_number, track_name, track_id, track_release_date, track_lyrics = extract_track_info(track)
             
             # Armazena os dados coletados num dicionário
-            track_dict = {"album_name": album_name,
-                          "album_release_date": album_release_date,
-                           "track_number": int(track_number),
-                           "track_name": track_name,
-                           "track_release_date": track_release_date,
-                           "track_lyrics": track_lyrics}
+            track_dict = {"Album Name": album_name,
+                          "Release Date": album_release_date,
+                           "Track Number": int(track_number),
+                           "Track Name": track_name,
+                           "Track Release Date": track_release_date,
+                           "Track Lyrics": track_lyrics}
             
             # Adiciona o dicionário gerado à lista de faixas
             tracks.append(track_dict)
