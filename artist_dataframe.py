@@ -66,7 +66,7 @@ def track_info(track):
 def discography(artist):
     try:
         #Cria um dicionário onde serÃ£o armazenadas as informações sobre a discografia do artista
-        song_data = {"Album": [], 
+        song_data = {"Album Name": [], 
                      "Genre": [], 
                      "Release Date": [], 
                      "Track Name": [], 
@@ -92,7 +92,7 @@ def discography(artist):
                 if track_disk_number > 1:
                     track_position = track_counter
                 
-                song_data.get("Album").append(album_title)
+                song_data.get("Album Name").append(album_title)
                 song_data.get("Genre").append(album_genres)
                 song_data.get("Release Date").append(album_release_date)
                 song_data.get("Track Number").append(track_position)
