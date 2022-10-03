@@ -111,7 +111,7 @@ def get_tracks_info(albums):
                           "Release Date": album_release_date,
                            "Track Number": int(track_number),
                            "Track Name": track_name,
-                           "Track Release Date": track_release_date,
+                           #"Track Release Date": track_release_date,
                            "Track Lyrics": track_lyrics}
             
             # Adiciona o dicionário gerado à lista de faixas
