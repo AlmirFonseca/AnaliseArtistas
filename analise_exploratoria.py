@@ -148,17 +148,23 @@ def song_in_lyrics(dataframe):
     songs = dataframe.index.get_level_values(1)
     songs_series = pd.Series(songs).str.upper()
     songs_array = songs_series.unique()   
+    words_list = []
+    for song in songs_array:
+        words = song.split()
+        for word in words:
+            words_list.append(word) 
     lyrics = dataframe["Lyrics"]
     lyrics_series =  pd.Series(lyrics).str.upper()
     lyrics_array = lyrics_series.unique()
     match_dictionaty = {}
-    for song in songs_array:
-        match_dictionaty[song] = 0
+    for word in words_list:
+        match_dictionaty[word] = 0
         for lyric in lyrics_array:
-            match = lyric.count(song)
-            match_dictionaty[song] += match
+            match = lyric.count(word)
+            match_dictionaty[word] += match
     matches_dataframe = pd.DataFrame(match_dictionaty.values(),match_dictionaty.keys(),["Frequency"])
     return matches_dataframe["Frequency"].nlargest(3)
+
 
 # Recebe um dataframe e retorna a popularidade média de músicas explícitas e não explícitas    
 def explicit_popularity(dataframe):
