@@ -113,7 +113,7 @@ def artist_albums_data(sp, artist_id, get_singles = False, duplicate = False):
                             "release_date" : album_release_date,
                             "num_tracks" : album_num_tracks}
                 
-                if duplicate != True:
+                if not duplicate:
                     # Verifica a existência de nome de álbum no dict gerado até o momento
                     if album_name in albums_data.keys():
                         # Caso exista, é acessado o nome do dicionário já existente (old) e o novo, e a quantidade
@@ -161,9 +161,9 @@ def track_duration_s(track):
 def track_feature_mode(track_audio_features):
     #Como "mode" retorna 0 ou 1, equivalentes a "minor" e "major", podemos convertê-lo para uma string 
     mode = track_audio_features.get("mode")
-    if mode == "0":
+    if mode == 0:
         mode = "Minor"
-    elif mode == "1":
+    elif mode == 1:
         mode =  "Major"
     else:
         mode =  " "
@@ -394,3 +394,5 @@ def get_spotify_data(client_id, client_secret, artist, get_singles = False, dupl
     return  df
 
 print(get_spotify_data(client_id, client_secret, "coldplay", get_singles = True, duplicate =  False, save_csv = True))
+
+#TODO função de apoio: time
