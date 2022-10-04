@@ -190,6 +190,11 @@ def track_feature_key(track_audio_features):
         key = " "
     return key
 
+def track_feature_timesig(track_audio_features):
+    timesig =  track_audio_features.get("time_signature")
+    timesig = f'{timesig}/4'
+    return timesig
+
 # Função que coleta os dados de cada faixa de cada álbum
 def artist_albums_track_data(sp, albums_data):
     # Inicia um contador para armazenar e exibir o número de faixas processadas
@@ -291,7 +296,8 @@ def artist_albums_track_data(sp, albums_data):
                 track_key = track_feature_key(track_audio_features)
                 #Chamamos função de apoio track_feature_mode() para conversão
                 track_mode = track_feature_mode(track_audio_features)
-                track_time_signature = track_audio_features.get("time_signature")
+                #Chamamos função de apoio track_feature_timesig() para conversão
+                track_time_signature = track_feature_timesig(track_audio_features)
                 track_danceability = track_audio_features.get("danceability")
                 track_energy = track_audio_features.get("energy")
                 track_speechiness = track_audio_features.get("speechiness")
@@ -380,4 +386,4 @@ def get_spotify_data(client_id, client_secret, artist, get_singles = False, dupl
 
 print(get_spotify_data(client_id, client_secret, "coldplay", get_singles = True, duplicate =  False, save_csv = True))
 
-#TODO função de apoio: time sig, time
+#TODO função de apoio: time
