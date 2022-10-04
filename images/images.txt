@@ -1,0 +1,1 @@
+Nessa pasta estão inseridas as imagens do gráfico gerado pelo modulo visualizacao
