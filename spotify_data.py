@@ -140,7 +140,7 @@ def artist_albums_data(sp, artist_id, get_singles = False, duplicate = False):
     albums_data = list(albums_data.values())
     return albums_data
 
-def track_feature_is_explicit(track):
+def track_is_explicit(track):
     #Como o track_id_explicit recebe um booleano, podemos convertê-lo para uma string 
     # de "Yes" ou "No"
     track_id_explicit = track.get("explicit")
@@ -150,7 +150,16 @@ def track_feature_is_explicit(track):
         track_id_explicit = "No"
     return track_id_explicit
 
+def track_duration_s(track):
+    #Conversão da duração dada em ms para seg
+    track_duration_ms = track.get("duration_ms")
+    track_duration_s = track_duration_ms / 1000
+    #Conversão da duração modificada em seg para formato mm:ss
+    track_duration_formatted = time.strftime("%M:%S", time.gmtime(track_duration_s))
+    return track_duration_formatted
+
 def track_feature_mode(track_audio_features):
+    #Como "mode" retorna 0 ou 1, equivalentes a "minor" e "major", podemos convertê-lo para uma string 
     mode = track_audio_features.get("mode")
     if mode == "0":
         mode = "Minor"
@@ -161,6 +170,7 @@ def track_feature_mode(track_audio_features):
     return mode
 
 def track_feature_key(track_audio_features):
+    #Como "key" retorna 0, para "C", 1 para "C♯/D♭", assim em diante, podemos convertê-lo para uma string do tom correspondente 
     key = track_audio_features.get("key")
     if key == 0:
         key = "C"
@@ -191,7 +201,9 @@ def track_feature_key(track_audio_features):
     return key
 
 def track_feature_timesig(track_audio_features):
-    timesig =  track_audio_features.get("time_signature")
+    #Como "timesig" retorna um número de 3 a 7, equivalentes a 3/4 até 7/4,
+    #podemos convertê-lo para uma string do tempo correspondente
+    timesig = track_audio_features.get("time_signature")
     timesig = f'{timesig}/4'
     return timesig
 
@@ -262,15 +274,12 @@ def artist_albums_track_data(sp, albums_data):
                 track_name = track.get("name")
                 track_popularity = track.get("popularity")
                 
-                #Chamamos função de apoio is_explicit para conversão
-                track_id_explicit = track_feature_is_explicit(track)
+                #Chamamos função de apoio is_explicit() para conversão
+                track_id_explicit = track_is_explicit(track)
                 
-                track_duration_ms = track.get("duration_ms")
-                #Conversão da duração dada em ms para seg
-                track_duration_s = track_duration_ms / 1000
-                #Conversão da duração modificada em seg para formato mm:ss
-                track_duration_formatted = time.strftime("%M:%S", time.gmtime(track_duration_s))
-                
+                #Chamamos função de apoio duration() para conversão
+                track_duration = track_duration_s(track)
+                                
                 track_disc_number = track.get("disc_number")
                 track_number = track_count_album
                 
@@ -316,7 +325,7 @@ def artist_albums_track_data(sp, albums_data):
                               "Artist Names" : track_artists_names,
                               "Popularity" : track_popularity,
                               "Explicit" : track_id_explicit, 
-                              "Duration" : track_duration_formatted,
+                              "Duration" : track_duration,
                               "Loudness" : track_loudness,
                               "Tempo" : track_tempo,
                               "Key" : track_key,
@@ -385,5 +394,3 @@ def get_spotify_data(client_id, client_secret, artist, get_singles = False, dupl
     return  df
 
 print(get_spotify_data(client_id, client_secret, "coldplay", get_singles = True, duplicate =  False, save_csv = True))
-
-#TODO função de apoio: time
