@@ -140,6 +140,16 @@ def artist_albums_data(sp, artist_id, get_singles = False, duplicate = False):
     albums_data = list(albums_data.values())
     return albums_data
 
+def is_explicit(track):
+    #Como o track_id_explicit recebe um booleano, podemos convertê-lo para uma string 
+    # de "Yes" ou "No"
+    track_id_explicit = track.get("explicit")
+    if track_id_explicit == True:
+        track_id_explicit = "Yes"
+    else:
+        track_id_explicit = "No"
+    return track_id_explicit
+
 # Função que coleta os dados de cada faixa de cada álbum
 def artist_albums_track_data(sp, albums_data):
     # Inicia um contador para armazenar e exibir o número de faixas processadas
@@ -206,15 +216,10 @@ def artist_albums_track_data(sp, albums_data):
                 
                 track_name = track.get("name")
                 track_popularity = track.get("popularity")
-                track_id_explicit = track.get("explicit")
                 
-                #Como o track_id_explicit recebe um booleano, podemos convertê-lo para uma string 
-                # de "Yes" ou "No"
-                if track_id_explicit == True:
-                    track_id_explicit = "Yes"
-                else:
-                    track_id_explicit = "No"
-
+                #Chamamos função de apoio is_explicit para conversão
+                track_id_explicit = is_explicit(track)
+                
                 track_duration_ms = track.get("duration_ms")
                 #Conversão da duração dada em ms para seg
                 track_duration_s = track_duration_ms / 1000
@@ -332,3 +337,5 @@ def get_spotify_data(client_id, client_secret, artist, get_singles = False, dupl
     return  df
 
 print(get_spotify_data(client_id, client_secret, "coldplay", get_singles = True, duplicate =  False, save_csv = True))
+
+#TODO função de apoio: mode, key, time sig
