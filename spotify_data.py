@@ -150,6 +150,14 @@ def is_explicit(track):
         track_id_explicit = "No"
     return track_id_explicit
 
+def mode(track_audio_features):
+    mode = track_audio_features.get("mode")
+    if mode == "0":
+        mode = "Minor"
+    elif mode == "1":
+        mode =  "Major"
+    return mode
+
 # Função que coleta os dados de cada faixa de cada álbum
 def artist_albums_track_data(sp, albums_data):
     # Inicia um contador para armazenar e exibir o número de faixas processadas
@@ -248,7 +256,8 @@ def artist_albums_track_data(sp, albums_data):
                 track_loudness = track_audio_features.get("loudness")
                 track_tempo = track_audio_features.get("tempo")
                 track_key = track_audio_features.get("key")
-                track_mode = track_audio_features.get("mode")
+                #Chamamos função de apoio mode() para conversão
+                track_mode = mode(track_audio_features)
                 track_time_signature = track_audio_features.get("time_signature")
                 track_danceability = track_audio_features.get("danceability")
                 track_energy = track_audio_features.get("energy")
@@ -338,4 +347,4 @@ def get_spotify_data(client_id, client_secret, artist, get_singles = False, dupl
 
 print(get_spotify_data(client_id, client_secret, "coldplay", get_singles = True, duplicate =  False, save_csv = True))
 
-#TODO função de apoio: mode, key, time sig
+#TODO função de apoio: key, time sig
