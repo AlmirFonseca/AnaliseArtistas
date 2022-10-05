@@ -7,7 +7,7 @@ O formato do dataframe deve ser igual ao gerado pelo módulo database nesse mesm
 '''
 
 # Importe as bibliotecas necessárias
-import Analise_exploratoria as ae
+import exploratory_analysis as ae
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
