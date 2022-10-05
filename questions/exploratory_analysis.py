@@ -1,4 +1,4 @@
-''' Módulo de Análise exploratória 
+''' 
 
 Esse módulo contém funções responsáveis por responder perguntas a partir da análise de dataframes em um formato específico.
 O formato do dataframe deve ser igual ao gerado pelo módulo database nesse mesmo repositório e lido pela função create_dataframe.
@@ -13,12 +13,12 @@ import collections
 
 # Recebe um dataframe e retorna as 3 músicas mais ouvidas por álbum
 def most_listened_by_album(dataframe):
-    """Recebe um dataframe e o retorna com um filtro para indicar as 3 músicas mais ouvidas por álbum
+    """Recebe um dataframe e o retorna com um filtro para indicar as 3 músicas mais ouvidas por álbum.
 
-    :param dataframe: DataFrame com 'Album Name' como parte do multi index e com coluna 'Popularity'.
+    :param dataframe: DataFrame com ``Album Name`` como parte do multi index e com coluna ``Popularity``.
     :type dataframe: pandas.core.frame.DataFrame
     :return: DataFrame com as 3 músicas mais ouvidas por álbum, caso haja mais músicas com a mesma popularidade, todas serão retornadas.
-    :rtype: pandas.core.frame.DataFrame
+    :rtype: `pandas.core.frame.DataFrame`
 
     """
     grouped = dataframe.groupby('Album Name')['Popularity'].nlargest(3,keep='all') # Agrupa por 'Album Name' e seleciona os 3 maiores valores da coluna 'Popularity'
@@ -28,12 +28,12 @@ def most_listened_by_album(dataframe):
 
 # Recebe um dataframe e retorna as 3 músicas menos ouvidas por álbum  
 def least_listened_by_album(dataframe):
-    """Recebe um dataframe e o retorna com um filtro para indicar as 3 músicas menos ouvidas por álbum
+    """Recebe um dataframe e o retorna com um filtro para indicar as 3 músicas menos ouvidas por álbum.
 
-    :param dataframe: DataFrame com 'Album Name' como parte do multi index e com coluna 'Popularity'.
+    :param dataframe: DataFrame com ``Album Name`` como parte do multi index e com coluna ``Popularity``.
     :type dataframe: pandas.core.frame.DataFrame
     :return: DataFrame com as 3 músicas menos ouvidas por álbum, caso haja mais músicas com a mesma popularidade, todas serão retornadas.
-    :rtype: pandas.core.frame.DataFrame
+    :rtype: `pandas.core.frame.DataFrame`
 
     """
     grouped = dataframe.groupby('Album Name')['Popularity'].nsmallest(3,keep='all') # Agrupa por 'Album Name' e seleciona os 3 menores valores da coluna 'Popularity'
@@ -43,12 +43,12 @@ def least_listened_by_album(dataframe):
     
 # Recebe um dataframe e retorna as 3 músicas mais longas por álbum  
 def longest_by_album(dataframe):
-    """Recebe um dataframe e o retorna com um filtro para indicar as 3 músicas mais longas por álbum
+    """Recebe um dataframe e o retorna com um filtro para indicar as 3 músicas mais longas por álbum.
 
-    :param dataframe: DataFrame com 'Album Name' como parte do multi index e com coluna 'Duration'.
+    :param dataframe: DataFrame com ``Album Name`` como parte do multi index e com coluna ``Duration``.
     :type dataframe: pandas.core.frame.DataFrame
     :return: DataFrame com as 3 músicas mais longas por álbum, caso haja mais músicas com a mesma duração, todas serão retornadas.
-    :rtype: pandas.core.frame.DataFrame
+    :rtype: `pandas.core.frame.DataFrame`
 
     """
     grouped = dataframe.groupby('Album Name')['Duration'].nlargest(3,keep='all') # Agrupa por 'Album Name' e seleciona os 3 maiores valores da coluna 'Duration'
@@ -58,12 +58,12 @@ def longest_by_album(dataframe):
     
 # Recebe um dataframe e retorna as 3 músicas menos longas por álbum
 def shortest_by_album(dataframe):
-    """Recebe um dataframe e o retorna com um filtro para indicar as 3 músicas mais curtas por álbum
+    """Recebe um dataframe e o retorna com um filtro para indicar as 3 músicas mais curtas por álbum.
 
-    :param dataframe: DataFrame com 'Album Name' como parte do multi index e com coluna 'Duration'.
+    :param dataframe: DataFrame com ``Album Name`` como parte do multi index e com coluna ``Duration``.
     :type dataframe: pandas.core.frame.DataFrame
     :return: DataFrame com as 3 músicas mais curtas por álbum, caso haja mais músicas com a mesma popularidade, todas serão retornadas.
-    :rtype: pandas.core.frame.DataFrame
+    :rtype: `pandas.core.frame.DataFrame`
 
     """ 
     grouped = dataframe.groupby('Album Name')['Duration'].nsmallest(3,keep='all') # Agrupa por 'Album Name' e seleciona os 3 menores valores da coluna 'Duration'
@@ -73,60 +73,60 @@ def shortest_by_album(dataframe):
 
 # Recebe um dataframe e retorna as 3 músicas mais ouvidas na história do artista
 def most_listened(dataframe):
-    """Recebe um dataframe e o retorna com um filtro para indicar as 3 músicas mais ouvidas 
+    """Recebe um dataframe e o retorna com um filtro para indicar as 3 músicas mais ouvidas.
 
-    :param dataframe: DataFrame com coluna 'Popularity'.
+    :param dataframe: DataFrame com coluna ``Popularity``.
     :type dataframe: pandas.core.frame.DataFrame
     :return: DataFrame com as 3 músicas mais ouvidas, caso haja mais músicas com a mesma popularidade, todas serão retornadas.
-    :rtype: pandas.core.frame.DataFrame
+    :rtype: `pandas.core.frame.DataFrame`
 
     """ 
     return dataframe.nlargest(3, 'Popularity',keep='all')
 
 # Recebe um dataframe e retorna as 3 músicas menos ouvidas na história do artista
 def least_listened(dataframe):
-    """Recebe um dataframe e o retorna com um filtro para indicar as 3 músicas menos ouvidas 
+    """Recebe um dataframe e o retorna com um filtro para indicar as 3 músicas menos ouvidas. 
 
-    :param dataframe: DataFrame com coluna 'Popularity'.
+    :param dataframe: DataFrame com coluna ``Popularity``.
     :type dataframe: pandas.core.frame.DataFrame
     :return: DataFrame com as 3 músicas menos ouvidas, caso haja mais músicas com a mesma popularidade, todas serão retornadas..
-    :rtype: pandas.core.frame.DataFrame
+    :rtype: `pandas.core.frame.DataFrame`
 
     """ 
     return dataframe.nsmallest(3, 'Popularity',keep='all')
 
 # Recebe um dataframe e retorna as 3 músicas mais longas na história do artista
 def longest(dataframe):
-    """Recebe um dataframe no formato pandas e retorna um dataframe com as 3 músicas mais longas
+    """Recebe um dataframe no formato pandas e retorna um dataframe com as 3 músicas mais longas.
 
-    :param dataframe: DataFrame com coluna 'Duration'.
+    :param dataframe: DataFrame com coluna ``Duration``.
     :type dataframe: pandas.core.frame.DataFrame
     :return: DataFrame com 3 músicas mais longas, caso haja mais músicas com a mesma duração, todas serão retornadas.
-    :rtype: pandas.core.frame.DataFrame
+    :rtype: `pandas.core.frame.DataFrame`
 
     """ 
     return dataframe.nlargest(3, 'Duration',keep='all')
     
 # Recebe um dataframe e retorna as 3 músicas menos longas na história do artista
 def shortest(dataframe):
-    """Recebe um dataframe no formato pandas e retorna um dataframe com as 3 músicas mais curtas
+    """Recebe um dataframe no formato pandas e retorna um dataframe com as 3 músicas mais curtas.
 
-    :param dataframe: DataFrame com coluna 'Duration'.
+    :param dataframe: DataFrame com coluna ``Duration``.
     :type dataframe: pandas.core.frame.DataFrame
     :return: DataFrame com 3 músicas mais curtas, caso haja mais músicas com a mesma duração, todas serão retornadas.
-    :rtype: pandas.core.frame.DataFrame
+    :rtype: `pandas.core.frame.DataFrame`
 
     """ 
     return dataframe.nsmallest(3, 'Duration',keep='all')
 
 # Recebe uma lista com algumas strings contendo itens separados por '/' e retorna um array com valores únicos dos itens
 def unique_values(array):
-    """Recebe uma lista com algumas strings contendo itens separados por '/' e retorna um array com valores únicos dos itens
+    """Recebe uma lista com algumas strings contendo itens separados por ``/`` e retorna um array com valores únicos dos itens.
 
-    :param array: Lista com alguns itens sendo palavras separadas por '/'.
+    :param array: Lista com alguns itens sendo palavras separadas por ``/``.
     :type array: list
-    :return: Array com todas as palavras contidas no array de input, incluindo as separadas por '/'. Toda palavra só aparecerá uma única vez.
-    :rtype: np.ndarray
+    :return: Array com todas as palavras contidas no array de input, incluindo as separadas por ``/``. Toda palavra só aparecerá uma única vez.
+    :rtype: `np.ndarray`
 
     """
     
@@ -141,12 +141,12 @@ def unique_values(array):
 
 # Recebe uma dataframe e retorna os 3 álbuns com mais prêmios
 def albuns_awards(dataframe):
-    """Recebe um dataframe no formato pandas e retorna um dataframe com as 3 álbuns mais premiados e suas quantidades de prêmios
+    """Recebe um dataframe no formato pandas e retorna um dataframe com as 3 álbuns mais premiados e suas quantidades de prêmios.
 
-    :param dataframe: DataFrame com multi index e com coluna 'Awards'.
+    :param dataframe: DataFrame com multi index e com coluna ``Awards``.
     :type dataframe: pandas.core.frame.DataFrame
     :return: Dataframe com os álbuns mais premiados e a quantidade de prêmios recebidos.
-    :rtype: pandas.core.frame.DataFrame
+    :rtype: `pandas.core.frame.DataFrame`
 
     """
     grouped = dataframe.groupby(level=0)
@@ -162,10 +162,10 @@ def albuns_awards(dataframe):
 def duration_popularity(dataframe):
     """Recebe um dataframe no formato pandas e retorna um float com a correlação de pearson entre duração e popularidade.
 
-    :param dataframe: Dataframe com as colunas Duration e Popularity.
+    :param dataframe: Dataframe com as colunas ``Duration`` e ``Popularity``.
     :type dataframe: pandas.core.frame.DataFrame
     :return: Correlação de pearson entre as colunas Duration e Popularity.
-    :rtype: numpy.float64
+    :rtype: `numpy.float64`
 
     """
     correlation = dataframe.corr(method ='pearson')
@@ -178,7 +178,7 @@ def common_words_by_album(dataframe):
     :param dataframe: Dataframe com multi index.
     :type dataframe: pandas.core.frame.DataFrame
     :return: Lista com tuplas contendo as palavras mais comuns nos títulos dos álbuns e suas frequências.
-    :rtype: list
+    :rtype: `list`
 
     """
     albuns = dataframe.index.get_level_values(0)
@@ -194,12 +194,12 @@ def common_words_by_album(dataframe):
     
 # Recebe um dataframe e retorna as 10 palavras mais comuns nos títulos das músicas
 def common_words_by_song(dataframe):
-    """Recebe um dataframe e retorna as 10 palavras mais comuns nos títulos das músicas
+    """Recebe um dataframe e retorna as 10 palavras mais comuns nos títulos das músicas.
 
     :param dataframe: Dataframe com multi index.
     :type dataframe: pandas.core.frame.DataFrame
     :return: Lista com tuplas contendo as palavras mais comuns nos títulos das músicas e suas frequências.
-    :rtype: list
+    :rtype: `list`
 
     """
     songs = dataframe.index.get_level_values(1)
@@ -215,12 +215,12 @@ def common_words_by_song(dataframe):
     
 # Recebe um dataframe e retorna as 10 palavras mais comuns nas letras das músicas
 def common_words_by_lyrics(dataframe):
-    """Recebe um dataframe e retorna as 10 palavras mais comuns nas letras das músicas
+    """Recebe um dataframe e retorna as 10 palavras mais comuns nas letras das músicas.
 
     :param dataframe: Dataframe com multi index.
     :type dataframe: pandas.core.frame.DataFrame
     :return: Lista com tuplas contendo as palavras mais comuns nas letras das músicas e suas frequências.
-    :rtype: list
+    :rtype: `list`
 
     """
     lyrics = dataframe["Track Lyrics"].str.upper()
@@ -236,12 +236,12 @@ def common_words_by_lyrics(dataframe):
     
 # Recebe um dataframe e retorna as 10 palavras mais comuns nas letras das músicas de cada álbum
 def common_words_lyrics_album(dataframe):
-    """Recebe um dataframe e retorna as 10 palavras mais comuns nas letras das músicas de cada álbum
+    """Recebe um dataframe e retorna as 10 palavras mais comuns nas letras das músicas de cada álbum.
 
-    :param dataframe: Dataframe com 'Album Name' como parte do  multi index e com a coluna 'Track Lyrics'.
+    :param dataframe: Dataframe com ``Album Name`` como parte do  multi index e com a coluna ``Track Lyrics``.
     :type dataframe: pandas.core.frame.DataFrame
     :return: Série com as 10 palavras mais comuns nas letras das músicas de cada álbum.
-    :rtype: pandas.core.series.Series
+    :rtype: `pandas.core.series.Series`
 
     """
     new_dataframe = dataframe.groupby('Album Name').apply(common_words_by_lyrics)
@@ -249,12 +249,12 @@ def common_words_lyrics_album(dataframe):
 
 # Recebe um dataframe e retorna os 3 álbuns que mais aparecem nas letras das músicas
 def album_in_lyrics(dataframe):
-    """Recebe um dataframe e retorna os 3 álbuns que mais aparecem nas letras das músicas
+    """Recebe um dataframe e retorna os 3 álbuns que mais aparecem nas letras das músicas.
 
-    :param dataframe: Dataframe com 'Album Name' como parte do  multi index e com a coluna 'Track Lyrics'.
+    :param dataframe: Dataframe com ``Album Name`` como parte do  multi index e com a coluna ``Track Lyrics``.
     :type dataframe: pandas.core.frame.DataFrame
     :return: Dataframe com os 3 álbuns que mais aparecem nas letras das músicas.
-    :rtype: pandas.core.frame.DataFrame
+    :rtype: `pandas.core.frame.DataFrame`
 
     """
     albuns = dataframe.index.get_level_values(0)
@@ -281,10 +281,10 @@ def album_in_lyrics(dataframe):
 def song_in_lyrics(dataframe):
     """Recebe um dataframe e retorna as 3 canções que mais aparecem nas letras das músicas.
 
-    :param dataframe: Dataframe com 'Track Name' como parte do  multi index e com a coluna 'Track Lyrics'.
+    :param dataframe: Dataframe com ``Track Name`` como parte do  multi index e com a coluna ``Track Lyrics``.
     :type dataframe: pandas.core.frame.DataFrame
     :return: Dataframe com as 3 músicas que mais aparecem nas letras das músicas.
-    :rtype: pandas.core.frame.DataFrame
+    :rtype: `pandas.core.frame.DataFrame`
 
     """
     songs = dataframe.index.get_level_values(1)
@@ -311,10 +311,10 @@ def song_in_lyrics(dataframe):
 def explicit_popularity(dataframe):
     """Recebe um dataframe e retorna a popularidade média de músicas explícitas e não explícitas.
 
-    :param dataframe: Dataframe com colunas 'Explicit' e 'Popularity'.
+    :param dataframe: Dataframe com colunas ``Explicit`` e ``Popularity``.
     :type dataframe: pandas.core.frame.DataFrame
     :return: Dataframe com as popularidades médias das músicas explícitas e não explícitas.
-    :rtype: pandas.core.frame.DataFrame
+    :rtype: `pandas.core.frame.DataFrame`
 
     """
     grouped = dataframe.groupby("Explicit")["Popularity"].mean()
@@ -322,12 +322,12 @@ def explicit_popularity(dataframe):
 
 # Recebe um dataframe e retorna o álbum mais popular com base na popularidade média de suas músicas
 def most_popular_album(dataframe):
-    """Recebe um dataframe e retorna o álbum mais popular com base na popularidade média de suas músicas
+    """Recebe um dataframe e retorna o álbum mais popular com base na popularidade média de suas músicas.
 
-    :param dataframe: Dataframe com 'Album' no multi index e com coluna popularity.
+    :param dataframe: Dataframe com ``Album`` no multi index e com coluna ``Popularity``.
     :type dataframe: pandas.core.frame.DataFrame
     :return: Dataframe com os álbuns mais populares e suas popularidades.
-    :rtype: pandas.core.frame.DataFrame
+    :rtype: `pandas.core.frame.DataFrame`
 
     """
     mean_popularity = dataframe.groupby("Album Name")["Popularity"].mean()
@@ -339,10 +339,10 @@ def most_popular_album(dataframe):
 def gender_album(dataframe):  
     """Recebe um dataframe e retorna um dicionário com as chaves sendo os álbuns e os valores sendo os gêneros encontrados em cada álbum.
     
-    :param dataframe: Dataframe com coluna 'Genre'.
+    :param dataframe: Dataframe com coluna ``Genre``.
     :type dataframe: pandas.core.frame.DataFrame
     :return: Dicionário com as chaves sendo os álbuns e os valores sendo os gêneros encontrados em cada álbum.
-    :rtype: pandas.core.frame.DataFrame
+    :rtype: `pandas.core.frame.DataFrame`
     
     """
     grouped = dataframe.groupby(level=0)
