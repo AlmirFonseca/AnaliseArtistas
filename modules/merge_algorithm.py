@@ -1,11 +1,10 @@
 import re
-
 import numpy as np
 import pandas as pd
 from fuzzywuzzy import fuzz
 
 # Filtra o dataframe, excluindo as entradas que possuem algum dos termos na coluna indicada
-def filter_dataframe(dataframe, dataframe_column, filter_terms, case_sensitive=False, reverse=False):
+def filter_dataframe(dataframe, dataframe_column, filter_terms="", case_sensitive=False, reverse=False):
     
     # Gera uma lista de termos a partir do split da string recebida
     filter_terms_list = filter_terms.split(",")
@@ -13,6 +12,10 @@ def filter_dataframe(dataframe, dataframe_column, filter_terms, case_sensitive=F
     # Realiza um .strip() em cada termo, a fim de excluir espaços em branco desnecessários
     for term_index, term in enumerate(filter_terms_list):
         filter_terms_list[term_index] = term.strip()
+        
+    # Caso não haja termos a serem filtrados, a função retorna o próprio dataframe
+    if len(filter_terms_list) == 0:
+        return dataframe
     
     # Gera uma máscara "virgem", repleta de "False"
     mask = np.zeros(dataframe.shape[0], dtype=bool)
@@ -144,91 +147,51 @@ def match_datasets(dataset_A, dataset_B):
     # A função retorna um dataframe contendo todas as relações entre as músicas de 2 dataframes
     return relation_AB
 
-# DEEZER ##############################################################################
-# Lê o dataframe dos dados da Deezer a partir do .csv
-df_deezer = pd.read_csv("discografia.csv", encoding="utf-8-sig", sep=";")
-
-# Filtra os álbuns através da busca por termos específicos em seus títulos
-df_deezer = filter_dataframe(df_deezer, "Album Name", "live,remix,edition,deluxe,radio,session,version")
-
-# Normaliza os nomes dos álbuns a fim de permitir uma assimilação direta
-df_deezer["Normalized Album Name"] = normalize_content(df_deezer["Album Name"])
-# Caso não sobre nenhum caractere válido no nome do álbum após a normalização, esse álbum é descartado
-df_deezer.dropna(subset=["Normalized Album Name"], inplace=True)
-
-# Salva o dataframe já filtrado num arquivo .csv
-df_deezer.to_csv("deezer_filtered.csv", encoding="utf-8-sig", sep=";", index=False)
-
-# SPOTIFY ##############################################################################
-# Lê o dataframe dos dados do spotify a partir do .csv
-df_spotify = pd.read_csv("Dados das faixas - Coldplay.csv", encoding="utf-8-sig", sep=";")
-
-# Filtra os álbuns através da busca por termos específicos em seus títulos
-df_spotify = filter_dataframe(df_spotify, "Album Name", "live,remix,edition,deluxe,radio,session,version")
-
-# Normaliza os nomes dos álbuns a fim de permitir uma assimilação direta
-df_spotify["Normalized Album Name"] = normalize_content(df_spotify["Album Name"])
-# Caso não sobre nenhum caractere válido no nome do álbum após a normalização, esse álbum é descartado
-df_spotify.dropna(subset=["Normalized Album Name"], inplace=True)
-
-# Salva o dataframe já filtrado num arquivo .csv
-df_spotify.to_csv("spotify_filtered.csv", encoding="utf-8-sig", sep=";", index=False)
-
-# GENIUS ##############################################################################
-# Lê o dataframe dos dados da Genius a partir do .csv
-df_genius = pd.read_csv("Letras - Coldplay.csv", encoding="utf-8-sig", sep=";")
-
-# Filtra os álbuns através da busca por termos específicos em seus títulos
-df_genius = filter_dataframe(df_genius, "Album Name", "live,remix,edition,deluxe,radio,session,version")
-
-# Normaliza os nomes dos álbuns a fim de permitir uma assimilação direta
-df_genius["Normalized Album Name"] = normalize_content(df_genius["Album Name"])
-# Caso não sobre nenhum caractere válido no nome do álbum após a normalização, esse álbum é descartado
-df_genius.dropna(subset=["Normalized Album Name"], inplace=True)
-
-# Salva o dataframe já filtrado num arquivo .csv
-df_genius.to_csv("genius_filtered.csv", encoding="utf-8-sig", sep=";", index=False)
-
-######################################################################################
-
-# Realiza o match entre os datasets obtidos a partir das plataformas Spotify e Genius
-match_spotify_genius = match_datasets(df_spotify, df_genius)
-
-# Reseta os indexes do dataframe, para facilitar a localização por index (.iloc[])
-match_spotify_genius.reset_index(drop=True, inplace=True)
-df_spotify.reset_index(drop=True, inplace=True)
-df_genius.reset_index(drop=True, inplace=True)
-
-# Cria duas novas colunas no dataframe do spotify, a fim de incorporar novas informações vindas da API da Genius
-df_spotify.insert(len(df_spotify.columns), "Track Instrumental", np.nan)
-df_spotify.insert(len(df_spotify.columns), "Track Lyrics", np.nan)
-
-# Itera sobre cada match entre faixas presente no dataframe resultante do match
-for i in range(len(match_spotify_genius)):
-    # Para cada plataforma, obter o nome da faixa a partir da tabela relacional gerada
-    spotify_track = match_spotify_genius["A"].iloc[i]
-    genius_track = match_spotify_genius["B"].iloc[i]
+def append_lyrics_and_instrumental(df_spotify, df_genius, save_csv=True):
+    # Realiza o match entre os datasets obtidos a partir das plataformas Spotify e Genius
+    match_spotify_genius = match_datasets(df_spotify, df_genius)
     
-    # Para cada plataforma, descobrimos o index da linha que tem os dados acerca daquela faixa
-    spotify_index = df_spotify[df_spotify["Track Name"] == spotify_track].index[0]
-    genius_index = df_genius[df_genius["Track Name"] == genius_track].index[0]
+    # Reseta os indexes do dataframe, para facilitar a localização por index (.iloc[])
+    match_spotify_genius.reset_index(drop=True, inplace=True)
+    df_spotify.reset_index(drop=True, inplace=True)
+    df_genius.reset_index(drop=True, inplace=True)
     
-    # Com o auxílio do .iloc(), obtemos os dados que desejamos a partir da API da Genius
-    track_instrumental = df_genius.iloc[genius_index]["Track Instrumental"]
-    track_lyrics = df_genius[df_genius["Track Name"] == genius_track]["Track Lyrics"].values[0]
+    # Cria duas novas colunas no dataframe do spotify, a fim de incorporar novas informações vindas da API da Genius
+    df_spotify.insert(len(df_spotify.columns), "Track Instrumental", np.nan)
+    df_spotify.insert(len(df_spotify.columns), "Track Lyrics", np.nan)
     
-    # Extraímos a localização das colunas de df_spotify nas quais queremos inserir novos valores
-    track_instrumental_column = df_spotify.columns.get_loc("Track Instrumental")
-    track_lyrics_column = df_spotify.columns.get_loc("Track Lyrics")
+    # Itera sobre cada match entre faixas presente no dataframe resultante do match
+    for i in range(len(match_spotify_genius)):
+        # Para cada plataforma, obter o nome da faixa a partir da tabela relacional gerada
+        spotify_track = match_spotify_genius["A"].iloc[i]
+        genius_track = match_spotify_genius["B"].iloc[i]
+        
+        # Para cada plataforma, descobrimos o index da linha que tem os dados acerca daquela faixa
+        spotify_index = df_spotify[df_spotify["Track Name"] == spotify_track].index[0]
+        genius_index = df_genius[df_genius["Track Name"] == genius_track].index[0]
+        
+        # Com o auxílio do .iloc(), obtemos os dados que desejamos a partir da API da Genius
+        track_instrumental = df_genius.iloc[genius_index]["Track Instrumental"]
+        track_lyrics = df_genius[df_genius["Track Name"] == genius_track]["Track Lyrics"].values[0]
+        
+        # Extraímos a localização das colunas de df_spotify nas quais queremos inserir novos valores
+        track_instrumental_column = df_spotify.columns.get_loc("Track Instrumental")
+        track_lyrics_column = df_spotify.columns.get_loc("Track Lyrics")
+        
+        # Novamente, com o auxílio do .loc(), inserimos os dados obtidos no dataframe do Spotfify
+        df_spotify.iloc[spotify_index, track_instrumental_column] = track_instrumental
+        df_spotify.iloc[spotify_index, track_lyrics_column] = track_lyrics
     
-    # Novamente, com o auxílio do .loc(), inserimos os dados obtidos no dataframe do Spotfify
-    df_spotify.iloc[spotify_index, track_instrumental_column] = track_instrumental
-    df_spotify.iloc[spotify_index, track_lyrics_column] = track_lyrics
+    # Para excluirmos as faixas que não estão presentes em ambas as bases de dados, basta dropar as linhas de "Track Instrumental" com células vazias
+    df_spotify.dropna(subset=["Track Instrumental"], inplace=True)
+        
+    if save_csv:
+        # Salvamos o dataframe df_spotify, agora com a letra das músicas e com o dado da faixa ser ou não ser instrumental
+        df_spotify.to_csv("spotify_with_lyrics.csv", encoding="utf-8-sig", sep=";", index=False)
+        
+    return df_spotify
 
-# Para excluirmos as faixas que não estão presentes em ambas as bases de dados, basta dropar as linhas de "Track Instrumental" com células vazias
-df_spotify.dropna(subset=["Track Instrumental"], inplace=True)
-    
-# Salvamos o dataframe df_spotify, agora com a letra das músicas e com o dado da faixa ser ou não ser instrumental
-df_spotify.to_csv("spotify_with_lyrics.csv", encoding="utf-8-sig", sep=";", index=False)
+def append_genre(df_spotify, df_deezer):
+    return df_spotify
 
 # TODO Match no album e na musica

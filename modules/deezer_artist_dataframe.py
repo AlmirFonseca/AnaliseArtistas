@@ -1,4 +1,5 @@
 # Importa as bibliotecas necessárias 
+import os
 import deezer
 import pandas as pd
 import time
@@ -63,7 +64,7 @@ def track_info(track):
     return track_title, track_duration, track_position, track_disk_number, track_explicit_lyrics, track_gain, track_contributors
 
 #Utiliza as outras funções para criar um dataframe com informações da discografia do artista
-def discography(artist):
+def discography(artist, save_csv=False):
     try:
         #Cria um dicionário onde serÃ£o armazenadas as informações sobre a discografia do artista
         song_data = {"Album Name": [], 
@@ -81,6 +82,10 @@ def discography(artist):
             # album_data
             album_title, album_genres, album_nb_tracks, album_fans, album_release_date, album_tracks = album_info(album) #Busca a informação de cada album
             
+            print("\n", "Deezer ", "=-"*30, "\n", sep="")
+            print("Analisando album:", album_title)
+            
+            # Inicia um contador de faixas processadas
             track_counter = 0
             
             # Busca as faixas em um álbum
@@ -89,6 +94,8 @@ def discography(artist):
                 #Adiciona no dicionário song_data as informações de cada faixa
                 
                 track_counter += 1
+                print(track_counter, "-", track_title)
+                
                 if track_disk_number > 1:
                     track_position = track_counter
                 
@@ -106,8 +113,15 @@ def discography(artist):
         print("Essa função deve receber uma string;",te)
     except IndexError as ie: #Avisa ao usuário caso o artista procurado não seja encontrado
         print("Artista não encontrado;",ie)
-    else:
-        df_discografia.to_csv("discografia.csv", sep=";", encoding="utf-8-sig", index=False) #Converte o dataframe para um arquivo csv
-        print("Arquivo criado com sucesso")
-
-discography("Coldplay")
+    else: # Caso o usu�rio deseje salvar o dataframe num arquivo ".csv"
+        if save_csv:
+            # Gera um caminho relativo, com o nome do artista
+            csv_path = "deezer_data.csv"
+            
+            # Salva o dataframe num arquivo ".csv"
+            df_discografia.to_csv(csv_path, sep=";", encoding="utf-8-sig", index=False)
+            # Exibe uma mensagem de sucesso e exibe o local do arquivo gerado
+            print("\nO arquivo 'deezer_data.csv' foi gerado e salvo em:\n", os.path.abspath(csv_path), "\n", sep=";")
+        
+        # A fun��o retorna um dataframe com todos os dados do artista coletados a partir da plataforma Deezer
+        return df_discografia
