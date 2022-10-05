@@ -20,13 +20,13 @@ plt.style.use("dark_background")
 
 # Recebe um dataframe e cria um gráfico de barras para a popularidade das músicas mais ouvidas 
 def most_listened_plot(dataframe):
-    """
-    Recebe um dataframe e cria e plota um gráfico de barras para a popularidade das músicas mais ouvidas 
-    :param dataframe : DataFrame com coluna 'Popularity'.
+    """Recebe um dataframe e cria e plota um gráfico de barras para a popularidade das músicas mais ouvidas 
+    
+    :param dataframe: DataFrame com coluna 'Popularity'.
     :type dataframe: pandas.core.frame.DataFrame
-    ...
     :return: None
     :rtype: None
+    
     """
     data = ae.most_listened(dataframe)
     plot = sns.barplot(data=data, x="Popularity", y=data.index.get_level_values(1), color = 'g')
@@ -36,13 +36,13 @@ def most_listened_plot(dataframe):
 
 # Recebe um dataframe e cria um gráfico de barras para a popularidade das músicas menos ouvidas       
 def least_listened_plot(dataframe):
-    """
-    Recebe um dataframe e cria e plota um gráfico de barras para a popularidade das músicas menos ouvidas 
-    :param dataframe : DataFrame com coluna 'Popularity'.
+    """Recebe um dataframe e cria e plota um gráfico de barras para a popularidade das músicas menos ouvidas 
+    
+    :param dataframe: DataFrame com coluna 'Popularity'.
     :type dataframe: pandas.core.frame.DataFrame
-    ...
     :return: None
     :rtype: None
+    
     """
     data = ae.least_listened(dataframe)
     plot = sns.barplot(data=data, x="Popularity", y=data.index.get_level_values(1), color = 'g')
@@ -52,13 +52,13 @@ def least_listened_plot(dataframe):
 
 # Recebe um dataframe e cria um gráfico de barras para a duração das músicas mais longas     
 def longest_plot(dataframe):
-    """
-    Recebe um dataframe e cria e plota um gráfico de barras para a duração das músicas mais longas 
-    :param dataframe : DataFrame com coluna 'Duration'.
+    """Recebe um dataframe e cria e plota um gráfico de barras para a duração das músicas mais longas 
+    
+    :param dataframe: DataFrame com coluna 'Duration'.
     :type dataframe: pandas.core.frame.DataFrame
-    ...
     :return: None
     :rtype: None
+    
     """
     data = ae.longest(dataframe)
     plot = sns.barplot(data=data, x="Duration", y=data.index.get_level_values(1), color = 'g')
@@ -68,13 +68,13 @@ def longest_plot(dataframe):
 
 # Recebe um dataframe e cria um gráfico de barras para a duração das músicas mais curtas       
 def shortest_plot(dataframe):
-    """
-    Recebe um dataframe e cria e plota um gráfico de barras para a duração das músicas mais curtas 
-    :param dataframe : DataFrame com coluna 'Duration'.
+    """Recebe um dataframe e cria e plota um gráfico de barras para a duração das músicas mais curtas 
+    
+    :param dataframe: DataFrame com coluna 'Duration'.
     :type dataframe: pandas.core.frame.DataFrame
-    ...
     :return: None
     :rtype: None
+    
     """
     data = ae.shortest(dataframe)
     plot = sns.barplot(data=data, x="Duration", y=data.index.get_level_values(1), color = 'g')
@@ -84,13 +84,13 @@ def shortest_plot(dataframe):
 
 # Recebe um dataframe e cria gráficos de barras para a popularidade das músicas mais ouvidas por álbum    
 def most_listened_by_album_plot(dataframe):
-    """
-    Recebe um dataframe e cria e plota um gráfico de barras para a popularidade das músicas mais ouvidas por álbum  
-    :param dataframe : DataFrame com 'Album Name' como parte do multi index e com a coluna 'Popularity'.
+    """Recebe um dataframe e cria e plota um gráfico de barras para a popularidade das músicas mais ouvidas por álbum  
+    
+    :param dataframe: DataFrame com 'Album Name' como parte do multi index e com a coluna 'Popularity'.
     :type dataframe: pandas.core.frame.DataFrame
-    ...
     :return: None
     :rtype: None
+    
     """
     grouped = dataframe.groupby(level=0)
     for album, album_dataframe in grouped:
@@ -102,13 +102,13 @@ def most_listened_by_album_plot(dataframe):
 
 # Recebe um dataframe e cria gráficos de barras para a popularidade das músicas menos ouvidas por álbum    
 def least_listened_by_album_plot(dataframe):
-    """
-    Recebe um dataframe e cria e plota um gráfico de barras para a popularidade das músicas menos ouvidas por álbum  
-    :param dataframe : DataFrame com 'Album Name' como parte do multi index e com a coluna 'Popularity'.
+    """Recebe um dataframe e cria e plota um gráfico de barras para a popularidade das músicas menos ouvidas por álbum  
+    
+    :param dataframe: DataFrame com 'Album Name' como parte do multi index e com a coluna 'Popularity'.
     :type dataframe: pandas.core.frame.DataFrame
-    ...
     :return: None
     :rtype: None
+    
     """
     grouped = dataframe.groupby(level=0)
     for album, album_dataframe in grouped:
@@ -120,13 +120,13 @@ def least_listened_by_album_plot(dataframe):
         
 # Recebe um dataframe e cria gráficos de barras para a duração das músicas mais longas por álbum 
 def longest_by_album_plot(dataframe):
-    """
-    Recebe um dataframe e cria e plota um gráfico de barras para a duração das músicas mais longas por álbum  
-    :param dataframe : DataFrame com 'Album Name' como parte do multi index e com a coluna 'Duration'.
+    """Recebe um dataframe e cria e plota um gráfico de barras para a duração das músicas mais longas por álbum  
+    
+    :param dataframe: DataFrame com 'Album Name' como parte do multi index e com a coluna 'Duration'.
     :type dataframe: pandas.core.frame.DataFrame
-    ...
     :return: None
     :rtype: None
+    
     """
     grouped = dataframe.groupby(level=0)
     for album, album_dataframe in grouped:
@@ -138,13 +138,13 @@ def longest_by_album_plot(dataframe):
 
 # Recebe um dataframe e cria gráficos de barras para a duração das músicas mais longas por álbum 
 def shortest_by_album_plot(dataframe):
-    """
-    Recebe um dataframe e cria e plota um gráfico de barras para a duração das músicas mais curtas por álbum  
-    :param dataframe : DataFrame com 'Album Name' como parte do multi index e com a coluna 'Duration'.
+    """Recebe um dataframe e cria e plota um gráfico de barras para a duração das músicas mais curtas por álbum  
+    
+    :param dataframe: DataFrame com 'Album Name' como parte do multi index e com a coluna 'Duration'.
     :type dataframe: pandas.core.frame.DataFrame
-    ...
     :return: None
     :rtype: None
+    
     """
     grouped = dataframe.groupby(level=0)
     for album, album_dataframe in grouped:
@@ -156,13 +156,13 @@ def shortest_by_album_plot(dataframe):
         
 # Recebe um dataframe e cria um gráfico de barras para a quantidade de prêmios dos álbuns mais premiados 
 def albuns_awards_plot(dataframe):
-    """
-    Recebe um dataframe e cria e plota um gráfico de barras para a quantidade de prêmios dos álbuns mais premiados
-    :param dataframe : DataFrame com a coluna 'Awards'.
+    """Recebe um dataframe e cria e plota um gráfico de barras para a quantidade de prêmios dos álbuns mais premiados
+    
+    :param dataframe: DataFrame com a coluna 'Awards'.
     :type dataframe: pandas.core.frame.DataFrame
-    ...
     :return: None
     :rtype: None
+    
     """
     data = ae.albuns_awards(dataframe)
     plot = sns.barplot(data=data, x="Awards", y=data.index,color = 'g')
@@ -172,13 +172,13 @@ def albuns_awards_plot(dataframe):
 
 # Recebe um dataframe e cria um scatterplot que associa duração e popularidade 
 def duration_popularity_plot(dataframe):
-    """
-    Recebe um dataframe e cria e plota um gráfico de barras para a quantidade de prêmios dos álbuns mais premiados
-    :param dataframe : DataFrame com a coluna 'Awards'.
+    """Recebe um dataframe e cria e plota um gráfico de barras para a quantidade de prêmios dos álbuns mais premiados
+    
+    :param dataframe: DataFrame com a coluna 'Awards'.
     :type dataframe: pandas.core.frame.DataFrame
-    ...
     :return: None
     :rtype: None
+    
     """
     plot = sns.scatterplot(data=dataframe, x="Duration", y="Popularity",color = 'g')
     plot.set(title='Duração x Popularidade')
@@ -187,13 +187,13 @@ def duration_popularity_plot(dataframe):
 
 # Recebe um dataframe e cria uma nuvem de palavras com as palavras mais comuns nas letras 
 def common_words_by_lyrics_plot(dataframe):
-    """
-    Recebe um dataframe e cria uma nuvem de palavras com as palavras mais comuns nas letras 
-    :param dataframe : DataFrame com a coluna 'Track Lyrics'.
+    """Recebe um dataframe e cria uma nuvem de palavras com as palavras mais comuns nas letras 
+    
+    :param dataframe: DataFrame com a coluna 'Track Lyrics'.
     :type dataframe: pandas.core.frame.DataFrame
-    ...
     :return: None
     :rtype: None
+    
     """
     resultado = ae.common_words_by_lyrics(dataframe)
     frequency = {}
@@ -208,13 +208,13 @@ def common_words_by_lyrics_plot(dataframe):
 
 # Recebe um dataframe e cria uma nuvem de palavras com as palavras mais comuns nos títulos das faixas     
 def common_words_by_song_plot(dataframe):
-        """
-    Recebe um dataframe e cria uma nuvem de palavras com as palavras mais comuns nos títulos das faixas   
-    :param dataframe : DataFrame com a coluna 'Track Name'.
+    """Recebe um dataframe e cria uma nuvem de palavras com as palavras mais comuns nos títulos das faixas 
+    
+    :param dataframe: DataFrame com a coluna 'Track Name'.
     :type dataframe: pandas.core.frame.DataFrame
-    ...
     :return: None
     :rtype: None
+    
     """
     resultado = ae.common_words_by_song(dataframe)
     frequency = {}
@@ -229,13 +229,13 @@ def common_words_by_song_plot(dataframe):
  
 # Recebe um dataframe e cria uma nuvem de palavras com as palavras mais comuns nos títulos dos álbuns    
 def common_words_by_album_plot(dataframe):
-    """
-    Recebe um dataframe e cria uma nuvem de palavras com as palavras mais comuns nos títulos dos álbuns   
-    :param dataframe : DataFrame com a coluna 'Album Name'.
+    """Recebe um dataframe e cria uma nuvem de palavras com as palavras mais comuns nos títulos dos álbuns   
+    
+    :param dataframe: DataFrame com a coluna 'Album Name'.
     :type dataframe: pandas.core.frame.DataFrame
-    ...
     :return: None
     :rtype: None
+    
     """
     resultado = ae.common_words_by_album(dataframe)
     frequency = {}
