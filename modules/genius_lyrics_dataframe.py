@@ -71,10 +71,7 @@ def extract_track_info(track, genius):
     return track_number, track_name, track_id, track_release_date, track_instrumental, track_lyrics
 
 # Extrai os dados de cada faixa através do id do álbum
-def get_tracks_info(albums, genius):
-    # Inicializa um contador de faixas processadas
-    track_counter = 0
-    
+def get_tracks_info(albums, genius):    
     # Inicializa uma lista para armazenar as faixas
     tracks = []
     
@@ -90,6 +87,9 @@ def get_tracks_info(albums, genius):
         
         # Coleta a lista de faixas de cada álbum a partir de seu id
         album_tracks = genius.album_tracks(album_id)
+        
+        # Inicializa um contador de faixas processadas
+        track_counter = 0
         
         # Itera sobre cada faixa do album
         for track in album_tracks.get("tracks"):
