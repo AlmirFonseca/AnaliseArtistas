@@ -21,6 +21,18 @@ import pandas as pd
 
 # Função de Autenticação
 def autentication(client_id, client_secret):
+    """
+    Recebe um client ID e um cliente secret para realizar autenticação e retornar credenciais.
+
+    :param client_id: Cadeia de caracteres alfa-numérica única para cada cliente gerada pela plataforma Spotify representando seu ID.
+    :type client_id: `str`
+    :param client_secret: Cadeia de caracteres alfa-numérica única para cada cliente gerada pela plataforma Spotify representando seu secret.
+    :type client_secret: `str`
+    :return: Retorna um objeto de credenciais
+    :rtype: `<class 'spotipy.oauth2.SpotifyClientCredentials'>`
+
+    .. warning:: Client IDs e Client secrets são gerados pela plataforma Spotify e tem validade de duração!
+    """
     if type(client_id) != str:
         raise Exception("ID deve ser uma string!")
     elif type(client_secret) != str:
@@ -31,11 +43,31 @@ def autentication(client_id, client_secret):
 
 # Função que instancia o objeto principal da API
 def spotify_object(client_credentials_manager):
+    """
+    Recebe um token de credenciais para criar e retornar o principal objeto da API do spotify.
+
+    :param client_credentials_manager: Credenciais geradas a partir da função `spotifyData.autentication`
+    :type client_credentials_manager: `<class 'spotipy.oauth2.SpotifyClientCredentials'>`
+    :return: Retorna principal objeto da API do Spotify
+    :rtype: `<class 'spotipy.client.Spotify'>`
+    """
     sp = spotipy.Spotify(client_credentials_manager = client_credentials_manager)
     return sp
 
 # Função que realiza uma pesquisa sobre id de um artista
 def get_artist_id(sp, artist):
+    """
+    Pesquisa pelo ID do artista dentro da plataforma Spotify
+
+    :param sp: Objeto principal da API 
+    :type sp: `<class 'spotipy.client.Spotify'>`
+    :param artist: Artista escolhido 
+    :type artist: `str`
+    :raises Exception: _description_
+    :raises Exception: _description_
+    :return: Retorna o ID do artista dentro da plataforma Spotify
+    :rtype: `str`
+    """
     if type(artist) != str:
         raise Exception("Artista deve ser uma string!")
     else:
@@ -51,6 +83,18 @@ def get_artist_id(sp, artist):
 
 # Função que realiza uma pesquisa sobre nome oficial de um artista
 def get_artist_name(sp, artist):
+    """
+    Pesquisa pelo nome do artista dentro da plataforma Spotify
+
+    :param sp: Objeto principal da API 
+    :type sp: `<class 'spotipy.client.Spotify'>`
+    :param artist: Artista escolhido 
+    :type artist: `str`
+    :raises Exception: _description_
+    :raises Exception: _description_
+    :return: Retorna o nome do artista dentro da plataforma Spotify
+    :rtype: `str`
+    """
     if type(artist) != str:
         raise Exception("Artista deve ser uma string!")
     else:
@@ -67,6 +111,23 @@ def get_artist_name(sp, artist):
 # Função que realiza coleta de dados sobre álbuns de artistas a partir
 # do objeto principal da API, id do artista, e tipo de álbum ("single", "album")
 def artist_albums_data(sp, artist_id, get_singles = False, duplicate = False):
+    """
+    Pesquisa dentro da plataforma Spotify por todos os álbuns relacionados ao ID do artista dado e retorna uma lista de dicionários
+
+    :param sp: Objeto principal da API 
+    :type sp: `<class 'spotipy.client.Spotify'>`
+    :param artist_id: ID do artista 
+    :type artist_id: `str`
+    :param get_singles: Valor booleano opcional que caso seja ``True``, será pesquisado informações sobre álbuns single, padrão como ``False``.
+    :type get_singles: `bool`, opcional
+    :param duplicate: Valor booleano opcional que caso seja ``True``, não será desconsiderado duplicatas de álbuns, padrão como ``False``.
+    :type duplicate: `bool`, opcional
+    :return: Lista de dicionários contendo informações sobre os álbuns
+    :rtype: `list[dict]`
+
+    .. warning:: Lista de dicionários de álbuns gerados pela função com parâmetro ``True`` não são suportados nessa versão!
+
+    """
     #get_singles -> True = Single and Album
     #get_singles -> False (default) = Album
 
@@ -137,6 +198,14 @@ def artist_albums_data(sp, artist_id, get_singles = False, duplicate = False):
     return albums_data
 
 def track_is_explicit(track):
+    """
+    Função de apoio para conversão de valores de ``is_explicit``. ``False`` para ``No``, e ``True`` para ``Yes`` 
+
+    :param track: Dicionário com chave ``explicit`` contendo valores ``bool``
+    :type track: `dict{bool}`
+    :return: Converte ``False`` para ``No``, e ``True`` para ``Yes``
+    :rtype: `str`
+    """
     #Como o track_id_explicit recebe um booleano, podemos convertê-lo para uma string 
     # de "Yes" ou "No"
     track_id_explicit = track.get("explicit")
@@ -147,6 +216,14 @@ def track_is_explicit(track):
     return track_id_explicit
 
 def track_duration_s(track):
+    """
+    Função de apoio para conversão de valores de ``duration_ms``. Valores dados em milisegundos para segundos.
+
+    :param track: Dicionário com chave ``duration_ms`` contendo valores dados em segundos.
+    :type track: `dict{str}`
+    :return: Valores dados em milisegundos para segundos.
+    :rtype: `str`
+    """
     #Conversão da duração dada em ms para seg
     track_duration_ms = track.get("duration_ms")
     track_duration_s = track_duration_ms / 1000
@@ -155,6 +232,14 @@ def track_duration_s(track):
     return track_duration_formatted
 
 def track_feature_mode(track_audio_features):
+    """
+    Função de apoio para conversão de valores do `dict` contendo ``mode`` . ``0`` para ``Minor`` e ``1`` para ``Major``.
+
+    :param track_audio_features: `dict` gerado por ``track`` contendo chave ``mode``.
+    :type track_audio_features: `dict{int}`
+    :return: Conversão de ``0`` para ``Minor`` e ``1`` para ``Major``.
+    :rtype: `str`
+    """
     #Como "mode" retorna 0 ou 1, equivalentes a "minor" e "major", podemos convertê-lo para uma string 
     mode = track_audio_features.get("mode")
     if mode == 0:
@@ -168,6 +253,14 @@ def track_feature_mode(track_audio_features):
     return mode
 
 def track_feature_key(track_audio_features):
+    """
+    Função de apoio para conversão de valores do `dict` contendo ``key`` seguindo a escala musical. ``0`` para ``C``, ``1`` para ``C♯/D♭``, assim em diante.
+
+    :param track_audio_features: `dict` gerado por ``track`` contendo chave ``mode``.
+    :type track_audio_features: `dict{int}`
+    :return: Seguindo a escala musical, ``0`` para ``C``, ``1`` para ``C♯/D♭``, assim em diante.
+    :rtype: `str`
+    """
     #Como "key" retorna 0, para "C", 1 para "C♯/D♭", assim em diante, podemos convertê-lo para uma string do tom correspondente 
     key = track_audio_features.get("key")
     if key == 0:
@@ -201,6 +294,14 @@ def track_feature_key(track_audio_features):
     return key
 
 def track_feature_timesig(track_audio_features):
+    """
+    Função de apoio para conversão de valores do `dict` contendo ``time_signature``. Os valores de ``time_signature`` contém números de 3 à 7, correspondendo aos tempos 3/4 a 7/4 respectivamente.
+
+    :param track_audio_features: `dict` gerado por ``track`` contendo chave ``mode``.
+    :type track_audio_features: `dict{int}`
+    :return: Converte os valores de ``time_signature``, de 3 à 7, aos tempos 3/4 a 7/4 respectivamente.
+    :rtype: `str`
+    """
     #Como "timesig" retorna um número de 3 a 7, equivalentes a 3/4 até 7/4,
     timesig = track_audio_features.get("time_signature")
     timesig = f"{timesig}/4"
@@ -210,6 +311,16 @@ def track_feature_timesig(track_audio_features):
 
 # Função que coleta os dados de cada faixa de cada álbum
 def artist_albums_track_data(sp, albums_data):
+    """
+    Pesquisa dentro da plataforma Spotify pelos dados de cada track em cada álbum e retorna uma lista de dicionários por track.
+
+    :param sp: Objeto principal da API 
+    :type sp: `<class 'spotipy.client.Spotify'>`
+    :param albums_data: Lista de dicionários contendo dados dos álbuns
+    :type albums_data: `list[dict]`
+    :return: Lista de dicionários contendo dados de cada track
+    :rtype: `list[dict]`
+    """
     # Criação de lista para armazenamento  dos dados das faixas do artista de cada álbum
     tracks_data = list()    
 
@@ -359,6 +470,18 @@ def artist_albums_track_data(sp, albums_data):
 
 # Gera um dataframe a partir dos dados coletados, com a opção de salvar o dataframe num arquivo ".csv"
 def generate_dataframe(artist_name, tracks_data, save_csv = False):
+    """
+    Função que gera um dataframe a partir dos dados das tracks no formato de listas de dicionários contendo os dados, caso ``save_csv = True``, um arquivo .csv será gerado em caminho pré-definido e informado por console. 
+
+    :param artist_name: Nome do artista
+    :type artist_name: `str`
+    :param tracks_data: Lista de dicionários contendo dados das tracks
+    :type tracks_data: `list[dict]`
+    :param save_csv: Valor booleano que caso ``True``, irá gerar um arquivo .csv, padrão ``False``
+    :type save_csv: ``bool``, opcional
+    :return: Dataframe com os dados das tracks
+    :rtype: `pandas.core.frame.DataFrame`
+    """
     # Obtém o nome das colunas do dataframe a partir dos dados que cada faixa possui
     dataframe_columns = list(tracks_data[0].keys())
 
@@ -387,6 +510,24 @@ def generate_dataframe(artist_name, tracks_data, save_csv = False):
 
 # Função principal, que recolhe as credenciais e os parâmetros do usuário e executa todo o processo de obtenção de dados a partir da API do Spotify
 def get_spotify_data(client_id, client_secret, artist_name, get_singles = False, duplicate = False, save_csv = False):
+    """
+    Função principal que irá ser utilizada pelo usuário diretamente, a qual irá coletar dados das músicas e álbuns de um determinado artista dentro da plataforma Spotify,
+
+    :param client_id: Cadeia de caracteres alfa-numérica única para cada cliente gerada pela plataforma Spotify representando seu ID.
+    :type client_id: `str`
+    :param client_secret: Cadeia de caracteres alfa-numérica única para cada cliente gerada pela plataforma Spotify representando seu secret.
+    :type client_secret: `str`
+    :param artist: Artista escolhido 
+    :type artist: `str`
+    :param get_singles: Valor booleano opcional que caso seja ``True``, será pesquisado informações sobre álbuns single, padrão como ``False``.
+    :type get_singles: `bool`, opcional
+    :param duplicate: Valor booleano opcional que caso seja ``True``, não será desconsiderado duplicatas de álbuns, padrão como ``False``.
+    :type duplicate: `bool`, opcional
+    :param save_csv: Valor booleano que caso ``True``, irá gerar um arquivo .csv, padrão ``False``
+    :type save_csv: ``bool``, opcional
+    :return: Dataframe com os dados das tracks
+    :rtype: `pandas.core.frame.DataFrame`
+    """
     # Utiliza as credenciais do usuário para se autenticar e gerar o objeto principal da API do Spotify
     client_credentials_manager = autentication(client_id, client_secret)
     sp = spotify_object(client_credentials_manager)
