@@ -62,10 +62,7 @@ def extract_track_info(track, genius):
         track_dict = genius.search_song(song_id=track_id, get_full_info=False)
         track_lyrics = track_dict.lyrics
         
-    # Caso ocorra alguma exceção, consideraremos que nenhuma letra foi encontrada para a música
-    except AttributeError:
-        track_lyrics = ""
-    
+    # Caso ocorra alguma exceção, consideraremos que nenhuma letra foi encontrada para a música    
     except Exception as e:
         print("Ocorreu um erro inesperado:", e)
         track_lyrics = ""
@@ -168,11 +165,14 @@ def date_components_to_datetime(date_components, content_name, content_type):
     # Retorna o datetime gerado a partir dos componentes (ano, mês e dia)
     return datetime
 
+# Converte o booleano que armazena a informação sobre a faixa instrumental em uma string 
 def is_instrumental(track_instrumental):
     if track_instrumental == True:
         track_instrumental_str = "Yes"
     else:
         track_instrumental_str = "No"
+        
+    # A função retorna uma string contendo a informação sobre a música instrumental
     return track_instrumental_str
 
 # Utiliza a API do Genius e as funções acima para gerar um dataframe com as faixas e suas respectivas letras de um artista
