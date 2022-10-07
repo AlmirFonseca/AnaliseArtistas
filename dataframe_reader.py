@@ -11,11 +11,13 @@ import numpy as np
 # Função que checa se um csv contém as informações necessárias para a análise de dados e retorna um dataframe caso ele contenha.
 def is_valid(path_artist_info):
     """Essa função checa se o caminho fornecido para um arquivo csv é válido e se esse arquivo possui todas as colunas necessárias para a análise de dados. Caso todos os requisitos sejam atendidos, a função retorna um dataframe com as informações do arquivo
+    
     :param path_artist_info: Arquivo csv com as informações do artista
     :type path_artist_info: str
     :raises KeyError: Levanta um KeyError caso alguma coluna exigida não seja encontrada
     :return: Retorna um dataframe com as informações do arquivo csv caso o arquivo cumpra as exigências.
     :rtype: `pandas.core.frame.DataFrame`
+    
     """
     try:
         dataframe = pd.read_csv(path_artist_info, sep = ";", encoding = "unicode_escape")
@@ -35,12 +37,14 @@ def is_valid(path_artist_info):
 # Recebe um dataframe com informações gerais do artista e um arquivo csv com os álbuns premiados e seus respectivos prêmios e retorna um dataframe com essas informações agrupadas.
 def add_awards(original_dataframe,path_album_awards):
     """ Recebe um dataframe com todas as colunas necessárias para a análise e recebe o caminho para um arquivo csv com duas colunas: "Album Name" e "Awards", que contém os álbuns premiados e seus respectivos prêmios.
+    
     :param original_dataframe: Dataframe com colunas necessárias para a análise exploratória
     :type original_dataframe: `pandas.core.frame.DataFrame`
     :param path_album_awards: Arquivo csv com os álbuns e seus prêmios.
     :type path_album_awards: str
     :return: Dataframe com as informações do primeiro parâmetro da função acrescido de uma coluna "Awards" com os prêmios dos álbuns.
     :rtype: `pandas.core.frame.DataFrame`
+    
     """
     try:
         album_awards_dataframe = pd.read_csv(path_album_awards, sep = ";",encoding = "unicode_escape") 
@@ -70,10 +74,12 @@ def add_awards(original_dataframe,path_album_awards):
 # Converte um objeto no formato "mm:ss" e o transforma para tempo em segundos.    
 def time_to_seconds(object):
     """_summary_
+    
     :param object: Objeto presente em uma coluna dataframe formatado como "mm:ss" que representa a duração da música
     :type object: object (pandas)
     :return: Objeto convertido para int, representando a duração da música em segundos.
     :rtype: int
+    
     """
     separated = str(object).split(":")
     try:
@@ -85,10 +91,12 @@ def time_to_seconds(object):
 # Recebe um dataframe e o retorna com multi index no modelo exigido e com uma coluna representando a duração da música em segundos.
 def create_final_dataframe(dataframe):
     """Modifica um dataframe para que ele possua um multi index a partir das colunas pedidas: "Album Name" e "Track Name" e para que exista uma nova coluna chamada "Duration Seconds".
+    
     :param dataframe: Dataframe com todas as informações necessárias e sem multi index
     :type dataframe: `pandas.core.frame.DataFrame`
     :return: Dataframe com todas as informações do dataframe utilizado como parâmetro da função e com multi index composto por: "Album Name" e "Track Name", respectivamente. Também adiciona a coluna "Duration Seconds".
     :rtype: `pandas.core.frame.DataFrame`
+    
     """
     try:
         dataframe["Duration Seconds"] = dataframe["Duration"].apply(lambda d: time_to_seconds(d))  # Cria a coluna "Duration Seconds"
