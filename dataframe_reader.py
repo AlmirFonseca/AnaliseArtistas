@@ -32,3 +32,41 @@ def is_valid(path_artist_info):
         sys.exit(0)
     else: 
         return dataframe # Caso tudo funcione, retorna um dataframe
+
+    
+
+# Recebe um dataframe com informações gerais do artista e um arquivo csv com os álbuns premiados e seus respectivos prêmios e retorna um dataframe com essas informações agrupadas.
+def add_awards(original_dataframe,path_album_awards):
+    """ Recebe um dataframe com todas as colunas necessárias para a análise e recebe o caminho para um arquivo csv com duas colunas: "Album Name" e "Awards", que contém os álbuns premiados e seus respectivos prêmios.
+
+    :param original_dataframe: Dataframe com colunas necessárias para a análise exploratória
+    :type original_dataframe: `pandas.core.frame.DataFrame`
+    :param path_album_awards: Arquivo csv com os álbuns e seus prêmios.
+    :type path_album_awards: str
+    :return: Dataframe com as informações do primeiro parâmetro da função acrescido de uma coluna "Awards" com os prêmios dos álbuns.
+    :rtype: `pandas.core.frame.DataFrame`
+    """
+    try:
+        album_awards_dataframe = pd.read_csv(path_album_awards, sep = ";",encoding = "unicode_escape") 
+        grouped_dataframe = original_dataframe.groupby(level=0) # Agrupa o "original_dataframe" pelo índice de nível zero, não resulta em nenhuma mudança significativa mas é útil nas linhas subsequentes.
+        result_dataframe = pd.DataFrame() #Crie um dataframe vazio onde serão armazenados os resultados.
+        for index, selected_dataframe in grouped_dataframe: # A variável selected_dataframe armazena um dataframe composto por uma das linhas do "original_dataframe"
+            album = selected_dataframe["Album Name"].values
+            if album in album_awards_dataframe["Album Name"].values:
+                mask = album_awards_dataframe["Album Name"] == album[0] # Verifica se o álbum de selected_dataframe está entre os álbuns premiados
+                selected_dataframe["Awards"] = album_awards_dataframe[mask]["Awards"].values # Caso esteja, atribui os dados dos prêmios
+                result_dataframe = pd.concat((result_dataframe,selected_dataframe), axis=0) # Adiciona ao dataframe vazio
+            else:
+                selected_dataframe["Awards"] = ""
+                result_dataframe = pd.concat((result_dataframe,selected_dataframe), axis=0)
+    except FileNotFoundError as error: #Levanta um erro e sai do programa caso o código não seja encontrado
+        print("O arquivo não foi encontrado:",error)
+        sys.exit(0)
+    except KeyError as error: #Levanta um erro e sai do programa caso uma das colunas exigidas não exista
+        print("O arquivo não possui todas as colunas pedidas:",error)
+        sys.exit(0)
+    except AttributeError as error: #Levanta um erro e sai do programa caso o parâmetro passado não seja o correto
+        print("Um dos arquivos não possui o formato exigido:",error)
+        sys.exit(0)
+    else:
+        return result_dataframe
