@@ -63,19 +63,35 @@ def track_info(track):
     track_contributors = contribuitors(track) #Utiliza a fun√ß√£o de apoio contribuitors
     return track_title, track_duration, track_position, track_disk_number, track_explicit_lyrics, track_gain, track_contributors
 
+# Gera um dataframe a partir dos dados coletados, com a opÁ„o de salvar o dataframe num arquivo ".csv"
+def generate_dataframe(artist_name, tracks_data, save_csv = False, save_to=""):    
+    # ObtÈm o nome das colunas do dataframe a partir dos dados que cada faixa possui
+    dataframe_columns = list(tracks_data[0].keys())
+
+    # Inicializa uma lista para acumular os dados de cada faixa
+    track_list = []
+    
+    # Itera sobre cada faixa, coletando seus dados e acumulando na lista criada
+    for track in tracks_data:
+        track_list.append(list(track.values()))
+        
+    # Gera um pandas DataFrame a partir dos dados coletados
+    tracks_dataframe = pd.DataFrame(data=track_list, columns=dataframe_columns)
+    
+    # Caso o usu·rio deseje salvar o dataframe num arquivo ".csv"
+    if save_csv:
+        # Salva o dataframe num arquivo ".csv"
+        tracks_dataframe.to_csv(save_to, sep=";", encoding="utf-8-sig", index=False)
+        # Exibe uma mensagem de sucesso e exibe o local do arquivo gerado
+        print("\nO arquivo 'deezer_data.csv' foi gerado e salvo em:\n", os.path.abspath(save_to), "\n", sep=";")
+
+    # A funÁ„o retorna o dataframe gerado a partir dos dados coletados
+    return tracks_dataframe
+
 #Utiliza as outras fun√ß√µes para criar um dataframe com informa√ß√µes da discografia do artista
 def discography(artist, save_csv=False, save_to=""):
     try:
-        #Cria um dicion√°rio onde ser√É¬£o armazenadas as informa√ß√µes sobre a discografia do artista
-        song_data = {"Album Name": [], 
-                     "Genre": [], 
-                     "Release Date": [], 
-                     "Track Name": [], 
-                     "Track Number": [], 
-                     "Artist Names": [], 
-                     "Duration": [], 
-                     "Explicit": [], 
-                     "Gain": []}
+        song_data = list()
         # albums = artist_info(artist)[3]# Busca os √°lbuns do artista
         artist_name, artist_nb_album, artist_nb_fans, artist_albums = artist_info(artist) # Busca os √°lbuns do artista
         for album in artist_albums:
@@ -98,27 +114,27 @@ def discography(artist, save_csv=False, save_to=""):
                 
                 if track_disk_number > 1:
                     track_position = track_counter
+                    
+                # Gera um dicion·rio para cada faixa, organizando os dados coletados
+                track_dict = {"Album Name": album_title,
+                              "Genre": album_genres,
+                              "Release Date": album_release_date,
+                              "Track Number": track_position,
+                              "Track Name": track_title,
+                              "Artist Names": track_contributors,
+                              "Duration": track_duration,
+                              "Explicit": track_explicit_lyrics,
+                              "Gain": track_gain}
                 
-                song_data.get("Album Name").append(album_title)
-                song_data.get("Genre").append(album_genres)
-                song_data.get("Release Date").append(album_release_date)
-                song_data.get("Track Number").append(track_position)
-                song_data.get("Track Name").append(track_title)
-                song_data.get("Artist Names").append(track_contributors)
-                song_data.get("Duration").append(track_duration)
-                song_data.get("Explicit").append(track_explicit_lyrics)
-                song_data.get("Gain").append(track_gain)
-                df_discografia = pd.DataFrame.from_dict(song_data) # Cria um dataframe a partir do dicion√°rio
+                song_data.append(track_dict)
+                
     except TypeError as te: #Avisa ao usu√°rio caso a fun√ß√£o n√£o receba uma string
         print("Essa fun√ß√£o deve receber uma string;",te)
     except IndexError as ie: #Avisa ao usu√°rio caso o artista procurado n√£o seja encontrado
         print("Artista n√£o encontrado;",ie)
-    else: # Caso o usu·rio deseje salvar o dataframe num arquivo ".csv"
-        if save_csv:            
-            # Salva o dataframe num arquivo ".csv"
-            df_discografia.to_csv(save_to, sep=";", encoding="utf-8-sig", index=False)
-            # Exibe uma mensagem de sucesso e exibe o local do arquivo gerado
-            print("\nO arquivo 'deezer_data.csv' foi gerado e salvo em:\n", os.path.abspath(save_to), "\n", sep=";")
+    else: 
+        # Caso n„o haja nenhum erro na aquisiÁ„o dos dados, È gerado um dataframe a partir dos dados coletados
+        df_discografia = generate_dataframe(artist_name, song_data, save_csv, save_to=save_to)
         
         # A funÁ„o retorna um dataframe com todos os dados do artista coletados a partir da plataforma Deezer
         return df_discografia
