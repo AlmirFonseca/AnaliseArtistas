@@ -70,3 +70,27 @@ def add_awards(original_dataframe,path_album_awards):
         sys.exit(0)
     else:
         return result_dataframe
+    
+    
+# Recebe um dataframe e o retorna com multi index no modelo exigido.
+def create_final_dataframe(dataframe):
+    """Modifica um dataframe para que ele possua dois multi index a partir das colunas pedidas: "Album Name" e "Track Name"
+    :param dataframe: Dataframe com todas as informações necessárias e sem multi index
+    :type dataframe: `pandas.core.frame.DataFrame`
+    :return: Dataframe com todas as informações do dataframe utilizado como parâmetro da função com dois multi index: "Album Name" e "Track Name" respectivamente.
+    :rtype: `pandas.core.frame.DataFrame`
+    """
+    try:
+        multi_indices = pd.MultiIndex.from_arrays([dataframe["Album Name"],dataframe["Track Name"]],names=("Album Name","Track Name")) #Cria um multi index
+        dataframe.set_index(multi_indices,inplace=True) #Adiciona o multi index ao dataframe
+        dataframe.drop(columns="Album Name",inplace = True) #Remove as colunas antigas que tornaram-se index
+        dataframe.drop(columns="Track Name",inplace = True)
+    except TypeError as error: # Levanta uma exceção e sai do programa caso o parâmetro não seja um dataframe
+        print("A variável não é um dataframe: ", error)
+        sys.exit(0)
+    except KeyError as error: # Levanta uma exceção e sai do programa caso oo dataframe não possua uma das colunas pedidas
+        print("O dataframe não possui uma das colunas necessárias: ", error)
+        sys.exit(0)
+    else:
+        return dataframe
+
