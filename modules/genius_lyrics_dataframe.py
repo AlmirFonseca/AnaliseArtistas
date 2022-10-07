@@ -124,7 +124,7 @@ def get_tracks_info(albums, genius):
     return tracks
 
 # Gera um dataframe a partir dos dados coletados, com a opção de salvar o dataframe num arquivo ".csv"
-def generate_dataframe(artist_name, tracks, save_csv = False):
+def generate_dataframe(artist_name, tracks, save_csv = False, save_to=""):
     # Obtém o nome das colunas do dataframe a partir dos dados que cada faixa possui
     dataframe_columns = list(tracks[0].keys())
 
@@ -140,13 +140,10 @@ def generate_dataframe(artist_name, tracks, save_csv = False):
     
     # Caso o usuário deseje salvar o dataframe num arquivo ".csv"
     if save_csv:
-        # Gera um caminho relativo, com o nome do artista
-        csv_path = "genius_data.csv"
-        
         # Salva o dataframe num arquivo ".csv"
-        tracks_dataframe.to_csv(csv_path, sep=";", encoding="utf-8-sig", index=False)
+        tracks_dataframe.to_csv(save_to, sep=";", encoding="utf-8-sig", index=False)
         # Exibe uma mensagem de sucesso e exibe o local do arquivo gerado
-        print("\nO arquivo 'genius_data.csv' foi gerado e salvo em:\n", os.path.abspath(csv_path), "\n", sep=";")
+        print("\nO arquivo 'genius_data.csv' foi gerado e salvo em:\n", os.path.abspath(save_to), "\n", sep=";")
 
     # A função retorna o dataframe gerado
     return tracks_dataframe
@@ -176,7 +173,7 @@ def is_instrumental(track_instrumental):
     return track_instrumental_str
 
 # Utiliza a API do Genius e as funções acima para gerar um dataframe com as faixas e suas respectivas letras de um artista
-def get_lyrics_of(artist_name, access_token="", save_csv = False):
+def get_lyrics_of(artist_name, access_token="", save_csv = False, save_to=""):
     # Instancia o objeto principal da API do Genius
     genius_object = lyricsgenius.Genius(access_token, timeout=60, retries=10, 
                                   verbose=False, remove_section_headers=True)
@@ -191,7 +188,7 @@ def get_lyrics_of(artist_name, access_token="", save_csv = False):
     tracks = get_tracks_info(albums, genius_object)
     
     # Gera um dataframe contendo os dados coletados a partir da API da Genius
-    tracks_dataframe = generate_dataframe(artist_name, tracks, save_csv)
+    tracks_dataframe = generate_dataframe(artist_name, tracks, save_csv, save_to)
     
     # Retorna um dataframe, contendo dados sobre o álbum, sobre a faixa, e sua letra
     return tracks_dataframe

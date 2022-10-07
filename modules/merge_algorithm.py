@@ -5,6 +5,9 @@ from fuzzywuzzy import fuzz
 
 # Filtra o dataframe, excluindo as entradas que possuem algum dos termos na coluna indicada
 def filter_dataframe(dataframe, dataframe_column, filter_terms="", case_sensitive=False, reverse=False):
+    # Caso não haja termos a serem filtrados, a função retorna o próprio dataframe
+    if not filter_terms:
+        return dataframe
     
     # Gera uma lista de termos a partir do split da string recebida
     filter_terms_list = filter_terms.split(",")
@@ -147,7 +150,7 @@ def match_datasets(dataset_A, dataset_B):
     # A função retorna um dataframe contendo todas as relações entre as músicas de 2 dataframes
     return relation_AB
 
-def append_lyrics_and_instrumental(df_spotify, df_genius, save_csv=True):
+def append_lyrics_and_instrumental(df_spotify, df_genius):
     # Realiza o match entre os datasets obtidos a partir das plataformas Spotify e Genius
     match_spotify_genius = match_datasets(df_spotify, df_genius)
     
@@ -184,10 +187,6 @@ def append_lyrics_and_instrumental(df_spotify, df_genius, save_csv=True):
     
     # Para excluirmos as faixas que não estão presentes em ambas as bases de dados, basta dropar as linhas de "Track Instrumental" com células vazias
     df_spotify.dropna(subset=["Track Instrumental"], inplace=True)
-        
-    if save_csv:
-        # Salvamos o dataframe df_spotify, agora com a letra das músicas e com o dado da faixa ser ou não ser instrumental
-        df_spotify.to_csv("spotify_with_lyrics.csv", encoding="utf-8-sig", sep=";", index=False)
         
     return df_spotify
 

@@ -358,7 +358,7 @@ def artist_albums_track_data(sp, albums_data):
     return tracks_data
 
 # Gera um dataframe a partir dos dados coletados, com a opção de salvar o dataframe num arquivo ".csv"
-def generate_dataframe(artist_name, tracks_data, save_csv = False):
+def generate_dataframe(artist_name, tracks_data, save_csv = False, save_to=""):
     # Obtém o nome das colunas do dataframe a partir dos dados que cada faixa possui
     dataframe_columns = list(tracks_data[0].keys())
 
@@ -374,19 +374,16 @@ def generate_dataframe(artist_name, tracks_data, save_csv = False):
     
     # Caso o usuário deseje salvar o dataframe num arquivo ".csv"
     if save_csv:
-        # Gera um caminho relativo, com o nome do artista
-        csv_path = "spotify_data.csv"
-        
         # Salva o dataframe num arquivo ".csv"
-        tracks_dataframe.to_csv(csv_path, sep=";", encoding="utf-8-sig", index=False)
+        tracks_dataframe.to_csv(save_to, sep=";", encoding="utf-8-sig", index=False)
         # Exibe uma mensagem de sucesso e exibe o local do arquivo gerado
-        print("\nO arquivo 'spotify_data.csv' foi gerado e salvo em:\n", os.path.abspath(csv_path), "\n", sep=";")
+        print("\nO arquivo 'spotify_data.csv' foi gerado e salvo em:\n", os.path.abspath(save_to), "\n", sep=";")
 
     # A função retorna o dataframe gerado a partir dos dados coletados
     return tracks_dataframe
 
 # Função principal, que recolhe as credenciais e os parâmetros do usuário e executa todo o processo de obtenção de dados a partir da API do Spotify
-def get_spotify_data(client_id, client_secret, artist_name, get_singles = False, duplicate = False, save_csv = False):
+def get_spotify_data(client_id, client_secret, artist_name, get_singles = False, duplicate = False, save_csv = False, save_to=""):
     # Utiliza as credenciais do usuário para se autenticar e gerar o objeto principal da API do Spotify
     client_credentials_manager = autentication(client_id, client_secret)
     sp = spotify_object(client_credentials_manager)
@@ -398,7 +395,7 @@ def get_spotify_data(client_id, client_secret, artist_name, get_singles = False,
     tracks_data = artist_albums_track_data(sp, albums_data)
     
     # Organiza os dados coletados em um dataframe
-    df = generate_dataframe(artist_name, tracks_data, save_csv)
+    df = generate_dataframe(artist_name, tracks_data, save_csv, save_to)
     
     # A função retorna um dataframe com os dados coletados no Spotify sobre o artista escolhido
     return  df
