@@ -1,6 +1,6 @@
 import os
 
-import spotipy #pip install spotipy
+import spotipy 
 from spotipy.oauth2 import SpotifyClientCredentials 
 import time
 import pandas as pd
@@ -128,8 +128,6 @@ def artist_albums_data(sp, artist_id, get_singles = False, duplicate = False):
     .. warning:: Lista de dicionários de álbuns gerados pela função com parâmetro ``True`` não são suportados nessa versão!
 
     """
-    #get_singles -> True = Single and Album
-    #get_singles -> False (default) = Album
 
     # Criação de dicionário para armazenamento  dos dados dos álbuns do artista
     albums_data = {}
@@ -144,13 +142,13 @@ def artist_albums_data(sp, artist_id, get_singles = False, duplicate = False):
     # OBS: Realiza buscas em blocos de 50 resultados (limite máximo da API)
     i = 0
 
-    for type in album_types:
+    for type_album in album_types:
         while True:
             # Recebe a resposta da busca através da API
             # Pesquisa na API por meio do id do artista dado
             # Erros relacionados a id inválido são levantados pela própria spotipy
             # Erros relacionados a credenciais inválidas são levantados pela própria spotipy
-            albums_response = sp.artist_albums(artist_id, limit=50, offset=i, album_type = type)
+            albums_response = sp.artist_albums(artist_id, limit=50, offset=i, album_type = type_album)
             # Acessa a lista de álbuns
             albums_list = albums_response.get("items")
                 
@@ -479,6 +477,8 @@ def generate_dataframe(artist_name, tracks_data, save_csv = False, save_to=""):
     :type tracks_data: `list[dict]`
     :param save_csv: Valor booleano que caso ``True``, irá gerar um arquivo .csv, padrão ``False``
     :type save_csv: ``bool``, opcional
+    :param save_to: Path para o qual o arquivo criado será salvo
+    :type save_to: `str`
     :return: Dataframe com os dados das tracks
     :rtype: `pandas.core.frame.DataFrame`
     """
@@ -522,6 +522,8 @@ def get_spotify_data(client_id, client_secret, artist_name, get_singles = False,
     :type duplicate: `bool`, opcional
     :param save_csv: Valor booleano que caso ``True``, irá gerar um arquivo .csv, padrão ``False``
     :type save_csv: ``bool``, opcional
+    :param save_to: Path para o qual o arquivo criado será salvo
+    :type save_to: `str`
     :return: Dataframe com os dados das tracks
     :rtype: `pandas.core.frame.DataFrame`
     """
