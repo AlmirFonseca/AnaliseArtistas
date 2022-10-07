@@ -73,7 +73,7 @@ def add_awards(original_dataframe,path_album_awards):
 
 # Converte um objeto no formato "mm:ss" e o transforma para tempo em segundos.    
 def time_to_seconds(object):
-    """_summary_
+    """Essa função converte um objeto no formato "mm:ss" e o transforma para tempo em segundos.    
     
     :param object: Objeto presente em uma coluna dataframe formatado como "mm:ss" que representa a duração da música
     :type object: object (pandas)
