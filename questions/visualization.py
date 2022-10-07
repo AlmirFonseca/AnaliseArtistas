@@ -7,6 +7,7 @@ O formato do dataframe deve ser igual ao gerado pelo módulo database nesse mesm
 '''
 
 # Importe as bibliotecas necessárias
+import warnings
 import exploratory_analysis as ae
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -15,8 +16,22 @@ import numpy as np
 from PIL import Image
 from wordcloud import WordCloud
 
+#Ignora avisos
+warnings.filterwarnings("ignore")
+
 # Use fundo preto para os gráficos
 plt.style.use("dark_background")
+
+# Adiciona alguns parâmetros com tamanho da figura e fonte da letra para todos os gráficos
+plt.rcParams.update(
+    {   'figure.figsize': (16,9),
+        'font.family': 'stixgeneral',
+    }
+)
+
+# Ajusta o padding dos gráficos
+plt.tight_layout()
+
 
 # Recebe um dataframe e cria um gráfico de barras para a popularidade das músicas mais ouvidas 
 def most_listened_plot(dataframe):
@@ -29,9 +44,9 @@ def most_listened_plot(dataframe):
     
     """
     data = ae.most_listened(dataframe)
-    plot = sns.barplot(data=data, x="Popularity", y=data.index.get_level_values(1), color = 'g')
+    plot = sns.barplot(data=data, x="Popularity", y=data.index.get_level_values(1), color = 'g') # Armazena um gráfico de barras
     plot.set(title='Mais ouvidas')
-    plt.savefig('../images/most_listened.png')
+    plt.savefig('./images/most_listened.png')  #Salva o gráfico na pasta "images"
     plt.show()
 
 # Recebe um dataframe e cria um gráfico de barras para a popularidade das músicas menos ouvidas       
@@ -45,41 +60,41 @@ def least_listened_plot(dataframe):
     
     """
     data = ae.least_listened(dataframe)
-    plot = sns.barplot(data=data, x="Popularity", y=data.index.get_level_values(1), color = 'g')
+    plot = sns.barplot(data=data, x="Popularity", y=data.index.get_level_values(1), color = 'g')# Armazena um gráfico de barras
     plot.set(title='Menos ouvidas')
-    plt.savefig('../images/least_listened.png')
+    plt.savefig('./images/least_listened.png') #Salva o gráfico na pasta "images"
     plt.show()
 
 # Recebe um dataframe e cria um gráfico de barras para a duração das músicas mais longas     
 def longest_plot(dataframe):
     """Recebe um dataframe e cria e plota um gráfico de barras para a duração das músicas mais longas 
     
-    :param dataframe: DataFrame com coluna 'Duration'.
+    :param dataframe: DataFrame com coluna 'Duration Seconds'.
     :type dataframe: pandas.core.frame.DataFrame
     :return: None
     :rtype: None
     
     """
     data = ae.longest(dataframe)
-    plot = sns.barplot(data=data, x="Duration", y=data.index.get_level_values(1), color = 'g')
+    plot = sns.barplot(data=data, x="Duration Seconds", y=data.index.get_level_values(1), color = 'g')# Armazena um gráfico de barras
     plot.set(title='Mais longas')
-    plt.savefig('../images/longest.png')
+    plt.savefig('./images/longest.png')#Salva o gráfico na pasta "images"
     plt.show()
 
 # Recebe um dataframe e cria um gráfico de barras para a duração das músicas mais curtas       
 def shortest_plot(dataframe):
     """Recebe um dataframe e cria e plota um gráfico de barras para a duração das músicas mais curtas 
     
-    :param dataframe: DataFrame com coluna 'Duration'.
+    :param dataframe: DataFrame com coluna 'Duration Seconds'.
     :type dataframe: pandas.core.frame.DataFrame
     :return: None
     :rtype: None
     
     """
     data = ae.shortest(dataframe)
-    plot = sns.barplot(data=data, x="Duration", y=data.index.get_level_values(1), color = 'g')
+    plot = sns.barplot(data=data, x="Duration Seconds", y=data.index.get_level_values(1), color = 'g')# Armazena um gráfico de barras
     plot.set(title='Mais longas')
-    plt.savefig('../images/shortest.png')
+    plt.savefig('./images/shortest.png')#Salva o gráfico na pasta "images"
     plt.show()
 
 # Recebe um dataframe e cria gráficos de barras para a popularidade das músicas mais ouvidas por álbum    
@@ -93,11 +108,11 @@ def most_listened_by_album_plot(dataframe):
     
     """
     grouped = dataframe.groupby(level=0)
-    for album, album_dataframe in grouped:
+    for album, album_dataframe in grouped: #Itera para criar gráficos para cada álbum existente
         data = ae.most_listened(album_dataframe)
-        plot = sns.barplot(data=data, x="Popularity", y=data.index.get_level_values(1), color = 'g')
+        plot = sns.barplot(data=data, x="Popularity", y=data.index.get_level_values(1), color = 'g')# Armazena um gráfico de barras
         plot.set(title=f'Mais ouvidas em {album}')
-        plt.savefig(f'../images/most_listened_{album}.png')
+        plt.savefig(f'./images/most_listened_{album}.png')#Salva o gráfico na pasta "images"
         plt.show()
 
 # Recebe um dataframe e cria gráficos de barras para a popularidade das músicas menos ouvidas por álbum    
@@ -111,47 +126,47 @@ def least_listened_by_album_plot(dataframe):
     
     """
     grouped = dataframe.groupby(level=0)
-    for album, album_dataframe in grouped:
+    for album, album_dataframe in grouped: #Itera para criar gráficos para cada álbum existente
         data = ae.least_listened(album_dataframe)
-        plot = sns.barplot(data=data, x="Popularity", y=data.index.get_level_values(1), color = 'g')
+        plot = sns.barplot(data=data, x="Popularity", y=data.index.get_level_values(1), color = 'g')# Armazena um gráfico de barras
         plot.set(title=f'Menos ouvidas em {album}')
-        plt.savefig(f'../images/least_listened_{album}.png')
+        plt.savefig(f'./images/least_listened_{album}.png')#Salva o gráfico na pasta "images"
         plt.show()
         
 # Recebe um dataframe e cria gráficos de barras para a duração das músicas mais longas por álbum 
 def longest_by_album_plot(dataframe):
     """Recebe um dataframe e cria e plota um gráfico de barras para a duração das músicas mais longas por álbum  
     
-    :param dataframe: DataFrame com 'Album Name' como parte do multi index e com a coluna 'Duration'.
+    :param dataframe: DataFrame com 'Album Name' como parte do multi index e com a coluna 'Duration Seconds'.
     :type dataframe: pandas.core.frame.DataFrame
     :return: None
     :rtype: None
     
     """
     grouped = dataframe.groupby(level=0)
-    for album, album_dataframe in grouped:
+    for album, album_dataframe in grouped: #Itera para criar gráficos para cada álbum existente
         data = ae.longest(album_dataframe)
-        plot = sns.barplot(data=data, x="Duration", y=data.index.get_level_values(1), color = 'g')
+        plot = sns.barplot(data=data, x="Duration Seconds", y=data.index.get_level_values(1), color = 'g')# Armazena um gráfico de barras
         plot.set(title=f'Mais longas em {album}')
-        plt.savefig(f'../images/longest_{album}.png')
+        plt.savefig(f'./images/longest_{album}.png')#Salva o gráfico na pasta "images"
         plt.show()
 
 # Recebe um dataframe e cria gráficos de barras para a duração das músicas mais longas por álbum 
 def shortest_by_album_plot(dataframe):
     """Recebe um dataframe e cria e plota um gráfico de barras para a duração das músicas mais curtas por álbum  
     
-    :param dataframe: DataFrame com 'Album Name' como parte do multi index e com a coluna 'Duration'.
+    :param dataframe: DataFrame com 'Album Name' como parte do multi index e com a coluna 'Duration Seconds'.
     :type dataframe: pandas.core.frame.DataFrame
     :return: None
     :rtype: None
     
     """
     grouped = dataframe.groupby(level=0)
-    for album, album_dataframe in grouped:
+    for album, album_dataframe in grouped:#Itera para criar gráficos para cada álbum existente
         data = ae.shortest(album_dataframe)
-        plot = sns.barplot(data=data, x="Duration", y=data.index.get_level_values(1), color = 'g')
+        plot = sns.barplot(data=data, x="Duration Seconds", y=data.index.get_level_values(1), color = 'g')# Armazena um gráfico de barras
         plot.set(title=f'Menos longas em {album}')
-        plt.savefig(f'../images/shortest_{album}.png')
+        plt.savefig(f'./images/shortest_{album}.png')#Salva o gráfico na pasta "images"
         plt.show()
         
 # Recebe um dataframe e cria um gráfico de barras para a quantidade de prêmios dos álbuns mais premiados 
@@ -165,9 +180,9 @@ def albuns_awards_plot(dataframe):
     
     """
     data = ae.albuns_awards(dataframe)
-    plot = sns.barplot(data=data, x="Awards", y=data.index,color = 'g')
+    plot = sns.barplot(data=data, x="Awards", y=data.index,color = 'g') # Armazena um gráfico de barras
     plot.set(title='Mais premiadas')
-    plt.savefig('../images/awards.png')
+    plt.savefig('./images/awards.png')#Salva o gráfico na pasta "images"
     plt.show()
 
 # Recebe um dataframe e cria um scatterplot que associa duração e popularidade 
@@ -180,12 +195,11 @@ def duration_popularity_plot(dataframe):
     :rtype: None
     
     """
-    plot = sns.scatterplot(data=dataframe, x="Duration", y="Popularity",color = 'g')
+    plot = sns.scatterplot(data=dataframe, x="Duration Seconds", y="Popularity",color = 'g') # Armazena um gráfico de barras
     plot.set(title='Duração x Popularidade')
-    plt.savefig('../images/duration_popularity.png')
+    plt.savefig('./images/duration_popularity.png')#Salva o gráfico na pasta "images"
     plt.show()
 
-# Recebe um dataframe e cria uma nuvem de palavras com as palavras mais comuns nas letras 
 def common_words_by_lyrics_plot(dataframe):
     """Recebe um dataframe e cria uma nuvem de palavras com as palavras mais comuns nas letras 
     
@@ -198,12 +212,12 @@ def common_words_by_lyrics_plot(dataframe):
     resultado = ae.common_words_by_lyrics(dataframe)
     frequency = {}
     for tupla in resultado: 
-        frequency[tupla[0]] = tupla[1]
-    wc = WordCloud(background_color="black", max_words=1000)
+        frequency[tupla[0]] = tupla[1] #Cria um dicionário com as palavras e frequências
+    wc = WordCloud(background_color="black", max_words=1000) #Cria nuvem de palavras
     wc.generate_from_frequencies(frequency)
     plt.imshow(wc, interpolation="bilinear")
     plt.axis("off")
-    plt.savefig('../images/common_words_by_lyrics.png')
+    plt.savefig('./images/common_words_by_lyrics.png')#Salva o gráfico na pasta "images"
     plt.show()
 
 # Recebe um dataframe e cria uma nuvem de palavras com as palavras mais comuns nos títulos das faixas     
@@ -219,12 +233,12 @@ def common_words_by_song_plot(dataframe):
     resultado = ae.common_words_by_song(dataframe)
     frequency = {}
     for tupla in resultado: 
-        frequency[tupla[0]] = tupla[1]
-    wc = WordCloud(background_color="black", max_words=1000)
+        frequency[tupla[0]] = tupla[1]#Cria um dicionário com as palavras e frequências
+    wc = WordCloud(background_color="black", max_words=1000)#Cria nuvem de palavras
     wc.generate_from_frequencies(frequency)
     plt.imshow(wc, interpolation="bilinear")
     plt.axis("off")
-    plt.savefig('../images/common_words_by_song.png')
+    plt.savefig('./images/common_words_by_song.png')#Salva o gráfico na pasta "images"
     plt.show()
  
 # Recebe um dataframe e cria uma nuvem de palavras com as palavras mais comuns nos títulos dos álbuns    
@@ -239,11 +253,11 @@ def common_words_by_album_plot(dataframe):
     """
     resultado = ae.common_words_by_album(dataframe)
     frequency = {}
-    for tupla in resultado: 
+    for tupla in resultado: #Cria um dicionário com as palavras e frequências
         frequency[tupla[0]] = tupla[1]
-    wc = WordCloud(background_color="black", max_words=1000)
+    wc = WordCloud(background_color="black", max_words=1000)#Cria nuvem de palavras
     wc.generate_from_frequencies(frequency)
     plt.imshow(wc, interpolation="bilinear")
     plt.axis("off")
-    plt.savefig('./images/common_words_by_album.png')
+    plt.savefig('./images/common_words_by_album.png')#Salva o gráfico na pasta "images"
     plt.show()
