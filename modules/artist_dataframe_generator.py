@@ -1,7 +1,7 @@
 import os
 import sys
 
-sys.path.insert(0, './modules')
+sys.path.insert(0, 'modules')
 
 import deezer_artist_dataframe as dz
 import genius_lyrics_dataframe as ge

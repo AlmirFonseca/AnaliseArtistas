@@ -89,14 +89,61 @@ def generate_dataframe(artist_name, tracks_data, save_csv = False, save_to=""):
     return tracks_dataframe
 
 #Utiliza as outras fun√ß√µes para criar um dataframe com informa√ß√µes da discografia do artista
-def discography(artist, save_csv=False, save_to=""):
+def discography(artist, save_csv=False, save_to="", duplicate=False):
     try:
         song_data = list()
         # albums = artist_info(artist)[3]# Busca os √°lbuns do artista
         artist_name, artist_nb_album, artist_nb_fans, artist_albums = artist_info(artist) # Busca os √°lbuns do artista
+        
+        # CriaÁ„o de dicion·rio para armazenamento  dos dados dos ·lbuns do artista
+        albums_data = {}
+        
         for album in artist_albums:
-            # album_data
+            # Recolhe os principais dados de cada ·lbum
             album_title, album_genres, album_nb_tracks, album_fans, album_release_date, album_tracks = album_info(album) #Busca a informa√ß√£o de cada album
+            
+            # Armazena os dados num dicion·rio
+            album_dict = { 
+                        "name" : album_title,
+                        "genres": album_genres,
+                        "release_date" : album_release_date,
+                        "num_tracks" : album_nb_tracks,
+                        "fans": album_fans,
+                        "tracks": album_tracks}
+            
+            if not duplicate:
+                # Verifica a existÍncia de nome de ·lbum no dict gerado atÈ o momento
+                if album_title in albums_data.keys():
+                    # Caso exista, È acessado o nome do dicion·rio j· existente (old) e o novo, e a quantidade
+                    # de tracks
+                    num_tracks_album_old = albums_data.get(album_title).get("num_tracks")
+                    num_tracks_album_new = album_nb_tracks
+                    #Caso a quantidade de tracks do novo seja maior que o antigo È sobreescrito pelo novo
+                    if num_tracks_album_new > num_tracks_album_old:
+                        albums_data[album_title] = album_dict
+                    else:
+                    #Caso n„o seja, È ignorado e descartado
+                        pass
+                else:
+                    #Caso n„o exista, È adicionado ao dicion·rio
+                    albums_data[album_title] = album_dict
+            else:
+                # Acumula os dicion·rios no dicion·rio criado
+                albums_data[album_title] = album_dict
+            
+        # Gera uma lista de dicion·rios, onde cada elemento armazena os dados de um ·lbum
+        albums_data = list(albums_data.values())
+        
+        # Itera sobre os dicionarios da lista gerada
+        for album in albums_data:
+            
+            # Extrai informaÁıes b·sicas de cada ·lbum
+            album_title = album.get("name")
+            album_genres = album.get("genres")
+            album_release_date = album.get("release_date")
+            
+            # Extrai o dicion·rio de dados sobre as faixas
+            album_tracks = album.get("tracks")
             
             print("\n", "Deezer ", "=-"*30, "\n", sep="")
             print("Analisando album:", album_title)
@@ -107,11 +154,12 @@ def discography(artist, save_csv=False, save_to=""):
             # Busca as faixas em um √°lbum
             for track in album_tracks:
                 track_title, track_duration, track_position, track_disk_number, track_explicit_lyrics, track_gain, track_contributors = track_info(track) #Busca a informa√ß√£o de cada faixa
-                #Adiciona no dicion√°rio song_data as informa√ß√µes de cada faixa
                 
+                # Incrementa o contador de faixas e imprime um log de progresso
                 track_counter += 1
                 print(track_counter, "-", track_title)
                 
+                # Caso haja discos com mais de um CD, utiliza o contador de faixas para determinar o n˙mero das faixas
                 if track_disk_number > 1:
                     track_position = track_counter
                     
@@ -126,6 +174,7 @@ def discography(artist, save_csv=False, save_to=""):
                               "Explicit": track_explicit_lyrics,
                               "Gain": track_gain}
                 
+                # O dicion·rio de cada faixa È concatenado ‡ lista de dicion·rios
                 song_data.append(track_dict)
                 
     except TypeError as te: #Avisa ao usu√°rio caso a fun√ß√£o n√£o receba uma string
