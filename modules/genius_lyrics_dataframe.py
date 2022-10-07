@@ -5,6 +5,16 @@ import pandas as pd
 
 # Extrai os dados do artista através do seu nome
 def get_artist_info(artist_name, genius):
+    """
+    Pesquisa pelo ID e nome do artista dentro da plataforma lyricsgenius
+
+    :param artist_name: Nome do artista a ser coletado informações
+    :type artist_name: `str`
+    :param genius: Objeto principal da API da lyricsgenius
+    :type genius: `<class 'lyricsgenius.genius.Genius'>`
+    :return: Tupla com nome e id do artista na plataforma lyricsgenius 
+    :rtype: `tuple(str, str)`
+    """
     # Realiza uma busca pelo nome do artista
     artist = genius.search_artist(artist_name, max_songs=0, get_full_info=False)
     
@@ -13,6 +23,16 @@ def get_artist_info(artist_name, genius):
 
 # Extrai os dados dos álbums através do id do artista
 def get_albums_info(artist_id, genius):
+    """
+    Coleta dados dos álbuns de um artista dentro da plataforma lyricsgenius
+
+    :param artist_id: Id do artista na plataforma lyricsgenius
+    :type artist_id: `str`
+    :param genius: Objeto principal da API lyricsgenius
+    :type genius: `<class 'lyricsgenius.genius.Genius'>`
+    :return: Lista de dicionários contendo informações de cada álbum do artista
+    :rtype: `list[dict]`
+    """
     # Inicializa uma lista para armazenar os dados de cada álbum
     albums_list = []
     
@@ -45,6 +65,17 @@ def get_albums_info(artist_id, genius):
 
 # Extrai as principais informações sobre uma faixa
 def extract_track_info(track, genius):
+    """
+    Extrai informações de faixas dentro da plataforma lyricsgenius
+
+    :param track: Faixa a ser coletada informações dentro da plataforma lyricsgenius
+    :type track: `str`
+    :param genius: Objeto principal da API lyricsgenius
+    :type genius: `<class 'lyricsgenius.genius.Genius'>`
+    :return: Tupla com número da faixa, nome da faixa, id, data de lançamento, se é instrumental e letra.
+    :rtype: `tuple(int, str, str, str, str, str)`
+
+    """
     # Extrai o número da faixa
     track_number = track.get("number")
     
@@ -71,7 +102,17 @@ def extract_track_info(track, genius):
     return track_number, track_name, track_id, track_release_date, track_instrumental, track_lyrics
 
 # Extrai os dados de cada faixa através do id do álbum
-def get_tracks_info(albums, genius):    
+def get_tracks_info(albums, genius):
+    """
+    Extrai informações de cada faixa por álbum 
+
+    :param albums: Lista de dicionários contendo as informações dos álbuns
+    :type albums: `list[dict]`
+    :param genius: Objeto principal da API lyricsgenius
+    :type genius: `<class 'lyricsgenius.genius.Genius'>`
+    :return: Lista de dicionários contendo informações das tracks 
+    :rtype: `list[dict]`
+    """
     # Inicializa uma lista para armazenar as faixas
     tracks = []
     
@@ -125,6 +166,20 @@ def get_tracks_info(albums, genius):
 
 # Gera um dataframe a partir dos dados coletados, com a opção de salvar o dataframe num arquivo ".csv"
 def generate_dataframe(artist_name, tracks, save_csv = False, save_to=""):
+    """
+    Gera um dataframe a partir dos dados das tracks coletados pelas outras funções do módulo
+
+    :param artist_name: Nome do artista 
+    :type artist_name: `str`
+    :param tracks: Lista de dicionários contendo dados das faixas
+    :type tracks: `list[dict]`
+    :param save_csv: Valor booleano para criação de um arquivo csv, padrão como False
+    :type save_csv: `bool`, opcional
+    :param save_to: Path para o qual o arquivo criado será salvo
+    :type save_to: `str`
+    :return: Dataframe contendo informações sobre as tracks de um artista na plataforma lyricsgenius
+    :rtype: `pandas.core.frame.DataFrame`
+    """
     # Obtém o nome das colunas do dataframe a partir dos dados que cada faixa possui
     dataframe_columns = list(tracks[0].keys())
 
@@ -150,6 +205,18 @@ def generate_dataframe(artist_name, tracks, save_csv = False, save_to=""):
 
 # Gera um datetime a partir de seus componentes (ano, mês e dia)
 def date_components_to_datetime(date_components, content_name, content_type):
+    """
+    Função de conversão de data para formato dia/mês/ano
+
+    :param date_components: Componentes da data de lançamento
+    :type date_components: `str`
+    :param content_name: Nome da faixa ou álbum a qual os componentes da data pertencem
+    :type content_name: `str`
+    :param content_type: Tipo do conteúdo o qual os componentes da data pertencem (álbum ou faixa)
+    :type content_type: `str`
+    :return: Data convertida para formato dia/mês/ano
+    :rtype: `str`
+    """
     # Tenta converter os componentes da data de lançamento (dia, mês e ano) num único datetime
     try:
         datetime = lyricsgenius.utils.convert_to_datetime(date_components).date()
@@ -164,6 +231,14 @@ def date_components_to_datetime(date_components, content_name, content_type):
 
 # Converte o booleano que armazena a informação sobre a faixa instrumental em uma string 
 def is_instrumental(track_instrumental):
+    """
+    Função de conversão do booleano de uma música para os casos de ser ou não instrumental
+
+    :param track_instrumental: Valor booleano de uma música para os casos de ser ou não instrumental
+    :type track_instrumental: `bool`
+    :return: Conversão do booleano para ``"Yes`` ou ``No``
+    :rtype: `str`
+    """
     if track_instrumental == True:
         track_instrumental_str = "Yes"
     else:
@@ -174,6 +249,20 @@ def is_instrumental(track_instrumental):
 
 # Utiliza a API do Genius e as funções acima para gerar um dataframe com as faixas e suas respectivas letras de um artista
 def get_lyrics_of(artist_name, access_token="", save_csv = False, save_to=""):
+    """
+    Função principal que utiliza as outras funções como apoio e retorna um dataframe completo com os dados das faixas e letras dentro da plataforma lyricsgenius.
+
+    :param artist_name: Nome do artista
+    :type artist_name: `str`
+    :param access_token: Token de acesso gerado pela API, padrão como ``""``
+    :type access_token: `str`, opcional
+    :param save_csv: Valor booleano para criação de um arquivo csv, padrão como False
+    :type save_csv: `bool`, opcional
+    :param save_to: Path para o qual o arquivo criado será salvo
+    :type save_to: `str`
+    :return: Dataframe com dados e letras das faixas do artista na plataforma lyricsgenius
+    :rtype: `pandas.core.frame.DataFrame`
+    """
     # Instancia o objeto principal da API do Genius
     genius_object = lyricsgenius.Genius(access_token, timeout=60, retries=10, 
                                   verbose=False, remove_section_headers=True)
