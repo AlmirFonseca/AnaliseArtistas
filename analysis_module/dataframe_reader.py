@@ -14,7 +14,9 @@ def is_valid(path_artist_info):
     
     :param path_artist_info: Arquivo ``.csv`` com as informações do artista
     :type path_artist_info: `str`
-    :raises KeyError: Levanta um ``KeyError`` caso alguma coluna exigida não seja encontrada
+    :raises KeyError: Levanta um ``KeyError`` caso alguma coluna exigida não seja encontrada e irá parar a execução, saindo por fim.
+    :raises FileNotFoundError: Levanta um ``FileNotFoundError`` caso o caminho inserido seja inválido, e imprime uma mensagem de erro, e irá parar a execução, saindo por fim..
+    :raises ValueError: Levanta um ``ValueError`` caso o caminho inserido não seja uma string, e imprime uma mensagem de erro, e irá parar a execução, saindo por fim..
     :return: Retorna um dataframe com as informações do arquivo .csv caso o arquivo cumpra as exigências.
     :rtype: `pandas.core.frame.DataFrame`
     
@@ -48,6 +50,10 @@ def add_awards(original_dataframe,path_album_awards):
     :type original_dataframe: `pandas.core.frame.DataFrame`
     :param path_album_awards: Arquivo ``.csv`` com os álbuns e seus prêmios.
     :type path_album_awards: `str`
+    :raises AttributeError: Levanta um ``AttributeError`` caso algum dos parâmetros inseridos não seja correto
+    :raises KeyError: Levanta um ``KeyError`` caso alguma coluna exigida não seja encontrada e irá parar a execução, saindo por fim.
+    :raises FileNotFoundError: Levanta um ``FileNotFoundError`` caso o caminho inserido seja inválido, e imprime uma mensagem de erro, e irá parar a execução, saindo por fim.
+    :raises ValueError: Levanta um ``ValueError`` caso o caminho inserido não seja uma string, e irá parar a execução, saindo por fim.
     :return: Dataframe com as informações do primeiro parâmetro da função acrescido de uma coluna ``Awards`` com os prêmios dos álbuns.
     :rtype: `pandas.core.frame.DataFrame`
     
@@ -87,6 +93,7 @@ def time_to_seconds(object):
     
     :param object: Objeto presente em uma coluna dataframe formatado como ``mm:ss`` que representa a duração da música
     :type object: object (pandas)
+    :raises TypeError: Levanta um ``TypeError`` caso a duração não esteja no formato "mm:ss", e irá ignorar a informação dada. 
     :return: Objeto convertido para `int`, representando a duração da música em segundos.
     :rtype: `int`
     
@@ -96,8 +103,9 @@ def time_to_seconds(object):
         seconds = int(separated[0])*60 + int(separated[1])
     except TypeError as error:
         print("A duração não está no formato exigido",error)
-        sys.exit(0)
-    return seconds
+        return None
+    else:
+        return seconds
 
 # Recebe um dataframe e o retorna com multi index no modelo exigido e com uma coluna representando a duração da música em segundos.
 def create_final_dataframe(dataframe):
@@ -105,6 +113,8 @@ def create_final_dataframe(dataframe):
     
     :param dataframe: Dataframe com todas as informações necessárias e sem multi index
     :type dataframe: `pandas.core.frame.DataFrame`
+    :raises TypeError: Levanta um ``TypeError`` caso o parâmetro não seja um dataframe, e imprime uma mensagem de erro, e irá parar a execução, saindo por fim.
+    :raises KeyError: Levanta um ``KeyError`` caso o dataframe não possua as colunas necessárias, e imprime uma mensagem de erro, e irá parar a execução, saindo por fim.
     :return: Dataframe com todas as informações do dataframe utilizado como parâmetro da função e com multi index composto por: ``Album Name`` e ``Track Name``, respectivamente. Também adiciona a coluna ``Duration Seconds``.
     :rtype: `pandas.core.frame.DataFrame`
     
