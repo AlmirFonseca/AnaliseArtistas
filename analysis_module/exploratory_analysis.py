@@ -2,7 +2,6 @@
 
 Esse módulo contém funções responsáveis por responder perguntas a partir da análise de dataframes em um formato específico.
 O formato do dataframe deve ser igual ao gerado pelo módulo database nesse mesmo repositório e lido pela função create_dataframe.
-
 """
 
 #Importe as bibliotecas necessárias
@@ -14,12 +13,12 @@ import pandas as pd
 # Recebe um dataframe e retorna as 3 músicas mais ouvidas por álbum
 def most_listened_by_album(dataframe):
     """Recebe um dataframe e o retorna com um filtro para indicar as 3 músicas mais ouvidas por álbum.
-
     :param dataframe: DataFrame com ``Album Name`` como parte do multi index e com coluna ``Popularity``.
-    :type dataframe: pandas.core.frame.DataFrame
+    :type dataframe: `pandas.core.frame.DataFrame`
     :return: DataFrame com as 3 músicas mais ouvidas por álbum, caso haja mais músicas com a mesma popularidade, todas serão retornadas.
     :rtype: `pandas.core.frame.DataFrame`
 
+    :note: Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!
     """
     if dataframe["Album Name"].empty or dataframe["Popularity"].empty :
         print("Alguma das colunas está vazia, a análise pode ser afetada")
@@ -33,10 +32,11 @@ def least_listened_by_album(dataframe):
     """Recebe um dataframe e o retorna com um filtro para indicar as 3 músicas menos ouvidas por álbum.
     
     :param dataframe: DataFrame com ``Album Name`` como parte do multi index e com coluna ``Popularity``.
-    :type dataframe: pandas.core.frame.DataFrame
+    :type dataframe: `pandas.core.frame.DataFrame`
     :return: DataFrame com as 3 músicas menos ouvidas por álbum, caso haja mais músicas com a mesma popularidade, todas serão retornadas.
     :rtype: `pandas.core.frame.DataFrame`
 
+    :note: Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!
     """
     if dataframe["Album Name"].empty or dataframe["Popularity"].empty :
         print("Alguma das colunas está vazia, a análise pode ser afetada")
@@ -48,12 +48,12 @@ def least_listened_by_album(dataframe):
 
 def longest_by_album(dataframe):
     """Recebe um dataframe e o retorna com um filtro para indicar as 3 músicas mais longas por álbum.
-
     :param dataframe: DataFrame com ``Album Name`` como parte do multi index e com coluna ``Duration``.
-    :type dataframe: pandas.core.frame.DataFrame
+    :type dataframe: `pandas.core.frame.DataFrame`
     :return: DataFrame com as 3 músicas mais longas por álbum, caso haja mais músicas com a mesma duração, todas serão retornadas.
     :rtype: `pandas.core.frame.DataFrame`
 
+    :note: Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!
     """
     if dataframe["Album Name"].empty or dataframe["Duration Seconds"].empty :
         print("Alguma das colunas está vazia, a análise pode ser afetada")
@@ -65,12 +65,12 @@ def longest_by_album(dataframe):
 # Recebe um dataframe e retorna as 3 músicas menos longas por álbum
 def shortest_by_album(dataframe):
     """Recebe um dataframe e o retorna com um filtro para indicar as 3 músicas mais curtas por álbum.
-
     :param dataframe: DataFrame com ``Album Name`` como parte do multi index e com coluna ``Duration Seconds``.
-    :type dataframe: pandas.core.frame.DataFrame
+    :type dataframe: `pandas.core.frame.DataFrame`
     :return: DataFrame com as 3 músicas mais curtas por álbum, caso haja mais músicas com a mesma popularidade, todas serão retornadas.
     :rtype: `pandas.core.frame.DataFrame`
     
+    :note: Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!
     """
     if dataframe["Album Name"].empty or dataframe["Duration Seconds"].empty :
         print("Alguma das colunas está vazia, a análise pode ser afetada")
@@ -84,10 +84,11 @@ def most_listened(dataframe):
     """Recebe um dataframe e o retorna com um filtro para indicar as 3 músicas mais ouvidas.
     
     :param dataframe: DataFrame com coluna ``Popularity``.
-    :type dataframe: pandas.core.frame.DataFrame
+    :type dataframe: `pandas.core.frame.DataFrame`
     :return: DataFrame com as 3 músicas mais ouvidas, caso haja mais músicas com a mesma popularidade, todas serão retornadas.
     :rtype: `pandas.core.frame.DataFrame`
     
+    :note: Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!
     """ 
     if dataframe["Popularity"].empty :
         print("A coluna está vazia, a análise pode ser afetada")
@@ -98,10 +99,11 @@ def least_listened(dataframe):
     """Recebe um dataframe e o retorna com um filtro para indicar as 3 músicas menos ouvidas. 
     
     :param dataframe: DataFrame com coluna ``Popularity``.
-    :type dataframe: pandas.core.frame.DataFrame
+    :type dataframe: `pandas.core.frame.DataFrame`
     :return: DataFrame com as 3 músicas menos ouvidas, caso haja mais músicas com a mesma popularidade, todas serão retornadas..
     :rtype: `pandas.core.frame.DataFrame`
     
+    :note: Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!
     """ 
     if dataframe["Popularity"].empty :
         print("A coluna está vazia, a análise pode ser afetada")
@@ -112,10 +114,11 @@ def longest(dataframe):
     """Recebe um dataframe no formato pandas e retorna um dataframe com as 3 músicas mais longas.
     
     :param dataframe: DataFrame com coluna ``Duration Seconds``.
-    :type dataframe: pandas.core.frame.DataFrame
+    :type dataframe: `pandas.core.frame.DataFrame`
     :return: DataFrame com 3 músicas mais longas, caso haja mais músicas com a mesma duração, todas serão retornadas.
     :rtype: `pandas.core.frame.DataFrame`
     
+    :note: Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!
     """
     if dataframe["Duration Seconds"].empty :
         print("A coluna está vazia, a análise pode ser afetada")
@@ -126,10 +129,11 @@ def shortest(dataframe):
     """Recebe um dataframe no formato pandas e retorna um dataframe com as 3 músicas mais curtas.
     
     :param dataframe: DataFrame com coluna ``Duration Seconds``.
-    :type dataframe: pandas.core.frame.DataFrame
+    :type dataframe: `pandas.core.frame.DataFrame`
     :return: DataFrame com 3 músicas mais curtas, caso haja mais músicas com a mesma duração, todas serão retornadas.
     :rtype: `pandas.core.frame.DataFrame`
     
+    :note: Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!
     """
     if dataframe["Duration Seconds"].empty :
         print("A coluna está vazia, a análise pode ser afetada")
@@ -140,10 +144,11 @@ def unique_values(array):
     """Recebe uma lista com algumas strings contendo itens separados por ``/`` e retorna um array com valores únicos dos itens.
     
     :param array: Lista com alguns itens sendo palavras separadas por ``/``.
-    :type array: list
+    :type array: `list`
     :return: Array com todas as palavras contidas no array de input, incluindo as separadas por ``/``. Toda palavra só aparecerá uma única vez.
     :rtype: `np.ndarray`
     
+    :note: Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!
     """
     unique_values_array = [] 
     for i in range(len(array)):
@@ -161,10 +166,11 @@ def albuns_awards(dataframe):
     """Recebe um dataframe no formato pandas e retorna um dataframe com as 3 álbuns mais premiados e suas quantidades de prêmios.
     
     :param dataframe: DataFrame com multi index e com coluna ``Awards``.
-    :type dataframe: pandas.core.frame.DataFrame
+    :type dataframe: `pandas.core.frame.DataFrame`
     :return: Dataframe com os álbuns mais premiados e a quantidade de prêmios recebidos.
     :rtype: `pandas.core.frame.DataFrame`
     
+    :note: Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!
     """
     if dataframe["Album Name"].empty or dataframe["Awards"].empty :
         print("Alguma das colunas está vazia, a análise pode ser afetada")
@@ -183,10 +189,11 @@ def duration_popularity(dataframe):
     """Recebe um dataframe no formato pandas e retorna um float com a correlação de pearson entre duração e popularidade.
     
     :param dataframe: Dataframe com as colunas ``Duration Seconds`` e ``Popularity``.
-    :type dataframe: pandas.core.frame.DataFrame
+    :type dataframe: `pandas.core.frame.DataFrame`
     :return: Correlação de pearson entre as colunas Duration Seconds e Popularity.
     :rtype: `numpy.float64`
     
+    :note: Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!
     """
     if dataframe["Duration Seconds"].empty or dataframe["Popularity"].empty :
         print("Alguma das colunas está vazia, a análise pode ser afetada")
@@ -196,11 +203,10 @@ def duration_popularity(dataframe):
 # Remove stop words (palavras pouco significativas) de uma lista de palavras
 def remove_stop_words(word_list):
     """Remove de uma lista de palavras, palavras pouco significativas da língua inglesa.
-
     :param word_list: Lista com palavras a serem analisadas
-    :type word_list: list
+    :type word_list: `list`
     :return: Lista com palavras já filtradas
-    :rtype: list
+    :rtype: `list`
     """
     stop_words = ['i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you', "you're", "you've", "you'll", "you'd", 'your', 'yours', 'yourself', 'yourselves', 'he',
                   'him', 'his', 'himself', 'she', "she's", 'her', 'hers', 'herself', 'it', "it's", 'its', 'itself', 'they', 'them', 'their', 'theirs', 'themselves', 'what', 'which',
@@ -224,10 +230,11 @@ def common_words_by_album(dataframe):
     """Recebe um dataframe e retorna as 50 palavras mais comuns nos títulos dos álbuns.
     
     :param dataframe: Dataframe com multi index.
-    :type dataframe: pandas.core.frame.DataFrame
+    :type dataframe: `pandas.core.frame.DataFrame`
     :return: Lista com tuplas contendo as palavras mais comuns nos títulos dos álbuns e suas frequências.
     :rtype: `list`
     
+    :note: Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!
     """
     if dataframe["Album Name"].empty:
         print("A coluna está vazia, a análise pode ser afetada")
@@ -250,10 +257,11 @@ def common_words_by_song(dataframe):
     """Recebe um dataframe e retorna as 50 palavras mais comuns nos títulos das músicas.
     
     :param dataframe: Dataframe com multi index.
-    :type dataframe: pandas.core.frame.DataFrame
+    :type dataframe: `pandas.core.frame.DataFrame`
     :return: Lista com tuplas contendo as palavras mais comuns nos títulos das músicas e suas frequências.
     :rtype: `list`
     
+    :note: Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!
     """
     if dataframe["Track Name"].empty:
         print("A coluna está vazia, a análise pode ser afetada")
@@ -276,10 +284,11 @@ def common_words_by_lyrics(dataframe):
     """Recebe um dataframe e retorna as 50 palavras mais comuns nas letras das músicas.
     
     :param dataframe: Dataframe com multi index.
-    :type dataframe: pandas.core.frame.DataFrame
+    :type dataframe: `pandas.core.frame.DataFrame`
     :return: Lista com tuplas contendo as palavras mais comuns nas letras das músicas e suas frequências.
     :rtype: `list`
     
+    :note: Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!
     """
     if dataframe["Track Lyrics"].empty:
         print("A coluna está vazia, a análise pode ser afetada")
@@ -302,10 +311,11 @@ def common_words_lyrics_album(dataframe):
     """Recebe um dataframe e retorna as 50 palavras mais comuns nas letras das músicas de cada álbum.
     
     :param dataframe: Dataframe com ``Album Name`` como parte do  multi index e com a coluna ``Track Lyrics``.
-    :type dataframe: pandas.core.frame.DataFrame
+    :type dataframe: `pandas.core.frame.DataFrame`
     :return: Série com as 50 palavras mais comuns nas letras das músicas de cada álbum.
     :rtype: `pandas.core.series.Series`
     
+    :note: Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!
     """
     if dataframe["Album Name"].empty:
         print("A coluna está vazia, a análise pode ser afetada")
@@ -317,10 +327,11 @@ def album_in_lyrics(dataframe):
     """Recebe um dataframe e retorna os 3 álbuns que mais aparecem nas letras das músicas.
     
     :param dataframe: Dataframe com ``Album Name`` como parte do  multi index e com a coluna ``Track Lyrics``.
-    :type dataframe: pandas.core.frame.DataFrame
+    :type dataframe: `pandas.core.frame.DataFrame`
     :return: Dataframe com os 3 álbuns que mais aparecem nas letras das músicas.
     :rtype: `pandas.core.frame.DataFrame`
     
+    :note: Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!
     """
     if dataframe["Album Name"].empty or dataframe["Track Lyrics"].empty:
         print("Alguma das colunas está vazia, a análise pode ser afetada")   
@@ -355,10 +366,11 @@ def song_in_lyrics(dataframe):
     """Recebe um dataframe e retorna as 3 canções que mais aparecem nas letras das músicas.
     
     :param dataframe: Dataframe com ``Track Name`` como parte do  multi index e com a coluna ``Track Lyrics``.
-    :type dataframe: pandas.core.frame.DataFrame
+    :type dataframe: `pandas.core.frame.DataFrame`
     :return: Dataframe com as 3 músicas que mais aparecem nas letras das músicas.
     :rtype: `pandas.core.frame.DataFrame`
     
+    :note: Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!
     """
     if dataframe["Track Name"].empty or dataframe["Track Lyrics"].empty:
         print("Alguma das colunas está vazia, a análise pode ser afetada")   
@@ -392,10 +404,11 @@ def explicit_popularity(dataframe):
     """Recebe um dataframe e retorna a popularidade média de músicas explícitas e não explícitas.
     
     :param dataframe: Dataframe com colunas ``Explicit`` e ``Popularity``.
-    :type dataframe: pandas.core.frame.DataFrame
+    :type dataframe: `pandas.core.frame.DataFrame`
     :return: Dataframe com as popularidades médias das músicas explícitas e não explícitas.
     :rtype: `pandas.core.frame.DataFrame`
     
+    :note: Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!
     """
     if dataframe["Explicit"].empty or dataframe["Popularity"].empty:
         print("Alguma das colunas está vazia, a análise pode ser afetada")   
@@ -407,10 +420,11 @@ def most_popular_album(dataframe):
     """Recebe um dataframe e retorna o álbum mais popular com base na popularidade média de suas músicas.
     
     :param dataframe: Dataframe com ``Album`` no multi index e com coluna ``Popularity``.
-    :type dataframe: pandas.core.frame.DataFrame
+    :type dataframe: `pandas.core.frame.DataFrame`
     :return: Dataframe com os álbuns mais populares e suas popularidades.
     :rtype: `pandas.core.frame.DataFrame`
     
+    :note: Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!
     """
     if dataframe["Album Name"].empty or dataframe["Popularity"].empty:
         print("Alguma das colunas está vazia, a análise pode ser afetada")   
@@ -424,10 +438,11 @@ def common_gender(dataframe):
     """Recebe um dataframe e retorna uma lista com tuplas contendo os gêneros mais frequentes e suas respectivas frequências na discografia (quantos álbuns possuem determinado gênero ).
     
     :param dataframe: Dataframe com coluna ``Genre``.
-    :type dataframe: pandas.core.frame.DataFrame
+    :type dataframe: `pandas.core.frame.DataFrame`
     :return: Lista que contém 3 tuplas para representar os 3 gêneros mais frequêntes e suas frequências.
     :rtype: `list`
     
+    :note: Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!
     """
     if dataframe["Album Name"].empty or dataframe["Genre"].empty:
         print("Alguma das colunas está vazia, a análise pode ser afetada")   
