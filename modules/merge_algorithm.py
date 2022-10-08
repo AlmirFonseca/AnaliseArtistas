@@ -5,6 +5,22 @@ from fuzzywuzzy import fuzz
 
 # Filtra o dataframe, excluindo as entradas que possuem algum dos termos na coluna indicada
 def filter_dataframe(dataframe, dataframe_column, filter_terms="", case_sensitive=False, reverse=False):
+    """
+    Filtra o dataframe a partir dos termos indicados na coluna indicada
+
+    :param dataframe: Dataframe a ser filtrado
+    :type dataframe: `pandas.core.frame.DataFrame`
+    :param dataframe_column: Coluna do Dataframe indicado a ser analisada
+    :type dataframe_column: `str`
+    :param filter_terms: Termos a serem utilizados como filtro, padrão como ``""``
+    :type filter_terms: `str`, opcional
+    :param case_sensitive: Opção de filtro utilizando "case sensitive", padrão como ``False``
+    :type case_sensitive: `bool`, opcional
+    :param reverse: Opção de filtro invertido, padrão como ``False``
+    :type reverse: `bool`, opcional
+    :return: Dataframe filtrado
+    :rtype: `pandas.core.frame.DataFrame`
+    """
     # Caso não haja termos a serem filtrados, a função retorna o próprio dataframe
     if not filter_terms:
         return dataframe
@@ -36,7 +52,14 @@ def filter_dataframe(dataframe, dataframe_column, filter_terms="", case_sensitiv
 
 # Normaliza o conteúdo de um dataframe, a fim de facilitar a assimilação de valores de texto
 def normalize_content(dataframe):
-    
+    """
+    Normaliza o conteúdo de um dataframe para facilitar a assimilação de valores de texto
+
+    :param dataframe: Dataframe a ser normalizado
+    :type dataframe: `pandas.core.frame.DataFrame`
+    :return: Dataframe normalizado
+    :rtype: `pandas.core.frame.DataFrame`
+    """
     # Converte todas as letras para uppercase
     dataframe = dataframe.str.upper()
     # Utiliza uma função do RegEx para excluir todos os caracteres, exceto letras e números
@@ -50,7 +73,16 @@ def normalize_content(dataframe):
 
 # Retorna uma pontuação (0 a 300) sobre a similaridade entre 2 strings
 def get_simlilarity(A, B):
-    
+    """
+    Algoritmo de pontuação de simililaridade entre duas strings, para compreender o quão próximas estão uma da outra
+
+    :param A: Primeira string a ser analisada
+    :type A: `str`
+    :param B: Segunda string a ser analisada
+    :type B: `str`
+    :return: Pontuação de simililaridade
+    :rtype: `int`
+    """
     # Converte as strings para lowercase, para aproximar os resultados
     A = A.lower()
     B = B.lower()
@@ -78,6 +110,20 @@ def get_simlilarity(A, B):
 
 # Gera uma tabela relacional entre as músicas de um mesmo álbum em duas bases de dados diferentes
 def match_tracks(df_A, df_B, similarity_threshold=0):
+    """
+    Função que gera um dataframe com a relação entre as mesmas músicas de um mesmo álbum, 
+    mas em bases de dados diferentes, afim de procurar músicas existentes em uma base de dados, 
+    mas não em outra, além de simililaridades entre si
+
+    :param df_A: Primeiro Dataframe contendo as músicas de um determinado álbum
+    :type df_A: `pandas.core.frame.DataFrame`
+    :param df_B: Segundo Dataframe contendo as músicas do mesmo álbum
+    :type df_B: `pandas.core.frame.DataFrame`
+    :param similarity_threshold: Grau de similaridade utilizando um algoritmo de similaridade, padrão como ``0``
+    :type similarity_threshold: `int`, opcional
+    :return: Dataframe relacional entre as mesmas músicas de um mesmo álbum, mas em bases de dados diferentes.
+    :rtype: `pandas.core.frame.DataFrame`
+    """
     # Um mesmo álbum pode conter um número diferente de faixas em diferentes plataformas
     # Nesses casos, é importante tratar como referência o álbum que possui o menor número de faixas, para evitar assimilações incorretas
     
@@ -126,6 +172,16 @@ def match_tracks(df_A, df_B, similarity_threshold=0):
     return result
 
 def match_datasets(dataset_A, dataset_B):
+    """
+    Função que gera um dataframe contendo todas as relações entre as músicas de dois dataframes diferentes
+
+    :param dataset_A: Primeiro dataframe contendo todos os álbuns e músicas de uma primeira base de dados
+    :type dataset_A: `pandas.core.frame.DataFrame`
+    :param dataset_B: Segundo dataframe contendo todos os álbuns e músicas de uma segunda base de dados
+    :type dataset_B: `pandas.core.frame.DataFrame`
+    :return: Dataframe contendo todas as relações encontradas entre as músicas e álbuns de dois dataframes diferentes
+    :rtype: `pandas.core.frame.DataFrame`
+    """
     
     # Obtém uma lista dos álbums em comum entre os dois álbums, a partir da coluna de nomes normalizados
     commom_albums = set(dataset_A["Normalized Album Name"]) & set(dataset_B["Normalized Album Name"])
@@ -151,6 +207,18 @@ def match_datasets(dataset_A, dataset_B):
     return relation_AB
 
 def append_lyrics_and_instrumental(df_spotify, df_genius):
+    """
+    Função para adição de letras e instrumental a partir da plataforma Genius em um 
+    dataframe contendo álbuns e músicas de um artista da plataforma Spotify, considerando a relação encontrada 
+    entre as músicas e álbuns encontrados em cada plataforma
+
+    :param df_spotify: Dataframe contendo os dados de músicas e álbuns de um artista na plataforma Spotify
+    :type df_spotify: `pandas.core.frame.DataFrame`
+    :param df_genius: Dataframe contendo os dados de letra e instumental das músicas e álbuns de um artista na plataforma GeniusLyrics
+    :type df_genius: `pandas.core.frame.DataFrame`
+    :return: Dataframe gerado contendo letras e instrumental das músicas e álbuns junto dos dados da plataforma Spotify
+    :rtype: `pandas.core.frame.DataFrame`
+    """
     # Realiza o match entre os datasets obtidos a partir das plataformas Spotify e Genius
     match_spotify_genius = match_datasets(df_spotify, df_genius)
     
@@ -192,6 +260,18 @@ def append_lyrics_and_instrumental(df_spotify, df_genius):
     return df_spotify
 
 def append_genre(df_spotify, df_deezer):
+    """
+    Função para adição de gênero de álbuns e músicas a partir da plataforma Deezer em um 
+    dataframe contendo álbuns e músicas de um artista da plataforma Spotify, considerando a relação encontrada 
+    entre as músicas e álbuns encontrados em cada plataforma
+
+    :param df_spotify: Dataframe contendo os dados de músicas e álbuns de um artista na plataforma Spotify
+    :type df_spotify: `pandas.core.frame.DataFrame`
+    :param df_genius: Dataframe contendo os dados de gênero das músicas e álbuns de um artista na plataforma Deezer
+    :type df_genius: `pandas.core.frame.DataFrame`
+    :return: Dataframe gerado contendo gênero de músicas e álbuns junto dos dados da plataforma Spotify
+    :rtype: `pandas.core.frame.DataFrame`
+    """
     # Realiza o match entre os datasets obtidos a partir das plataformas Spotify e Deezer
     match_spotify_deezer = match_datasets(df_spotify, df_deezer)
     
