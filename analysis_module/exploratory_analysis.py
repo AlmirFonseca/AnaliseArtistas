@@ -380,19 +380,23 @@ def most_popular_album(dataframe):
     most_popular = popularity_sorted.nlargest(1,keep="all") #Sorteia o álbum mais popular
     return most_popular
   
-# Recebe um dataframe e retorna um dicionário com os gêneros encontrados em cada álbum
-def gender_album(dataframe):  
-    """Recebe um dataframe e retorna um dicionário com as chaves sendo os álbuns e os valores sendo os gêneros encontrados em cada álbum.
+# Recebe um dataframe e retorna uma lista com os 3 gêneros mais comuns na discografia 
+def common_gender(dataframe):  
+    """Recebe um dataframe e retorna uma lista com tuplas contendo os gêneros mais frequentes e suas respectivas frequências na discografia (quantos álbuns possuem determinado gênero ).
     
     :param dataframe: Dataframe com coluna ``Genre``.
     :type dataframe: pandas.core.frame.DataFrame
-    :return: Dicionário com as chaves sendo os álbuns e os valores sendo os gêneros encontrados em cada álbum.
-    :rtype: `pandas.core.frame.DataFrame`
+    :return: Lista que contém 3 tuplas para representar os 3 gêneros mais frequêntes e suas frequências.
+    :rtype: `list`
     
     """
     grouped = dataframe.groupby(level=0) # Agrupa o dataframe pelo índice "Album Name"
-    album_genres = {}
+    genres = []
     for album, new_df in grouped:
         values = new_df["Genre"].values #Armazena os gêneros de cada álbum
-        album_genres[album]=unique_values(values) #Usa a função "unique_values" para separar o gêneros de cada álbum e adicioná-los em um dicionário.
-    return album_genres
+        album_genre=unique_values(values) #Usa a função "unique_values" para separar o gêneros de cada álbum e adicioná-los .
+        for genre in album_genre: #Itera o array com os gêneros de cada álbum
+            genres.append(genre) #Adiciona o gênero à lista de gêneros
+    counter = collections.Counter(genres) #Conta a frequência de cada gênero
+    most_commom = counter.most_common(3) #Filtra os 3 gêneros mais frequentes
+    return genres
