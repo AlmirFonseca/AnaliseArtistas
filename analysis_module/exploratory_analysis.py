@@ -21,6 +21,8 @@ def most_listened_by_album(dataframe):
     :rtype: `pandas.core.frame.DataFrame`
 
     """
+    if dataframe["Album Name"].empty or dataframe["Popularity"].empty :
+        print("Alguma das colunas está vazia, a análise pode ser afetada")
     grouped = dataframe.groupby("Album Name")["Popularity"].nlargest(3,keep="all") # Agrupa por "Album Name" e seleciona os 3 maiores valores da coluna "Popularity"
     grouped = grouped.reset_index(level = 0) 
     grouped.drop(columns="Album Name",inplace = True)
@@ -36,10 +38,13 @@ def least_listened_by_album(dataframe):
     :rtype: `pandas.core.frame.DataFrame`
 
     """
+    if dataframe["Album Name"].empty or dataframe["Popularity"].empty :
+        print("Alguma das colunas está vazia, a análise pode ser afetada")
     grouped = dataframe.groupby("Album Name")["Popularity"].nsmallest(3,keep="all") # Agrupa por "Album Name" e seleciona os 3 menores valores da coluna "Popularity"
     grouped = grouped.reset_index(level = 0)
     grouped.drop(columns="Album Name",inplace = True)
     return grouped
+
 
 def longest_by_album(dataframe):
     """Recebe um dataframe e o retorna com um filtro para indicar as 3 músicas mais longas por álbum.
@@ -50,6 +55,8 @@ def longest_by_album(dataframe):
     :rtype: `pandas.core.frame.DataFrame`
 
     """
+    if dataframe["Album Name"].empty or dataframe["Duration Seconds"].empty :
+        print("Alguma das colunas está vazia, a análise pode ser afetada")
     grouped = dataframe.groupby("Album Name")["Duration Seconds"].nlargest(3,keep="all") # Agrupa por "Album Name" e seleciona os 3 maiores valores da coluna "Duration Seconds"
     grouped = grouped.reset_index(level = 0)
     grouped.drop(columns="Album Name",inplace = True)
@@ -65,6 +72,8 @@ def shortest_by_album(dataframe):
     :rtype: `pandas.core.frame.DataFrame`
     
     """
+    if dataframe["Album Name"].empty or dataframe["Duration Seconds"].empty :
+        print("Alguma das colunas está vazia, a análise pode ser afetada")
     grouped = dataframe.groupby("Album Name")["Duration Seconds"].nsmallest(3,keep="all") # Agrupa por "Album Name" e seleciona os 3 menores valores da coluna "Duration"
     grouped = grouped.reset_index(level = 0)
     grouped.drop(columns="Album Name",inplace = True)
@@ -80,6 +89,8 @@ def most_listened(dataframe):
     :rtype: `pandas.core.frame.DataFrame`
     
     """ 
+    if dataframe["Popularity"].empty :
+        print("A coluna está vazia, a análise pode ser afetada")
     return dataframe.nlargest(3, "Popularity",keep="all")
 
 # Recebe um dataframe e retorna as 3 músicas menos ouvidas na história do artista
@@ -92,6 +103,8 @@ def least_listened(dataframe):
     :rtype: `pandas.core.frame.DataFrame`
     
     """ 
+    if dataframe["Popularity"].empty :
+        print("A coluna está vazia, a análise pode ser afetada")
     return dataframe.nsmallest(3, "Popularity",keep="all")
 
 # Recebe um dataframe e retorna as 3 músicas mais longas na história do artista
@@ -104,6 +117,8 @@ def longest(dataframe):
     :rtype: `pandas.core.frame.DataFrame`
     
     """
+    if dataframe["Duration Seconds"].empty :
+        print("A coluna está vazia, a análise pode ser afetada")
     return dataframe.nlargest(3, "Duration Seconds",keep="all")
     
 # Recebe um dataframe e retorna as 3 músicas menos longas na história do artista
@@ -116,6 +131,8 @@ def shortest(dataframe):
     :rtype: `pandas.core.frame.DataFrame`
     
     """
+    if dataframe["Duration Seconds"].empty :
+        print("A coluna está vazia, a análise pode ser afetada")
     return dataframe.nsmallest(3, "Duration Seconds",keep="all")
 
 # Recebe uma lista com algumas strings contendo itens separados por "/" e retorna um array com valores únicos dos itens
@@ -138,6 +155,7 @@ def unique_values(array):
     unique_values_array = np.unique(unique_values_array) # Filtra para que só haja palavras únicas
     return unique_values_array
 
+
 # Recebe uma dataframe e retorna os 3 álbuns com mais prêmios
 def albuns_awards(dataframe):
     """Recebe um dataframe no formato pandas e retorna um dataframe com as 3 álbuns mais premiados e suas quantidades de prêmios.
@@ -148,6 +166,8 @@ def albuns_awards(dataframe):
     :rtype: `pandas.core.frame.DataFrame`
     
     """
+    if dataframe["Album Name"].empty or dataframe["Awards"].empty :
+        print("Alguma das colunas está vazia, a análise pode ser afetada")
     grouped = dataframe.groupby(level=0) #Agrupa o dataframe pelo index "Album Name"
     dictionary_quantity_awards = {}
     for album, album_dataframe in grouped: #Itera o dataframe agrupado 
@@ -168,6 +188,8 @@ def duration_popularity(dataframe):
     :rtype: `numpy.float64`
     
     """
+    if dataframe["Duration Seconds"].empty or dataframe["Popularity"].empty :
+        print("Alguma das colunas está vazia, a análise pode ser afetada")
     correlation = dataframe.corr(method ="pearson")
     return correlation.loc["Duration Seconds","Popularity"]
 
@@ -207,6 +229,8 @@ def common_words_by_album(dataframe):
     :rtype: `list`
     
     """
+    if dataframe["Album Name"].empty:
+        print("A coluna está vazia, a análise pode ser afetada")
     albuns = dataframe.index.get_level_values(0)
     albuns_list = list(dict.fromkeys(albuns)) #Cria uma lista com o nome dos álbuns
     words_list = [] 
@@ -231,6 +255,8 @@ def common_words_by_song(dataframe):
     :rtype: `list`
     
     """
+    if dataframe["Track Name"].empty:
+        print("A coluna está vazia, a análise pode ser afetada")
     songs = dataframe.index.get_level_values(1)
     songs_list = list(dict.fromkeys( songs))#Cria uma lista com o nome das músicas
     words_list = []
@@ -255,6 +281,8 @@ def common_words_by_lyrics(dataframe):
     :rtype: `list`
     
     """
+    if dataframe["Track Lyrics"].empty:
+        print("A coluna está vazia, a análise pode ser afetada")
     lyrics = dataframe["Track Lyrics"].str.upper()
     lyrics_list = list(dict.fromkeys(lyrics))#Cria uma lista com as letras das músicas
     words_list = []
@@ -279,6 +307,8 @@ def common_words_lyrics_album(dataframe):
     :rtype: `pandas.core.series.Series`
     
     """
+    if dataframe["Album Name"].empty:
+        print("A coluna está vazia, a análise pode ser afetada")
     new_dataframe = dataframe.groupby("Album Name").apply(common_words_by_lyrics)
     return new_dataframe
 
@@ -292,6 +322,8 @@ def album_in_lyrics(dataframe):
     :rtype: `pandas.core.frame.DataFrame`
     
     """
+    if dataframe["Album Name"].empty or dataframe["Track Lyrics"].empty:
+        print("Alguma das colunas está vazia, a análise pode ser afetada")   
     albuns = dataframe.index.get_level_values(0)
     albuns_series = pd.Series(albuns).str.upper()
     albuns_array = albuns_series.unique() # Cria uma série com o nome dos álbuns
@@ -328,6 +360,8 @@ def song_in_lyrics(dataframe):
     :rtype: `pandas.core.frame.DataFrame`
     
     """
+    if dataframe["Track Name"].empty or dataframe["Track Lyrics"].empty:
+        print("Alguma das colunas está vazia, a análise pode ser afetada")   
     songs = dataframe.index.get_level_values(1)
     songs_series = pd.Series(songs).str.upper()
     songs_array = songs_series.unique()  # Cria uma série com o nome das músicas
@@ -363,6 +397,8 @@ def explicit_popularity(dataframe):
     :rtype: `pandas.core.frame.DataFrame`
     
     """
+    if dataframe["Explicit"].empty or dataframe["Popularity"].empty:
+        print("Alguma das colunas está vazia, a análise pode ser afetada")   
     grouped = dataframe.groupby("Explicit")["Popularity"].mean()
     return grouped
 
@@ -376,6 +412,8 @@ def most_popular_album(dataframe):
     :rtype: `pandas.core.frame.DataFrame`
     
     """
+    if dataframe["Album Name"].empty or dataframe["Popularity"].empty:
+        print("Alguma das colunas está vazia, a análise pode ser afetada")   
     mean_popularity = dataframe.groupby("Album Name")["Popularity"].mean() #Calcula a popularidade média por álbum
     popularity_sorted= mean_popularity.sort_values(ascending=False) #Armazena em ordem crescente
     most_popular = popularity_sorted.nlargest(1,keep="all") #Sorteia o álbum mais popular
@@ -391,6 +429,8 @@ def common_gender(dataframe):
     :rtype: `list`
     
     """
+    if dataframe["Album Name"].empty or dataframe["Genre"].empty:
+        print("Alguma das colunas está vazia, a análise pode ser afetada")   
     dataframe.dropna(inplace=True)
     grouped = dataframe.groupby(level=0) # Agrupa o dataframe pelo índice "Album Name"
     genres = []
