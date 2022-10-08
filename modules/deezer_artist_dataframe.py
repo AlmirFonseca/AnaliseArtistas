@@ -1,3 +1,11 @@
+# Deezer Data
+''' Módulo de dados do Deezer
+    ----------------------------
+
+Esse módulo contém funções responsáveis por gerar um dataframe a partir dos dados da plataforma Deezer.
+
+'''
+
 # Importa as bibliotecas necessÃ¡rias 
 import os
 import deezer
