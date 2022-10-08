@@ -31,7 +31,7 @@ def prepare_results_folder(artist_name):
     :rtype: `tuple(str, str, str, str)`
     """
     # Obtém o caminho para a pasta raiz do projeto
-    root_path = os.path.abspath(os.getcwd())
+    root_path = os.path.dirname(os.path.abspath(os.getcwd()))
     
     # Obtém o caminho para a pasta de resultados
     results_path = os.path.join(root_path, "results")
