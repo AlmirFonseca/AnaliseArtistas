@@ -1,7 +1,7 @@
 ## Importe os módulos e bibliotecas necessárias
 
 import sys
-sys.path.insert(1, './questions')
+sys.path.insert(1, './analysis_module')
 
 import dataframe_reader as reader
 import exploratory_analysis as expan
