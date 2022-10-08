@@ -20,7 +20,7 @@ def is_valid(path_artist_info):
     
     """
     try:
-        dataframe = pd.read_csv(path_artist_info, sep = ";", encoding = "unicode_escape")
+        dataframe = pd.read_csv(path_artist_info, sep = ";", encoding = "utf-8")
         required_columns = ["Album Name", "Track Name" , "Popularity", "Duration" , "Track Lyrics","Explicit","Genre"] # Colunas necessárias para a análise 
         for column in required_columns:
             if column not in dataframe.columns:
