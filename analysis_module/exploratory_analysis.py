@@ -130,7 +130,8 @@ def unique_values(array):
     """
     unique_values_array = [] 
     for i in range(len(array)):
-        array_item = array[i].split("/") # Separa as strings que contém informações separadas por "/" e cria um lista com essas informações
+        word = str(array[i])
+        array_item = word.split("/") # Separa as strings que contém informações separadas por "/" e cria um lista com essas informações
         for item in array_item:
             unique_values_array.append(item) # Adicione cada item da nova lista a uma lista vazia
     unique_values_array = np.asarray(unique_values_array)
@@ -390,6 +391,7 @@ def common_gender(dataframe):
     :rtype: `list`
     
     """
+    dataframe.dropna(inplace=True)
     grouped = dataframe.groupby(level=0) # Agrupa o dataframe pelo índice "Album Name"
     genres = []
     for album, new_df in grouped:
@@ -399,4 +401,4 @@ def common_gender(dataframe):
             genres.append(genre) #Adiciona o gênero à lista de gêneros
     counter = collections.Counter(genres) #Conta a frequência de cada gênero
     most_commom = counter.most_common(3) #Filtra os 3 gêneros mais frequentes
-    return genres
+    return most_commom
