@@ -21,6 +21,9 @@ def is_valid(path_artist_info):
     """
     try:
         dataframe = pd.read_csv(path_artist_info, sep = ";", encoding = "utf-8")
+        if dataframe.empty:
+            raise Exception("O dataframe está vazio.") 
+            sys.exit(0)
         required_columns = ["Album Name", "Track Name" , "Popularity", "Duration" , "Track Lyrics","Explicit","Genre"] # Colunas necessárias para a análise 
         for column in required_columns:
             if column not in dataframe.columns:
@@ -28,6 +31,9 @@ def is_valid(path_artist_info):
                 sys.exit(0)
     except FileNotFoundError as error: # Caso o arquivo não seja encontrado, retorna uma mensagem e o erro para o usuário e fecha o programa.
         print("Arquivo não encontrado:", error)
+        sys.exit(0)
+    except ValueError as error:# Caso o arquivo não seja uma string, retorna uma mensagem e o erro para o usuário e fecha o programa.
+        print("Tipo inserido inválido:", error)
         sys.exit(0)
     else: 
         return dataframe # Caso tudo funcione, retorna um dataframe
@@ -68,8 +74,12 @@ def add_awards(original_dataframe,path_album_awards):
     except AttributeError as error: #Levanta um erro e sai do programa caso o parâmetro passado não seja o correto
         print("Um dos arquivos não possui o formato exigido:",error)
         sys.exit(0)
+    except ValueError as error:# Caso o segundo parâmetro não seja uma string, retorna uma mensagem e o erro para o usuário e fecha o programa.
+        print("Tipo inserido inválido:", error)
+        sys.exit(0)
     else:
         return result_dataframe
+
 
 # Converte um objeto no formato "mm:ss" e o transforma para tempo em segundos.    
 def time_to_seconds(object):
@@ -86,6 +96,7 @@ def time_to_seconds(object):
         seconds = int(separated[0])*60 + int(separated[1])
     except TypeError as error:
         print("A duração não está no formato exigido",error)
+        sys.exit(0)
     return seconds
 
 # Recebe um dataframe e o retorna com multi index no modelo exigido e com uma coluna representando a duração da música em segundos.
@@ -112,3 +123,4 @@ def create_final_dataframe(dataframe):
         sys.exit(0)
     else:
         return dataframe
+    
