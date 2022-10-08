@@ -39,7 +39,7 @@ def most_listened_plot(dataframe):
     """Recebe um dataframe e cria e plota um gráfico de barras para a popularidade das músicas mais ouvidas.
     
     :param dataframe: DataFrame com coluna ``Popularity``.
-    :type dataframe: pandas.core.frame.DataFrame
+    :type dataframe: `pandas.core.frame.DataFrame`
     :return: Gráfico de barras para a popularidade das músicas mais ouvidas em uma pasta separada.
     :rtype: `None`
     
@@ -55,7 +55,7 @@ def least_listened_plot(dataframe):
     """Recebe um dataframe e cria e plota um gráfico de barras para a popularidade das músicas menos ouvidas.
     
     :param dataframe: DataFrame com coluna ``Popularity``.
-    :type dataframe: pandas.core.frame.DataFrame
+    :type dataframe: `pandas.core.frame.DataFrame`
     :return: Gráfico de barras para a popularidade das músicas menos ouvidas em uma pasta separada.
     :rtype: `None`
     
@@ -71,7 +71,7 @@ def longest_plot(dataframe):
     """Recebe um dataframe e cria e plota um gráfico de barras para a duração das músicas mais curtas.
     
     :param dataframe: DataFrame com coluna ``Duration Seconds``.
-    :type dataframe: pandas.core.frame.DataFrame
+    :type dataframe: `pandas.core.frame.DataFrame`
     :return: Gráfico de barras para a duração das músicas mais curtas em uma pasta separada.
     :rtype: `None`
     
@@ -87,7 +87,7 @@ def shortest_plot(dataframe):
     """Recebe um dataframe e cria e plota um gráfico de barras para a duração das músicas mais curtas.
     
     :param dataframe: DataFrame com coluna ``Duration Seconds``.
-    :type dataframe: pandas.core.frame.DataFrame
+    :type dataframe: `pandas.core.frame.DataFrame`
     :return: Gráfico de barras para a duração das músicas mais curtas em uma pasta separada.
     :rtype: `None`
     
@@ -103,7 +103,7 @@ def most_listened_by_album_plot(dataframe):
     """Recebe um dataframe e cria e plota um gráfico de barras para a popularidade das músicas mais ouvidas por álbum.  
     
     :param dataframe: DataFrame com ``Album Name`` como parte do multi index e com a coluna ``Popularity``.
-    :type dataframe: pandas.core.frame.DataFrame
+    :type dataframe: `pandas.core.frame.DataFrame`
     :return: Gráfico de barras para a popularidade das músicas mais ouvidas por álbum em uma pasta separada.
     :rtype: `None`
     
@@ -121,7 +121,7 @@ def least_listened_by_album_plot(dataframe):
     """Recebe um dataframe e cria e plota um gráfico de barras para a popularidade das músicas menos ouvidas por álbum.  
     
     :param dataframe: DataFrame com ``Album Name`` como parte do multi index e com a coluna ``Popularity``.
-    :type dataframe: pandas.core.frame.DataFrame
+    :type dataframe: `pandas.core.frame.DataFrame`
     :return: Gráfico de barras para a popularidade das músicas menos ouvidas por álbum em uma pasta separada.
     :rtype: `None`
     
@@ -139,7 +139,7 @@ def longest_by_album_plot(dataframe):
     """Recebe um dataframe e cria e plota um gráfico de barras para a duração das músicas mais longas por álbum  
     
     :param dataframe: DataFrame com ``Album Name`` como parte do multi index e com a coluna ``Duration Seconds``.
-    :type dataframe: pandas.core.frame.DataFrame
+    :type dataframe: `pandas.core.frame.DataFrame`
     :return: Gráfico de barras para a popularidade das músicas menos ouvidas por álbum em uma pasta separada.
     :rtype: `None`
     
@@ -157,7 +157,7 @@ def shortest_by_album_plot(dataframe):
     """Recebe um dataframe e cria e plota um gráfico de barras para a duração das músicas mais curtas por álbum.  
     
     :param dataframe: DataFrame com ``Album Name`` como parte do multi index e com a coluna ``Duration``.
-    :type dataframe: pandas.core.frame.DataFrame
+    :type dataframe: `pandas.core.frame.DataFrame`
     :return: Gráfico de barras para a duração das músicas mais curtas por álbum em uma pasta separada.
     :rtype: `None`
     
@@ -175,7 +175,7 @@ def albuns_awards_plot(dataframe):
     """Recebe um dataframe e cria e plota um gráfico de barras para a quantidade de prêmios dos álbuns mais premiados.
     
     :param dataframe: DataFrame com a coluna ``Awards``.
-    :type dataframe: pandas.core.frame.DataFrame
+    :type dataframe: `pandas.core.frame.DataFrame`
     :return: Gráfico de barras para a quantidade de prêmios dos álbuns mais premiados em uma pasta separada
     :rtype: `None`
     
@@ -191,7 +191,7 @@ def duration_popularity_plot(dataframe):
     """Recebe um dataframe e cria e plota um scatterplot que associa duração e popularidade.
 
     :param dataframe: DataFrame com com a coluna ``Duration Seconds`` e ``Popularity``
-    :type dataframe: pandas.core.frame.DataFrame
+    :type dataframe: `pandas.core.frame.DataFrame`
     :return: Scatterplot que associa duração e popularidade em uma pasta separada.
     :rtype: `None`
     """
@@ -204,7 +204,7 @@ def common_words_by_lyrics_plot(dataframe):
     """Recebe um dataframe e cria uma nuvem de palavras com as palavras mais comuns nas músicas. 
     
     :param dataframe: DataFrame com a coluna ``Track Lyrics``.
-    :type dataframe: pandas.core.frame.DataFrame
+    :type dataframe: `pandas.core.frame.DataFrame`
     :return: Nuvem de palavras com as palavras mais comuns nas músicas.
     :rtype: `None`
     
@@ -225,7 +225,7 @@ def common_words_by_song_plot(dataframe):
     """Recebe um dataframe e cria uma nuvem de palavras com as palavras mais comuns nos títulos das faixas. 
     
     :param dataframe: DataFrame com a coluna ``Track Name``.
-    :type dataframe: pandas.core.frame.DataFrame
+    :type dataframe: `pandas.core.frame.DataFrame`
     :return: Nuvem de palavras com as palavras mais comuns nos títulos das faixas.
     :rtype: `None`
     
@@ -246,7 +246,7 @@ def common_words_by_album_plot(dataframe):
     """Recebe um dataframe e cria uma nuvem de palavras com as palavras mais comuns nos títulos dos álbuns.   
     
     :param dataframe: DataFrame com a coluna ``Album Name``.
-    :type dataframe: pandas.core.frame.DataFrame
+    :type dataframe: `pandas.core.frame.DataFrame`
     :return: Nuvem de palavras com as palavras mais comuns nos títulos dos álbuns.
     :rtype: `None`
     
