@@ -1,3 +1,11 @@
+# Spotify Data
+''' Módulo de dados do Spotify
+    ----------------------------
+
+Esse módulo contém funções responsáveis por gerar um dataframe a partir dos dados da plataforma Spotify.
+
+'''
+
 import os
 
 import spotipy 
