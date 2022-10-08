@@ -1,3 +1,11 @@
+# Lyrics Genius Data
+''' Módulo de dados do Lyrics Genius
+    ------------------------------------
+
+Esse módulo contém funções responsáveis por gerar um dataframe a partir dos dados da plataforma Lyrics Genius.
+
+'''
+
 import os
 
 import lyricsgenius
