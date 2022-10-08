@@ -10,6 +10,14 @@ import spotify_artist_dataframe as sp
 
 # Cria as pastas aonde os arquivos gerados serão salvos
 def prepare_results_folder(artist_name):
+    """
+    Cria pastas aonde os arquivos gerados durante a execução das funções serão salvos
+
+    :param artist_name: Nome do artista
+    :type artist_name: `str`
+    :return: Função retorna caminhos absolutos das pastas criadas em uma tupla
+    :rtype: `tuple(str, str, str, str)`
+    """
     # Obtém o caminho para a pasta raiz do projeto
     root_path = os.path.abspath(os.getcwd())
     
@@ -36,6 +44,25 @@ def prepare_results_folder(artist_name):
 
 # Obtém e filtra um dataframe com os dados do artista, seus álbums e suas músicas no Spotify
 def get_spotify_data(artist_name, sp_client_id, sp_client_secret, filter_terms="", save_csv=True, save_to=""):
+    """
+    Cria um dataframe com os dados do artista, álbuns e músicas dentro da plataforma Spotify, 
+    além de filtrá-lo e salvar em um arquivo .csv se for da preferência do usuário
+
+    :param artist_name: Nome do artista
+    :type artist_name: `str`
+    :param sp_client_id: Id de cliente na API da plataforma Spotify
+    :type sp_client_id: `str`
+    :param sp_client_secret: Secret de cliente na API da plataforma Spotify 
+    :type sp_client_secret: `str`
+    :param filter_terms: Termos específicos a serem utilizados como filtro nos títulos dos álbuns, padrão como ``""``
+    :type filter_terms: `str`, opcional
+    :param save_csv: Valor booleano para criação de um arquivo csv, padrão como False
+    :type save_csv: `bool`, opcional
+    :param save_to: Path para o qual o arquivo criado será salvo
+    :type save_to: `str`
+    :return: Dataframe com os dados do artista, álbuns e músicas dentro da plataforma Spotify
+    :rtype: `pandas.core.frame.DataFrame`
+    """
     # Prepara o caminho dos arquivos a serem gerados
     sp_data_path = os.path.join(save_to, "spotify_data.csv")
     sp_data_filtered_path = os.path.join(save_to, "spotify_data_filtered.csv")
@@ -60,6 +87,21 @@ def get_spotify_data(artist_name, sp_client_id, sp_client_secret, filter_terms="
     
 # Obtém e filtra um dataframe com os dados do artista, seus álbums e suas músicas na Deezer
 def get_deezer_data(artist_name, filter_terms, save_csv=True, save_to=""):
+    """
+    Cria um dataframe com os dados do artista, álbuns e músicas dentro da plataforma Deezer, 
+    além de filtrá-lo e salvar em um arquivo .csv se for da preferência do usuário
+
+    :param artist_name: Nome do artista
+    :type artist_name: `str`
+    :param filter_terms: Termos específicos a serem utilizados como filtro nos títulos dos álbuns, padrão como ``""``
+    :type filter_terms: `str`, opcional
+    :param save_csv: Valor booleano para criação de um arquivo csv, padrão como False
+    :type save_csv: `bool`, opcional
+    :param save_to: Path para o qual o arquivo criado será salvo
+    :type save_to: `str`
+    :return: Dataframe com os dados do artista, álbuns e músicas dentro da plataforma Deezer
+    :rtype: `pandas.core.frame.DataFrame`
+    """
     # Prepara o caminho dos arquivos a serem gerados
     dz_data_path = os.path.join(save_to, "deezer_data.csv")
     dz_data_filtered_path = os.path.join(save_to, "deezer_data_filtered.csv")
@@ -85,6 +127,23 @@ def get_deezer_data(artist_name, filter_terms, save_csv=True, save_to=""):
 
 # Obtém e filtra um dataframe com os dados do artista, seus álbums e suas músicas na Genius
 def get_genius_data(artist_name, ge_access_token, filter_terms, save_csv=True, save_to=""):
+    """
+    Cria um dataframe com os dados do artista, álbuns, músicas e letras dentro da plataforma LyricsGenius, 
+    além de filtrá-lo e salvar em um arquivo .csv se for da preferência do usuário
+
+    :param artist_name: Nome do artista
+    :type artist_name: `str`
+    :param ge_access_token: Token de acesso da plataforma LyricsGenius
+    :type ge_access_token: `str`
+    :param filter_terms: Termos específicos a serem utilizados como filtro nos títulos dos álbuns, padrão como ``""``
+    :type filter_terms: `str`, opcional
+    :param save_csv: Valor booleano para criação de um arquivo csv, padrão como False
+    :type save_csv: `bool`, opcional
+    :param save_to: Path para o qual o arquivo criado será salvo
+    :type save_to: `str`
+    :return: Dataframe com os dados do artista, álbuns, músicas e letras dentro da plataforma LyricsGenius
+    :rtype: `pandas.core.frame.DataFrame`
+    """
     # Prepara o caminho dos arquivos a serem gerados
     ge_data_path = os.path.join(save_to, "genius_data.csv")
     ge_data_filtered_path = os.path.join(save_to, "genius_data_filtered.csv")
@@ -109,6 +168,29 @@ def get_genius_data(artist_name, ge_access_token, filter_terms, save_csv=True, s
     return df_genius
 
 def generate_dataframe_of(artist_name, sp_client_id, sp_client_secret, ge_access_token="", save_csv=True, filter_terms="", append_genre=True, append_lyrics=True):
+    """
+    A função que gera Dataframe a partir dos dados coletados do Spotify, 
+    com as adições que o usuário escolher (gênero a partir da plataforma Deezer, instrumental e letras a partir da plataforma LyricsGenius)
+
+    :param artist_name: Nome do artista
+    :type artist_name: `str`
+    :param sp_client_id: Id de cliente na API da plataforma Spotify
+    :type sp_client_id: `str`
+    :param sp_client_secret: Secret de cliente na API da plataforma Spotify 
+    :type sp_client_secret: `str`
+    :param ge_access_token: Token de acesso da plataforma LyricsGenius
+    :type ge_access_token: `str`
+    :param save_csv: Valor booleano para criação de um arquivo csv, padrão como False
+    :type save_csv: `bool`, opcional
+    :param filter_terms: Termos específicos a serem utilizados como filtro nos títulos dos álbuns, padrão como ``""``
+    :type filter_terms: `str`, opcional
+    :param append_genre: Valor booleano para caso o usuário deseje adicionar dados dos gêneros dos álbuns, padrão para True
+    :type append_genre: `bool`, opcional
+    :param append_lyrics: Valor booleano para caso o usuário deseje adicionar dados das letras dos álbuns, padrão para True
+    :type append_lyrics: `bool`, opcional
+    :return: Dataframe com os dados do artista, álbuns, músicas dentro da plataforma Spotify, além da adição dos dados das plataformas Deezer e LyricsGenius
+    :rtype: `pandas.core.frame.DataFrame`
+    """
     # Caso o usuário opte por salvar os dataframes em arquivos ".csv"
     if save_csv:
         results_folder, spotify_results_folder, deezer_results_folder, genius_results_folder = prepare_results_folder(artist_name)
