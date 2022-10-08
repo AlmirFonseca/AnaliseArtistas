@@ -104,8 +104,8 @@ print(expan.most_popular_album(dataframe))
 
 print("#"*80,"\n")
 
-print("Gêneros de cada álbum")
-print(expan.gender_album(dataframe))
+print("Gêneros mais frequêntes na discografia")
+print(expan.common_gender(dataframe))
 
 vis.most_listened_plot(dataframe)
 vis.least_listened_plot(dataframe)
