@@ -188,9 +188,45 @@ def append_lyrics_and_instrumental(df_spotify, df_genius):
     # Para excluirmos as faixas que não estão presentes em ambas as bases de dados, basta dropar as linhas de "Track Instrumental" com células vazias
     df_spotify.dropna(subset=["Track Instrumental"], inplace=True)
         
+    # A função retorna o dataframe com os dados do Spotify, agora contendo os novos dados/colunas nele adicionados
     return df_spotify
 
 def append_genre(df_spotify, df_deezer):
+    # Realiza o match entre os datasets obtidos a partir das plataformas Spotify e Deezer
+    match_spotify_deezer = match_datasets(df_spotify, df_deezer)
+    
+    # Reseta os indexes do dataframe, para facilitar a localização por index (.iloc[])
+    match_spotify_deezer.reset_index(drop=True, inplace=True)
+    df_spotify.reset_index(drop=True, inplace=True)
+    df_deezer.reset_index(drop=True, inplace=True)
+    
+    # Cria novas colunas no dataframe do spotify, a fim de incorporar novas informações vindas da API da Deezer
+    df_spotify.insert(len(df_spotify.columns), "Genre", np.nan)
+    
+    # Itera sobre cada match entre faixas presente no dataframe resultante do match
+    for i in range(len(match_spotify_deezer)):
+        # Para cada plataforma, obter o nome da faixa a partir da tabela relacional gerada
+        spotify_track = match_spotify_deezer["A"].iloc[i]
+        deezer_track = match_spotify_deezer["B"].iloc[i]
+        
+        # Para cada plataforma, descobrimos o index da linha que tem os dados acerca daquela faixa
+        spotify_index = df_spotify[df_spotify["Track Name"] == spotify_track].index[0]
+        deezer_index = df_deezer[df_deezer["Track Name"] == deezer_track].index[0]
+        
+        # Com o auxílio do .iloc(), obtemos os dados que desejamos a partir da API da Deezer        
+        track_genre = df_deezer.iloc[deezer_index]["Genre"]
+        
+        # Extraímos a localização das colunas de df_spotify nas quais queremos inserir novos valores
+        track_genre_column = df_spotify.columns.get_loc("Genre")
+        
+        # Novamente, com o auxílio do .loc(), inserimos os dados obtidos no dataframe do Spotfify
+        df_spotify.iloc[spotify_index, track_genre_column] = track_genre
+        
+    # Caso quiséssemos excluirmos as faixas que não estão presentes em ambas as bases de dados, basta dropar as linhas de "Genre" com células vazias
+    # Como não queremos habilitar essa opção, essa linha permanecerá comentada
+    # df_spotify.dropna(subset=["Genre"], inplace=True)
+        
+    # A função retorna o dataframe com os dados do Spotify, agora contendo os novos dados/colunas nele adicionados
     return df_spotify
 
 # TODO Match no album e na musica
