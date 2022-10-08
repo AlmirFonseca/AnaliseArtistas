@@ -33,30 +33,36 @@ def prepare_results_folder(artist_name):
     # Obtém o caminho para a pasta raiz do projeto
     root_path = os.path.abspath(os.getcwd())
     
+    # Obtém o caminho para a pasta de resultados
+    results_path = os.path.join(root_path, "results")
+    # Caso a pasta de resultados não exista, ela é criada
+    if not os.path.exists(results_path):
+        os.mkdir(results_path)
+    
     # Trata o nome do artista para que seja gerado um caminho valido a partir do nome do artista
     artist_name = re.sub("[^A-Za-z0-9 ]+", "", artist_name)
     artist_name = artist_name.upper()
     
     # Cria uma pasta, com o nome do artista, aonde serão salvos todos os arquivos
-    results_folder = os.path.join(root_path, artist_name)
-    if not os.path.exists(results_folder):
-        os.mkdir(results_folder)
+    artist_results_folder = os.path.join(results_path, artist_name)
+    if not os.path.exists(artist_results_folder):
+        os.mkdir(artist_results_folder)
         
     # Cria pastas secundárias aonde serão armazenados os arquivos secundários/temporários do projeto, uma para cada plataforma
-    spotify_results_folder = os.path.join(results_folder, "spotify")
+    spotify_results_folder = os.path.join(artist_results_folder, "spotify")
     if not os.path.exists(spotify_results_folder):
         os.mkdir(spotify_results_folder)
         
-    deezer_results_folder = os.path.join(results_folder, "deezer")
+    deezer_results_folder = os.path.join(artist_results_folder, "deezer")
     if not os.path.exists(deezer_results_folder):
         os.mkdir(deezer_results_folder)
         
-    genius_results_folder = os.path.join(results_folder, "genius")
+    genius_results_folder = os.path.join(artist_results_folder, "genius")
     if not os.path.exists(genius_results_folder):
         os.mkdir(genius_results_folder)
     
     # A função retorna os caminhos absolutos das pastas criadas
-    return results_folder, spotify_results_folder, deezer_results_folder, genius_results_folder
+    return artist_results_folder, spotify_results_folder, deezer_results_folder, genius_results_folder
 
 # Obtém e filtra um dataframe com os dados do artista, seus álbums e suas músicas no Spotify
 def get_spotify_data(artist_name, sp_client_id, sp_client_secret, filter_terms="", save_csv=True, save_to=""):
