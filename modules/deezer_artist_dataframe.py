@@ -160,6 +160,8 @@ def discography(artist, save_csv=False, save_to="", duplicate=False):
     :type artist: `str`
     :param save_csv: Valor booleano para criação de um arquivo csv, padrão como False
     :type save_csv: `bool`, opcional
+    :param save_to: Path para o qual o arquivo criado será salvo
+    :type save_to: `str`
     :return: Dataframe contendo informações sobre discografia do artista
     :rtype: `pandas.core.frame.DataFrame`
     """
