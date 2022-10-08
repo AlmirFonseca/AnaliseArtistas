@@ -9,8 +9,8 @@ import pandas as pd
 import visualization as vis
 
 # Crie o dataframe
-dataframe = reader.is_valid("./COLDPLAY/artist_data.csv")
-dataframe = reader.add_awards(dataframe,'./COLDPLAY/albuns_awards.csv')
+dataframe = reader.is_valid("./database_module/COLDPLAY/artist_data.csv")
+dataframe = reader.add_awards(dataframe,'./database_module/COLDPLAY/albuns_awards.csv')
 dataframe = reader.create_final_dataframe(dataframe)
 
 # Imprima os resultados da análise exploratória.
@@ -104,7 +104,7 @@ print(expan.most_popular_album(dataframe))
 
 print("#"*80,"\n")
 
-print("Gêneros mais frequêntes na discografia")
+print("Gêneros mais frequentes na discografia")
 print(expan.common_gender(dataframe))
 
 vis.most_listened_plot(dataframe)
