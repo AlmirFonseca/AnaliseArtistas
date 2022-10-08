@@ -1,3 +1,13 @@
+# Artist Dataframe Generator
+''' Módulo de criação de dataframe final
+    -------------------------------------
+
+Esse módulo contém funções responsáveis por gerar um dataframe a partir dos dados das 
+plataformas Spotify, Deezer e LyricsGenius, já que há informações exclusivas em cada plataforma, foi necessário
+juntar os resultados e formar um dataframe geral.
+
+'''
+
 import os
 import sys
 
