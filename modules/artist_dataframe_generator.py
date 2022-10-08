@@ -11,6 +11,8 @@ juntar os resultados e formar um dataframe geral.
 import os
 import sys
 
+import re
+
 sys.path.insert(0, 'modules')
 
 import deezer_artist_dataframe as dz
@@ -31,8 +33,12 @@ def prepare_results_folder(artist_name):
     # Obtém o caminho para a pasta raiz do projeto
     root_path = os.path.abspath(os.getcwd())
     
+    # Trata o nome do artista para que seja gerado um caminho valido a partir do nome do artista
+    artist_name = re.sub("[^A-Za-z0-9 ]+", "", artist_name)
+    artist_name = artist_name.upper()
+    
     # Cria uma pasta, com o nome do artista, aonde serão salvos todos os arquivos
-    results_folder = os.path.join(root_path, artist_name.upper())
+    results_folder = os.path.join(root_path, artist_name)
     if not os.path.exists(results_folder):
         os.mkdir(results_folder)
         
