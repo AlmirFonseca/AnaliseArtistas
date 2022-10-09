@@ -24,7 +24,14 @@ def get_artist_info(artist_name, genius):
     :rtype: `tuple(str, str)`
     """
     # Realiza uma busca pelo nome do artista
-    artist = genius.search_artist(artist_name, max_songs=0, get_full_info=False)
+    try:
+        artist = genius.search_artist(artist_name, max_songs=0, get_full_info=False)
+    except ConnectionError as error:
+        print("Houve um problema de conexao")
+        raise error
+    except Exception as error:
+        print("Houve um problema durante a execucao do projeto")
+        raise error
     
     # Retorna o nome e o id do artista na plataforma Genius
     return artist.name, artist.id
@@ -48,7 +55,14 @@ def get_albums_info(artist_id, genius):
     next_page = 1
     while next_page != None:
         # Recebe o resultado da busca pelos álbuns de um artista
-        album_response = genius.artist_albums(artist_id, page=next_page)
+        try:
+            album_response = genius.artist_albums(artist_id, page=next_page)
+        except ConnectionError as error:
+            print("Houve um problema de conexao")
+            raise error
+        except Exception as error:
+            print("Houve um problema durante a execucao do projeto")
+            raise error
         
         # Verifica se existe mais alguma página de resultados a ser buscada
         next_page = album_response.get("next_page")
@@ -100,10 +114,12 @@ def extract_track_info(track, genius):
     try:
         track_dict = genius.search_song(song_id=track_id, get_full_info=False)
         track_lyrics = track_dict.lyrics
-        
-    # Caso ocorra alguma exceção, consideraremos que nenhuma letra foi encontrada para a música    
-    except Exception as e:
-        print("Ocorreu um erro inesperado:", e)
+    except ConnectionError as error:
+        print("Houve um problema de conexao")
+        raise error
+    # Caso ocorra alguma exceção, consideraremos que nenhuma letra foi encontrada para a música   
+    except Exception as error:
+        print("Houve um problema durante a execucao do projeto", error)
         track_lyrics = ""
         
     # Retorna o número, nome, id, data de lançamento e a letra da faixa
@@ -135,7 +151,14 @@ def get_tracks_info(albums, genius):
         print("Analisando álbum:", album_name)
         
         # Coleta a lista de faixas de cada álbum a partir de seu id
-        album_tracks = genius.album_tracks(album_id)
+        try:
+            album_tracks = genius.album_tracks(album_id)
+        except ConnectionError as error:
+            print("Houve um problema de conexao")
+            raise error
+        except Exception as error:
+            print("Houve um problema durante a execucao do projeto")
+            raise error
         
         # Inicializa um contador de faixas processadas
         track_counter = 0
@@ -272,8 +295,15 @@ def get_lyrics_of(artist_name, access_token="", save_csv = False, save_to=""):
     :rtype: `pandas.core.frame.DataFrame`
     """
     # Instancia o objeto principal da API do Genius
-    genius_object = lyricsgenius.Genius(access_token, timeout=60, retries=10, 
+    try:
+        genius_object = lyricsgenius.Genius(access_token, timeout=60, retries=10, 
                                   verbose=False, remove_section_headers=True)
+    except ConnectionError as error:
+        print("Houve um problema de conexao")
+        raise error
+    except Exception as error:
+        print("Houve um problema durante a execucao do projeto")
+        raise error
     
     # Obtém o nome e o id do artista
     artist_name, artist_id = get_artist_info(artist_name, genius_object)
