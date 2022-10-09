@@ -9,8 +9,8 @@ import pandas as pd
 import visualization as vis
 
 # Crie o dataframe
-dataframe = reader.is_valid("./COLDPLAY/artist_data.csv")
-dataframe = reader.add_awards(dataframe,'./COLDPLAY/albuns_awards.csv')
+dataframe = reader.is_valid("./results/COLDPLAY/artist_data.csv")
+dataframe = reader.add_awards(dataframe,'./results/COLDPLAY/albuns_awards.csv')
 dataframe = reader.create_final_dataframe(dataframe)
 
 # Imprima os resultados da análise exploratória.
