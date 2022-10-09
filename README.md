@@ -34,7 +34,7 @@ Para entender e executar esse projeto siga as seguintes instruções:
 - [ ] No prompt de comando do seu computador, digite o seguinte código:
 
 ```
-pip install requirements.txt
+pip install -r requirements.txt
 ```
 
 - [ ] Caso queira gerar novamente o arquivo csv da discografia do artista, acesse o seguinte arquivo: database_module/main.py . Não esqueça de atualizar as variáveis,"sp_client_id","sp_client_secret" e "ge_access_token" (caso você deseje inserir as letras na música no arquivo csv). As informações contidas nessas variáveis são geradas pelas plataformas (as duas primeiras pelo Spotify e a última pelo Genius) e possuem tempo de validade.
