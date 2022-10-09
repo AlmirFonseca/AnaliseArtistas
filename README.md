@@ -42,8 +42,7 @@ pip install requirements.txt
 - [ ] Execute o main.py
   
 <h3 id=documentacao>Documentação:</h3>
-  Caso tenha alguma dúvida quanto a forma de utilização dos códigos, cheque nossa documentação:
-  ()
+  Caso tenha alguma dúvida quanto a forma de utilização dos códigos, cheque nossa documentação no branch gh-pages e siga as orientações no README.md
 
   
   <h3 id=equipe>Nossa equipe:</h3>
