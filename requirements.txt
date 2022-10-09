@@ -21,3 +21,4 @@ soupsieve==2.3.2.post1
 spotipy==2.20.0
 urllib3==1.26.12
 wrapt==1.14.1
+python-Levenshtein==0.20.5
