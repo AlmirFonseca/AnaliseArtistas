@@ -42,9 +42,9 @@ def autentication(client_id, client_secret):
     .. warning:: Client IDs e Client secrets são gerados pela plataforma Spotify e tem validade de duração!
     """
     if type(client_id) != str:
-        raise Exception("ID deve ser uma string!")
+        raise TypeError("ID deve ser uma string!")
     elif type(client_secret) != str:
-        raise Exception("Secret deve ser uma string!")
+        raise TypeError("Secret deve ser uma string!")
     else:
         credentials = SpotifyClientCredentials(client_id = client_id, client_secret = client_secret)
         return credentials
@@ -81,12 +81,22 @@ def get_artist_id(sp, artist):
     else:
         #Pesquisa na API por meio do nome do artista dado
         #Erros relacionados a credenciais inválidas são levantados pela própria spotipy
-        artist = sp.search(artist, type="artist", limit=1)
+        try:
+            artist = sp.search(artist, type="artist", limit=1)
+        except ConnectionError as error:
+            print("Houve um problema na conexao")
+            raise error
+        except Exception as error:
+            print("Houve um problema durante a execucao do projeto")
+            raise error
         #Armazena o ID do artista
         try:
             artist_id = artist.get("artists").get("items")[0].get("id")
         except IndexError:
             raise Exception("Nome de artista inserido não encontrado")
+        except Exception as error:
+            print("Houve um problema durante a execucao do projeto")
+            raise error
         return artist_id
 
 # Função que realiza uma pesquisa sobre nome oficial de um artista
@@ -103,18 +113,25 @@ def get_artist_name(sp, artist):
     :return: Retorna o nome do artista dentro da plataforma Spotify
     :rtype: `str`
     """
-    if type(artist) != str:
-        raise Exception("Artista deve ser uma string!")
-    else:
-        #Pesquisa na API por meio do nome do artista dado
-        #Erros relacionados a credenciais inválidas são levantados pela própria spotipy
+    
+    #Pesquisa na API por meio do nome do artista dado
+    #Erros relacionados a credenciais inválidas são levantados pela própria spotipy
+    
+    try:
         artist_info = sp.search(artist, type="artist", limit=1)
-        #Armazena o nome oficial do artista no Spotify
-        try:
-            artist_name = artist_info.get("artists").get("items")[0].get("name")
-        except IndexError:
-            raise Exception("Nome de artista inserido não encontrado")
-        return artist_name
+    except ConnectionError as error:
+        print("Houve um problema de conexao")
+        raise error
+    except Exception as error:
+        print("Houve um problema durante a execucao do projeto")
+        raise error
+    
+    #Armazena o nome oficial do artista no Spotify
+    try:
+        artist_name = artist_info.get("artists").get("items")[0].get("name")
+    except IndexError:
+        raise Exception("Nome de artista inserido não encontrado")
+    return artist_name
 
 # Função que realiza coleta de dados sobre álbuns de artistas a partir
 # do objeto principal da API, id do artista, e tipo de álbum ("single", "album")
@@ -156,7 +173,15 @@ def artist_albums_data(sp, artist_id, get_singles = False, duplicate = False):
             # Pesquisa na API por meio do id do artista dado
             # Erros relacionados a id inválido são levantados pela própria spotipy
             # Erros relacionados a credenciais inválidas são levantados pela própria spotipy
-            albums_response = sp.artist_albums(artist_id, limit=50, offset=i, album_type = type_album)
+            
+            try:
+                albums_response = sp.artist_albums(artist_id, limit=50, offset=i, album_type = type_album)
+            except ConnectionError as error:
+                print("Houve um problema de conexao")
+                raise error
+            except Exception as error:
+                print("Houve um problema durante a execucao do projeto")
+                raise error
             # Acessa a lista de álbuns
             albums_list = albums_response.get("items")
                 
@@ -362,6 +387,12 @@ def artist_albums_track_data(sp, albums_data):
                 tracks = sp.album_tracks(album_id, limit=50, offset=i)
             except AttributeError:
                 raise Exception("Ids inválidos")
+            except ConnectionError as error:
+                print("Houve um problema de conexao")
+                raise error
+            except Exception as error:
+                print("Houve um problema durante a execucao do projeto")
+                raise error
             # Armazena uma lista de faixas por álbum
             tracks_list = tracks.get("items")
             
@@ -414,8 +445,14 @@ def artist_albums_track_data(sp, albums_data):
                 track_artists_names = "/".join(track_artists_names)
                 
                 #Acesso aos dados das faixas pelo id de cada faixa
-                track_audio_features = sp.audio_features(track_id)[0]
-                
+                try:
+                    track_audio_features = sp.audio_features(track_id)[0]
+                except ConnectionError as error:
+                    print("Houve um problema de conexao")
+                    raise error
+                except Exception as error:
+                    print("Houve um problema durante a execucao do projeto")
+                    raise error
 
                 track_loudness = track_audio_features.get("loudness")
                 track_tempo = track_audio_features.get("tempo")
