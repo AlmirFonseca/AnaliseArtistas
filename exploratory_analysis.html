@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Análise Exploratória &mdash; Análise Exploratória de Artistas 08/10/2022 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Base de Dados" href="database.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Análise Exploratória de Artistas
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Conteúdos:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="database.html">Base de Dados</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Análise Exploratória</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#visualization">visualization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#visualization.albuns_awards_plot"><code class="docutils literal notranslate"><span class="pre">albuns_awards_plot()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#visualization.common_words_by_album_plot"><code class="docutils literal notranslate"><span class="pre">common_words_by_album_plot()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#visualization.common_words_by_lyrics_plot"><code class="docutils literal notranslate"><span class="pre">common_words_by_lyrics_plot()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#visualization.common_words_by_song_plot"><code class="docutils literal notranslate"><span class="pre">common_words_by_song_plot()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#visualization.duration_popularity_plot"><code class="docutils literal notranslate"><span class="pre">duration_popularity_plot()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#visualization.least_listened_by_album_plot"><code class="docutils literal notranslate"><span class="pre">least_listened_by_album_plot()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#visualization.least_listened_plot"><code class="docutils literal notranslate"><span class="pre">least_listened_plot()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#visualization.longest_by_album_plot"><code class="docutils literal notranslate"><span class="pre">longest_by_album_plot()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#visualization.longest_plot"><code class="docutils literal notranslate"><span class="pre">longest_plot()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#visualization.most_listened_by_album_plot"><code class="docutils literal notranslate"><span class="pre">most_listened_by_album_plot()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#visualization.most_listened_plot"><code class="docutils literal notranslate"><span class="pre">most_listened_plot()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#visualization.shortest_by_album_plot"><code class="docutils literal notranslate"><span class="pre">shortest_by_album_plot()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#visualization.shortest_plot"><code class="docutils literal notranslate"><span class="pre">shortest_plot()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#exploratory-analysis">exploratory_analysis</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#exploratory_analysis.album_in_lyrics"><code class="docutils literal notranslate"><span class="pre">album_in_lyrics()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exploratory_analysis.albuns_awards"><code class="docutils literal notranslate"><span class="pre">albuns_awards()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exploratory_analysis.common_gender"><code class="docutils literal notranslate"><span class="pre">common_gender()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exploratory_analysis.common_words_by_album"><code class="docutils literal notranslate"><span class="pre">common_words_by_album()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exploratory_analysis.common_words_by_lyrics"><code class="docutils literal notranslate"><span class="pre">common_words_by_lyrics()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exploratory_analysis.common_words_by_song"><code class="docutils literal notranslate"><span class="pre">common_words_by_song()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exploratory_analysis.common_words_lyrics_album"><code class="docutils literal notranslate"><span class="pre">common_words_lyrics_album()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exploratory_analysis.duration_popularity"><code class="docutils literal notranslate"><span class="pre">duration_popularity()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exploratory_analysis.explicit_popularity"><code class="docutils literal notranslate"><span class="pre">explicit_popularity()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exploratory_analysis.least_listened"><code class="docutils literal notranslate"><span class="pre">least_listened()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exploratory_analysis.least_listened_by_album"><code class="docutils literal notranslate"><span class="pre">least_listened_by_album()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exploratory_analysis.longest"><code class="docutils literal notranslate"><span class="pre">longest()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exploratory_analysis.longest_by_album"><code class="docutils literal notranslate"><span class="pre">longest_by_album()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exploratory_analysis.most_listened"><code class="docutils literal notranslate"><span class="pre">most_listened()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exploratory_analysis.most_listened_by_album"><code class="docutils literal notranslate"><span class="pre">most_listened_by_album()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exploratory_analysis.most_popular_album"><code class="docutils literal notranslate"><span class="pre">most_popular_album()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exploratory_analysis.remove_stop_words"><code class="docutils literal notranslate"><span class="pre">remove_stop_words()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exploratory_analysis.shortest"><code class="docutils literal notranslate"><span class="pre">shortest()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exploratory_analysis.shortest_by_album"><code class="docutils literal notranslate"><span class="pre">shortest_by_album()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exploratory_analysis.song_in_lyrics"><code class="docutils literal notranslate"><span class="pre">song_in_lyrics()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exploratory_analysis.unique_values"><code class="docutils literal notranslate"><span class="pre">unique_values()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#dataframe-reader">dataframe_reader</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#dataframe_reader.add_awards"><code class="docutils literal notranslate"><span class="pre">add_awards()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dataframe_reader.create_final_dataframe"><code class="docutils literal notranslate"><span class="pre">create_final_dataframe()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dataframe_reader.is_valid"><code class="docutils literal notranslate"><span class="pre">is_valid()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dataframe_reader.time_to_seconds"><code class="docutils literal notranslate"><span class="pre">time_to_seconds()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Análise Exploratória de Artistas</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Análise Exploratória</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/exploratory_analysis.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="analise-exploratoria">
+<h1>Análise Exploratória<a class="headerlink" href="#analise-exploratoria" title="Permalink to this heading">¶</a></h1>
+<section id="visualization">
+<h2>visualization<a class="headerlink" href="#visualization" title="Permalink to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+</div>
+<span class="target" id="module-visualization"></span><dl class="simple">
+<dt>Módulo de Visualização</dt><dd></dd>
+</dl>
+<p>Esse módulo contém funções responsáveis por gerar gráficos a partir da análise de dataframes sobre musicas em um formato específico.
+O formato do dataframe deve ser igual ao gerado pelo módulo database nesse mesmo repositório e lido pela função create_dataframe no arquivo principal (main.py).</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="visualization.albuns_awards_plot">
+<span class="sig-prename descclassname"><span class="pre">visualization.</span></span><span class="sig-name descname"><span class="pre">albuns_awards_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#visualization.albuns_awards_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recebe um dataframe e cria e plota um gráfico de barras para a quantidade de prêmios dos álbuns mais premiados.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dataframe</strong> (<em>pandas.core.frame.DataFrame</em>) – DataFrame com a coluna <code class="docutils literal notranslate"><span class="pre">Awards</span></code>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Gráfico de barras para a quantidade de prêmios dos álbuns mais premiados em uma pasta separada</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><cite>None</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="visualization.common_words_by_album_plot">
+<span class="sig-prename descclassname"><span class="pre">visualization.</span></span><span class="sig-name descname"><span class="pre">common_words_by_album_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#visualization.common_words_by_album_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recebe um dataframe e cria uma nuvem de palavras com as palavras mais comuns nos títulos dos álbuns.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dataframe</strong> (<em>pandas.core.frame.DataFrame</em>) – DataFrame com a coluna <code class="docutils literal notranslate"><span class="pre">Album</span> <span class="pre">Name</span></code>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Nuvem de palavras com as palavras mais comuns nos títulos dos álbuns.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><cite>None</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="visualization.common_words_by_lyrics_plot">
+<span class="sig-prename descclassname"><span class="pre">visualization.</span></span><span class="sig-name descname"><span class="pre">common_words_by_lyrics_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#visualization.common_words_by_lyrics_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recebe um dataframe e cria uma nuvem de palavras com as palavras mais comuns nas músicas.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dataframe</strong> (<em>pandas.core.frame.DataFrame</em>) – DataFrame com a coluna <code class="docutils literal notranslate"><span class="pre">Track</span> <span class="pre">Lyrics</span></code>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Nuvem de palavras com as palavras mais comuns nas músicas.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><cite>None</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="visualization.common_words_by_song_plot">
+<span class="sig-prename descclassname"><span class="pre">visualization.</span></span><span class="sig-name descname"><span class="pre">common_words_by_song_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#visualization.common_words_by_song_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recebe um dataframe e cria uma nuvem de palavras com as palavras mais comuns nos títulos das faixas.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dataframe</strong> (<em>pandas.core.frame.DataFrame</em>) – DataFrame com a coluna <code class="docutils literal notranslate"><span class="pre">Track</span> <span class="pre">Name</span></code>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Nuvem de palavras com as palavras mais comuns nos títulos das faixas.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><cite>None</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="visualization.duration_popularity_plot">
+<span class="sig-prename descclassname"><span class="pre">visualization.</span></span><span class="sig-name descname"><span class="pre">duration_popularity_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#visualization.duration_popularity_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recebe um dataframe e cria e plota um scatterplot que associa duração e popularidade.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dataframe</strong> (<em>pandas.core.frame.DataFrame</em>) – DataFrame com com a coluna <code class="docutils literal notranslate"><span class="pre">Duration</span> <span class="pre">Seconds</span></code> e <code class="docutils literal notranslate"><span class="pre">Popularity</span></code></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Scatterplot que associa duração e popularidade em uma pasta separada.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><cite>None</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="visualization.least_listened_by_album_plot">
+<span class="sig-prename descclassname"><span class="pre">visualization.</span></span><span class="sig-name descname"><span class="pre">least_listened_by_album_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#visualization.least_listened_by_album_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recebe um dataframe e cria e plota um gráfico de barras para a popularidade das músicas menos ouvidas por álbum.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dataframe</strong> (<em>pandas.core.frame.DataFrame</em>) – DataFrame com <code class="docutils literal notranslate"><span class="pre">Album</span> <span class="pre">Name</span></code> como parte do multi index e com a coluna <code class="docutils literal notranslate"><span class="pre">Popularity</span></code>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Gráfico de barras para a popularidade das músicas menos ouvidas por álbum em uma pasta separada.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><cite>None</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="visualization.least_listened_plot">
+<span class="sig-prename descclassname"><span class="pre">visualization.</span></span><span class="sig-name descname"><span class="pre">least_listened_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#visualization.least_listened_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recebe um dataframe e cria e plota um gráfico de barras para a popularidade das músicas menos ouvidas.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dataframe</strong> (<em>pandas.core.frame.DataFrame</em>) – DataFrame com coluna <code class="docutils literal notranslate"><span class="pre">Popularity</span></code>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Gráfico de barras para a popularidade das músicas menos ouvidas em uma pasta separada.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><cite>None</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="visualization.longest_by_album_plot">
+<span class="sig-prename descclassname"><span class="pre">visualization.</span></span><span class="sig-name descname"><span class="pre">longest_by_album_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#visualization.longest_by_album_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recebe um dataframe e cria e plota um gráfico de barras para a duração das músicas mais longas por álbum</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dataframe</strong> (<em>pandas.core.frame.DataFrame</em>) – DataFrame com <code class="docutils literal notranslate"><span class="pre">Album</span> <span class="pre">Name</span></code> como parte do multi index e com a coluna <code class="docutils literal notranslate"><span class="pre">Duration</span></code>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Gráfico de barras para a popularidade das músicas menos ouvidas por álbum em uma pasta separada.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><cite>None</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="visualization.longest_plot">
+<span class="sig-prename descclassname"><span class="pre">visualization.</span></span><span class="sig-name descname"><span class="pre">longest_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#visualization.longest_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recebe um dataframe e cria e plota um gráfico de barras para a duração das músicas mais longas.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dataframe</strong> (<em>pandas.core.frame.DataFrame</em>) – DataFrame com coluna <code class="docutils literal notranslate"><span class="pre">Duration</span></code>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Gráfico de barras para a duração das músicas mais longas em uma pasta separada</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><cite>None</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="visualization.most_listened_by_album_plot">
+<span class="sig-prename descclassname"><span class="pre">visualization.</span></span><span class="sig-name descname"><span class="pre">most_listened_by_album_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#visualization.most_listened_by_album_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recebe um dataframe e cria e plota um gráfico de barras para a popularidade das músicas mais ouvidas por álbum.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dataframe</strong> (<em>pandas.core.frame.DataFrame</em>) – DataFrame com <code class="docutils literal notranslate"><span class="pre">Album</span> <span class="pre">Name</span></code> como parte do multi index e com a coluna <code class="docutils literal notranslate"><span class="pre">Popularity</span></code>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Gráfico de barras para a popularidade das músicas mais ouvidas por álbum em uma pasta separada.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><cite>None</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="visualization.most_listened_plot">
+<span class="sig-prename descclassname"><span class="pre">visualization.</span></span><span class="sig-name descname"><span class="pre">most_listened_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#visualization.most_listened_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recebe um dataframe e cria e plota um gráfico de barras para a popularidade das músicas mais ouvidas.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dataframe</strong> (<em>pandas.core.frame.DataFrame</em>) – DataFrame com coluna <code class="docutils literal notranslate"><span class="pre">Popularity</span></code>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Gráfico de barras para a popularidade das músicas mais ouvidas em uma pasta separada.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><cite>None</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="visualization.shortest_by_album_plot">
+<span class="sig-prename descclassname"><span class="pre">visualization.</span></span><span class="sig-name descname"><span class="pre">shortest_by_album_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#visualization.shortest_by_album_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recebe um dataframe e cria e plota um gráfico de barras para a duração das músicas mais curtas por álbum.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dataframe</strong> (<em>pandas.core.frame.DataFrame</em>) – DataFrame com <code class="docutils literal notranslate"><span class="pre">Album</span> <span class="pre">Name</span></code> como parte do multi index e com a coluna <code class="docutils literal notranslate"><span class="pre">Duration</span></code>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Gráfico de barras para a duração das músicas mais curtas por álbum em uma pasta separada.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><cite>None</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="visualization.shortest_plot">
+<span class="sig-prename descclassname"><span class="pre">visualization.</span></span><span class="sig-name descname"><span class="pre">shortest_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#visualization.shortest_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recebe um dataframe e cria e plota um gráfico de barras para a duração das músicas mais curtas.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dataframe</strong> (<em>pandas.core.frame.DataFrame</em>) – DataFrame com coluna <code class="docutils literal notranslate"><span class="pre">Duration</span></code>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Gráfico de barras para a duração das músicas mais curtas em uma pasta separada.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><cite>None</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="exploratory-analysis">
+<h2>exploratory_analysis<a class="headerlink" href="#exploratory-analysis" title="Permalink to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+</div>
+<span class="target" id="module-exploratory_analysis"></span><p>Módulo de análise exploratória</p>
+<p>Esse módulo contém funções responsáveis por responder perguntas a partir da análise de dataframes em um formato específico.
+O formato do dataframe deve ser igual ao gerado pelo módulo database nesse mesmo repositório e lido pela função create_dataframe.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="exploratory_analysis.album_in_lyrics">
+<span class="sig-prename descclassname"><span class="pre">exploratory_analysis.</span></span><span class="sig-name descname"><span class="pre">album_in_lyrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exploratory_analysis.album_in_lyrics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recebe um dataframe e retorna os 3 álbuns que mais aparecem nas letras das músicas.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dataframe</strong> (<cite>pandas.core.frame.DataFrame</cite>) – Dataframe com <code class="docutils literal notranslate"><span class="pre">Album</span> <span class="pre">Name</span></code> como parte do  multi index e com a coluna <code class="docutils literal notranslate"><span class="pre">Track</span> <span class="pre">Lyrics</span></code>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dataframe com os 3 álbuns que mais aparecem nas letras das músicas.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><cite>pandas.core.frame.DataFrame</cite></p>
+</dd>
+<dt class="field-even">Note</dt>
+<dd class="field-even"><p>Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="exploratory_analysis.albuns_awards">
+<span class="sig-prename descclassname"><span class="pre">exploratory_analysis.</span></span><span class="sig-name descname"><span class="pre">albuns_awards</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exploratory_analysis.albuns_awards" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recebe um dataframe no formato pandas e retorna um dataframe com as 3 álbuns mais premiados e suas quantidades de prêmios.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dataframe</strong> (<cite>pandas.core.frame.DataFrame</cite>) – DataFrame com multi index e com coluna <code class="docutils literal notranslate"><span class="pre">Awards</span></code>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dataframe com os álbuns mais premiados e a quantidade de prêmios recebidos.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><cite>pandas.core.frame.DataFrame</cite></p>
+</dd>
+<dt class="field-even">Note</dt>
+<dd class="field-even"><p>Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="exploratory_analysis.common_gender">
+<span class="sig-prename descclassname"><span class="pre">exploratory_analysis.</span></span><span class="sig-name descname"><span class="pre">common_gender</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exploratory_analysis.common_gender" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recebe um dataframe e retorna uma lista com tuplas contendo os gêneros mais frequentes e suas respectivas frequências na discografia (quantos álbuns possuem determinado gênero ).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dataframe</strong> (<cite>pandas.core.frame.DataFrame</cite>) – Dataframe com coluna <code class="docutils literal notranslate"><span class="pre">Genre</span></code>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Lista que contém 3 tuplas para representar os 3 gêneros mais frequêntes e suas frequências.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><cite>list</cite></p>
+</dd>
+<dt class="field-even">Note</dt>
+<dd class="field-even"><p>Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="exploratory_analysis.common_words_by_album">
+<span class="sig-prename descclassname"><span class="pre">exploratory_analysis.</span></span><span class="sig-name descname"><span class="pre">common_words_by_album</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exploratory_analysis.common_words_by_album" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recebe um dataframe e retorna as 50 palavras mais comuns nos títulos dos álbuns.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dataframe</strong> (<cite>pandas.core.frame.DataFrame</cite>) – Dataframe com multi index.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Lista com tuplas contendo as palavras mais comuns nos títulos dos álbuns e suas frequências.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><cite>list</cite></p>
+</dd>
+<dt class="field-even">Note</dt>
+<dd class="field-even"><p>Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="exploratory_analysis.common_words_by_lyrics">
+<span class="sig-prename descclassname"><span class="pre">exploratory_analysis.</span></span><span class="sig-name descname"><span class="pre">common_words_by_lyrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exploratory_analysis.common_words_by_lyrics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recebe um dataframe e retorna as 50 palavras mais comuns nas letras das músicas.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dataframe</strong> (<cite>pandas.core.frame.DataFrame</cite>) – Dataframe com multi index.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Lista com tuplas contendo as palavras mais comuns nas letras das músicas e suas frequências.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><cite>list</cite></p>
+</dd>
+<dt class="field-even">Note</dt>
+<dd class="field-even"><p>Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="exploratory_analysis.common_words_by_song">
+<span class="sig-prename descclassname"><span class="pre">exploratory_analysis.</span></span><span class="sig-name descname"><span class="pre">common_words_by_song</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exploratory_analysis.common_words_by_song" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recebe um dataframe e retorna as 50 palavras mais comuns nos títulos das músicas.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dataframe</strong> (<cite>pandas.core.frame.DataFrame</cite>) – Dataframe com multi index.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Lista com tuplas contendo as palavras mais comuns nos títulos das músicas e suas frequências.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><cite>list</cite></p>
+</dd>
+<dt class="field-even">Note</dt>
+<dd class="field-even"><p>Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="exploratory_analysis.common_words_lyrics_album">
+<span class="sig-prename descclassname"><span class="pre">exploratory_analysis.</span></span><span class="sig-name descname"><span class="pre">common_words_lyrics_album</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exploratory_analysis.common_words_lyrics_album" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recebe um dataframe e retorna as 50 palavras mais comuns nas letras das músicas de cada álbum.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dataframe</strong> (<cite>pandas.core.frame.DataFrame</cite>) – Dataframe com <code class="docutils literal notranslate"><span class="pre">Album</span> <span class="pre">Name</span></code> como parte do  multi index e com a coluna <code class="docutils literal notranslate"><span class="pre">Track</span> <span class="pre">Lyrics</span></code>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Série com as 50 palavras mais comuns nas letras das músicas de cada álbum.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><cite>pandas.core.series.Series</cite></p>
+</dd>
+<dt class="field-even">Note</dt>
+<dd class="field-even"><p>Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="exploratory_analysis.duration_popularity">
+<span class="sig-prename descclassname"><span class="pre">exploratory_analysis.</span></span><span class="sig-name descname"><span class="pre">duration_popularity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exploratory_analysis.duration_popularity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recebe um dataframe no formato pandas e retorna um float com a correlação de pearson entre duração e popularidade.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dataframe</strong> (<cite>pandas.core.frame.DataFrame</cite>) – Dataframe com as colunas <code class="docutils literal notranslate"><span class="pre">Duration</span> <span class="pre">Seconds</span></code> e <code class="docutils literal notranslate"><span class="pre">Popularity</span></code>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Correlação de pearson entre as colunas Duration Seconds e Popularity.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><cite>numpy.float64</cite></p>
+</dd>
+<dt class="field-even">Note</dt>
+<dd class="field-even"><p>Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="exploratory_analysis.explicit_popularity">
+<span class="sig-prename descclassname"><span class="pre">exploratory_analysis.</span></span><span class="sig-name descname"><span class="pre">explicit_popularity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exploratory_analysis.explicit_popularity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recebe um dataframe e retorna a popularidade média de músicas explícitas e não explícitas.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dataframe</strong> (<cite>pandas.core.frame.DataFrame</cite>) – Dataframe com colunas <code class="docutils literal notranslate"><span class="pre">Explicit</span></code> e <code class="docutils literal notranslate"><span class="pre">Popularity</span></code>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dataframe com as popularidades médias das músicas explícitas e não explícitas.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><cite>pandas.core.frame.DataFrame</cite></p>
+</dd>
+<dt class="field-even">Note</dt>
+<dd class="field-even"><p>Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="exploratory_analysis.least_listened">
+<span class="sig-prename descclassname"><span class="pre">exploratory_analysis.</span></span><span class="sig-name descname"><span class="pre">least_listened</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exploratory_analysis.least_listened" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recebe um dataframe e o retorna com um filtro para indicar as 3 músicas menos ouvidas.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dataframe</strong> (<cite>pandas.core.frame.DataFrame</cite>) – DataFrame com coluna <code class="docutils literal notranslate"><span class="pre">Popularity</span></code>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>DataFrame com as 3 músicas menos ouvidas, caso haja mais músicas com a mesma popularidade, todas serão retornadas..</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><cite>pandas.core.frame.DataFrame</cite></p>
+</dd>
+<dt class="field-even">Note</dt>
+<dd class="field-even"><p>Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="exploratory_analysis.least_listened_by_album">
+<span class="sig-prename descclassname"><span class="pre">exploratory_analysis.</span></span><span class="sig-name descname"><span class="pre">least_listened_by_album</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exploratory_analysis.least_listened_by_album" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recebe um dataframe e o retorna com um filtro para indicar as 3 músicas menos ouvidas por álbum.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dataframe</strong> (<cite>pandas.core.frame.DataFrame</cite>) – DataFrame com <code class="docutils literal notranslate"><span class="pre">Album</span> <span class="pre">Name</span></code> como parte do multi index e com coluna <code class="docutils literal notranslate"><span class="pre">Popularity</span></code>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>DataFrame com as 3 músicas menos ouvidas por álbum, caso haja mais músicas com a mesma popularidade, todas serão retornadas.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><cite>pandas.core.frame.DataFrame</cite></p>
+</dd>
+<dt class="field-even">Note</dt>
+<dd class="field-even"><p>Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="exploratory_analysis.longest">
+<span class="sig-prename descclassname"><span class="pre">exploratory_analysis.</span></span><span class="sig-name descname"><span class="pre">longest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exploratory_analysis.longest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recebe um dataframe no formato pandas e retorna um dataframe com as 3 músicas mais longas.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dataframe</strong> (<cite>pandas.core.frame.DataFrame</cite>) – DataFrame com coluna <code class="docutils literal notranslate"><span class="pre">Duration</span> <span class="pre">Seconds</span></code>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>DataFrame com 3 músicas mais longas, caso haja mais músicas com a mesma duração, todas serão retornadas.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><cite>pandas.core.frame.DataFrame</cite></p>
+</dd>
+<dt class="field-even">Note</dt>
+<dd class="field-even"><p>Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="exploratory_analysis.longest_by_album">
+<span class="sig-prename descclassname"><span class="pre">exploratory_analysis.</span></span><span class="sig-name descname"><span class="pre">longest_by_album</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exploratory_analysis.longest_by_album" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recebe um dataframe e o retorna com um filtro para indicar as 3 músicas mais longas por álbum.
+:param dataframe: DataFrame com <code class="docutils literal notranslate"><span class="pre">Album</span> <span class="pre">Name</span></code> como parte do multi index e com coluna <code class="docutils literal notranslate"><span class="pre">Duration</span></code>.
+:type dataframe: <cite>pandas.core.frame.DataFrame</cite>
+:return: DataFrame com as 3 músicas mais longas por álbum, caso haja mais músicas com a mesma duração, todas serão retornadas.
+:rtype: <cite>pandas.core.frame.DataFrame</cite></p>
+<dl class="field-list simple">
+<dt class="field-odd">Note</dt>
+<dd class="field-odd"><p>Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="exploratory_analysis.most_listened">
+<span class="sig-prename descclassname"><span class="pre">exploratory_analysis.</span></span><span class="sig-name descname"><span class="pre">most_listened</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exploratory_analysis.most_listened" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recebe um dataframe e o retorna com um filtro para indicar as 3 músicas mais ouvidas.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dataframe</strong> (<cite>pandas.core.frame.DataFrame</cite>) – DataFrame com coluna <code class="docutils literal notranslate"><span class="pre">Popularity</span></code>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>DataFrame com as 3 músicas mais ouvidas, caso haja mais músicas com a mesma popularidade, todas serão retornadas.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><cite>pandas.core.frame.DataFrame</cite></p>
+</dd>
+<dt class="field-even">Note</dt>
+<dd class="field-even"><p>Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="exploratory_analysis.most_listened_by_album">
+<span class="sig-prename descclassname"><span class="pre">exploratory_analysis.</span></span><span class="sig-name descname"><span class="pre">most_listened_by_album</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exploratory_analysis.most_listened_by_album" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recebe um dataframe e o retorna com um filtro para indicar as 3 músicas mais ouvidas por álbum.
+:param dataframe: DataFrame com <code class="docutils literal notranslate"><span class="pre">Album</span> <span class="pre">Name</span></code> como parte do multi index e com coluna <code class="docutils literal notranslate"><span class="pre">Popularity</span></code>.
+:type dataframe: <cite>pandas.core.frame.DataFrame</cite>
+:return: DataFrame com as 3 músicas mais ouvidas por álbum, caso haja mais músicas com a mesma popularidade, todas serão retornadas.
+:rtype: <cite>pandas.core.frame.DataFrame</cite></p>
+<dl class="field-list simple">
+<dt class="field-odd">Note</dt>
+<dd class="field-odd"><p>Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="exploratory_analysis.most_popular_album">
+<span class="sig-prename descclassname"><span class="pre">exploratory_analysis.</span></span><span class="sig-name descname"><span class="pre">most_popular_album</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exploratory_analysis.most_popular_album" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recebe um dataframe e retorna o álbum mais popular com base na popularidade média de suas músicas.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dataframe</strong> (<cite>pandas.core.frame.DataFrame</cite>) – Dataframe com <code class="docutils literal notranslate"><span class="pre">Album</span></code> no multi index e com coluna <code class="docutils literal notranslate"><span class="pre">Popularity</span></code>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dataframe com os álbuns mais populares e suas popularidades.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><cite>pandas.core.frame.DataFrame</cite></p>
+</dd>
+<dt class="field-even">Note</dt>
+<dd class="field-even"><p>Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="exploratory_analysis.remove_stop_words">
+<span class="sig-prename descclassname"><span class="pre">exploratory_analysis.</span></span><span class="sig-name descname"><span class="pre">remove_stop_words</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">word_list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exploratory_analysis.remove_stop_words" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove de uma lista de palavras, palavras pouco significativas da língua inglesa.
+:param word_list: Lista com palavras a serem analisadas
+:type word_list: <cite>list</cite>
+:return: Lista com palavras já filtradas
+:rtype: <cite>list</cite></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="exploratory_analysis.shortest">
+<span class="sig-prename descclassname"><span class="pre">exploratory_analysis.</span></span><span class="sig-name descname"><span class="pre">shortest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exploratory_analysis.shortest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recebe um dataframe no formato pandas e retorna um dataframe com as 3 músicas mais curtas.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dataframe</strong> (<cite>pandas.core.frame.DataFrame</cite>) – DataFrame com coluna <code class="docutils literal notranslate"><span class="pre">Duration</span> <span class="pre">Seconds</span></code>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>DataFrame com 3 músicas mais curtas, caso haja mais músicas com a mesma duração, todas serão retornadas.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><cite>pandas.core.frame.DataFrame</cite></p>
+</dd>
+<dt class="field-even">Note</dt>
+<dd class="field-even"><p>Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="exploratory_analysis.shortest_by_album">
+<span class="sig-prename descclassname"><span class="pre">exploratory_analysis.</span></span><span class="sig-name descname"><span class="pre">shortest_by_album</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exploratory_analysis.shortest_by_album" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recebe um dataframe e o retorna com um filtro para indicar as 3 músicas mais curtas por álbum.
+:param dataframe: DataFrame com <code class="docutils literal notranslate"><span class="pre">Album</span> <span class="pre">Name</span></code> como parte do multi index e com coluna <code class="docutils literal notranslate"><span class="pre">Duration</span> <span class="pre">Seconds</span></code>.
+:type dataframe: <cite>pandas.core.frame.DataFrame</cite>
+:return: DataFrame com as 3 músicas mais curtas por álbum, caso haja mais músicas com a mesma popularidade, todas serão retornadas.
+:rtype: <cite>pandas.core.frame.DataFrame</cite></p>
+<dl class="field-list simple">
+<dt class="field-odd">Note</dt>
+<dd class="field-odd"><p>Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="exploratory_analysis.song_in_lyrics">
+<span class="sig-prename descclassname"><span class="pre">exploratory_analysis.</span></span><span class="sig-name descname"><span class="pre">song_in_lyrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exploratory_analysis.song_in_lyrics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recebe um dataframe e retorna as 3 canções que mais aparecem nas letras das músicas.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dataframe</strong> (<cite>pandas.core.frame.DataFrame</cite>) – Dataframe com <code class="docutils literal notranslate"><span class="pre">Track</span> <span class="pre">Name</span></code> como parte do  multi index e com a coluna <code class="docutils literal notranslate"><span class="pre">Track</span> <span class="pre">Lyrics</span></code>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dataframe com as 3 músicas que mais aparecem nas letras das músicas.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><cite>pandas.core.frame.DataFrame</cite></p>
+</dd>
+<dt class="field-even">Note</dt>
+<dd class="field-even"><p>Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="exploratory_analysis.unique_values">
+<span class="sig-prename descclassname"><span class="pre">exploratory_analysis.</span></span><span class="sig-name descname"><span class="pre">unique_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">array</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exploratory_analysis.unique_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recebe uma lista com algumas strings contendo itens separados por <code class="docutils literal notranslate"><span class="pre">/</span></code> e retorna um array com valores únicos dos itens.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>array</strong> (<cite>list</cite>) – Lista com alguns itens sendo palavras separadas por <code class="docutils literal notranslate"><span class="pre">/</span></code>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Array com todas as palavras contidas no array de input, incluindo as separadas por <code class="docutils literal notranslate"><span class="pre">/</span></code>. Toda palavra só aparecerá uma única vez.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><cite>np.ndarray</cite></p>
+</dd>
+<dt class="field-even">Note</dt>
+<dd class="field-even"><p>Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="dataframe-reader">
+<h2>dataframe_reader<a class="headerlink" href="#dataframe-reader" title="Permalink to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+</div>
+<span class="target" id="module-dataframe_reader"></span><p>Módulo de leitura do csv e criação do dataframe
+Nesse módulo estão contidas as funções que validam arquivos csv garantindo que eles contenham todas as informações para a ánalise de dados, caso eles estejam de acordo com o estabelecido, é criado um dataframe no formato exigido.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="dataframe_reader.add_awards">
+<span class="sig-prename descclassname"><span class="pre">dataframe_reader.</span></span><span class="sig-name descname"><span class="pre">add_awards</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">original_dataframe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_album_awards</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dataframe_reader.add_awards" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recebe um dataframe com todas as colunas necessárias para a análise e recebe o caminho para um arquivo csv com duas colunas: <code class="docutils literal notranslate"><span class="pre">Album</span> <span class="pre">Name</span></code> e <code class="docutils literal notranslate"><span class="pre">Awards</span></code>, que contém os álbuns premiados e seus respectivos prêmios.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>original_dataframe</strong> (<cite>pandas.core.frame.DataFrame</cite>) – Dataframe com colunas necessárias para a análise exploratória</p></li>
+<li><p><strong>path_album_awards</strong> (<cite>str</cite>) – Arquivo <code class="docutils literal notranslate"><span class="pre">.csv</span></code> com os álbuns e seus prêmios.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dataframe com as informações do primeiro parâmetro da função acrescido de uma coluna <code class="docutils literal notranslate"><span class="pre">Awards</span></code> com os prêmios dos álbuns.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><cite>pandas.core.frame.DataFrame</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dataframe_reader.create_final_dataframe">
+<span class="sig-prename descclassname"><span class="pre">dataframe_reader.</span></span><span class="sig-name descname"><span class="pre">create_final_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dataframe_reader.create_final_dataframe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Modifica um dataframe para que ele possua um multi index a partir das colunas pedidas: <code class="docutils literal notranslate"><span class="pre">Album</span> <span class="pre">Name</span></code> e <code class="docutils literal notranslate"><span class="pre">Track</span> <span class="pre">Name</span></code> e para que exista uma nova coluna chamada <code class="docutils literal notranslate"><span class="pre">Duration</span> <span class="pre">Seconds</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dataframe</strong> (<cite>pandas.core.frame.DataFrame</cite>) – Dataframe com todas as informações necessárias e sem multi index</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dataframe com todas as informações do dataframe utilizado como parâmetro da função e com multi index composto por: <code class="docutils literal notranslate"><span class="pre">Album</span> <span class="pre">Name</span></code> e <code class="docutils literal notranslate"><span class="pre">Track</span> <span class="pre">Name</span></code>, respectivamente. Também adiciona a coluna <code class="docutils literal notranslate"><span class="pre">Duration</span> <span class="pre">Seconds</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><cite>pandas.core.frame.DataFrame</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dataframe_reader.is_valid">
+<span class="sig-prename descclassname"><span class="pre">dataframe_reader.</span></span><span class="sig-name descname"><span class="pre">is_valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_artist_info</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dataframe_reader.is_valid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Essa função checa se o caminho fornecido para um arquivo csv é válido e se esse arquivo possui todas as colunas necessárias para a análise de dados. Caso todos os requisitos sejam atendidos, a função retorna um dataframe com as informações do arquivo</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path_artist_info</strong> (<cite>str</cite>) – Arquivo <code class="docutils literal notranslate"><span class="pre">.csv</span></code> com as informações do artista</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>KeyError</strong> – Levanta um <code class="docutils literal notranslate"><span class="pre">KeyError</span></code> caso alguma coluna exigida não seja encontrada</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Retorna um dataframe com as informações do arquivo .csv caso o arquivo cumpra as exigências.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><cite>pandas.core.frame.DataFrame</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dataframe_reader.time_to_seconds">
+<span class="sig-prename descclassname"><span class="pre">dataframe_reader.</span></span><span class="sig-name descname"><span class="pre">time_to_seconds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dataframe_reader.time_to_seconds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Essa função converte um objeto no formato <code class="docutils literal notranslate"><span class="pre">mm:ss</span></code> e o transforma para tempo em segundos.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>object</strong> (<em>object</em><em> (</em><em>pandas</em><em>)</em>) – Objeto presente em uma coluna dataframe formatado como <code class="docutils literal notranslate"><span class="pre">mm:ss</span></code> que representa a duração da música</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Objeto convertido para <cite>int</cite>, representando a duração da música em segundos.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><cite>int</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="database.html" class="btn btn-neutral float-left" title="Base de Dados" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Abner Vera, Almir Fonseca, Lavínia Dias.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
