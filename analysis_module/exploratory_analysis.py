@@ -20,7 +20,7 @@ def most_listened_by_album(dataframe):
 
     :note: Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!
     """
-    if dataframe["Album Name"].empty or dataframe["Popularity"].empty :
+    if dataframe.index.get_level_values(0).empty or dataframe["Popularity"].empty :
         print("Alguma das colunas está vazia, a análise pode ser afetada")
     grouped = dataframe.groupby("Album Name")["Popularity"].nlargest(3,keep="all") # Agrupa por "Album Name" e seleciona os 3 maiores valores da coluna "Popularity"
     grouped = grouped.reset_index(level = 0) 
@@ -38,7 +38,7 @@ def least_listened_by_album(dataframe):
 
     :note: Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!
     """
-    if dataframe["Album Name"].empty or dataframe["Popularity"].empty :
+    if dataframe.index.get_level_values(0).empty or dataframe["Popularity"].empty :
         print("Alguma das colunas está vazia, a análise pode ser afetada")
     grouped = dataframe.groupby("Album Name")["Popularity"].nsmallest(3,keep="all") # Agrupa por "Album Name" e seleciona os 3 menores valores da coluna "Popularity"
     grouped = grouped.reset_index(level = 0)
@@ -55,7 +55,7 @@ def longest_by_album(dataframe):
 
     :note: Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!
     """
-    if dataframe["Album Name"].empty or dataframe["Duration Seconds"].empty :
+    if dataframe.index.get_level_values(0).empty or dataframe["Duration Seconds"].empty :
         print("Alguma das colunas está vazia, a análise pode ser afetada")
     grouped = dataframe.groupby("Album Name")["Duration Seconds"].nlargest(3,keep="all") # Agrupa por "Album Name" e seleciona os 3 maiores valores da coluna "Duration Seconds"
     grouped = grouped.reset_index(level = 0)
@@ -72,7 +72,7 @@ def shortest_by_album(dataframe):
     
     :note: Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!
     """
-    if dataframe["Album Name"].empty or dataframe["Duration Seconds"].empty :
+    if dataframe.index.get_level_values(0).empty or dataframe["Duration Seconds"].empty :
         print("Alguma das colunas está vazia, a análise pode ser afetada")
     grouped = dataframe.groupby("Album Name")["Duration Seconds"].nsmallest(3,keep="all") # Agrupa por "Album Name" e seleciona os 3 menores valores da coluna "Duration"
     grouped = grouped.reset_index(level = 0)
@@ -172,7 +172,7 @@ def albuns_awards(dataframe):
     
     :note: Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!
     """
-    if dataframe["Album Name"].empty or dataframe["Awards"].empty :
+    if dataframe.index.get_level_values(0).empty or dataframe["Awards"].empty :
         print("Alguma das colunas está vazia, a análise pode ser afetada")
     grouped = dataframe.groupby(level=0) #Agrupa o dataframe pelo index "Album Name"
     dictionary_quantity_awards = {}
@@ -236,7 +236,7 @@ def common_words_by_album(dataframe):
     
     :note: Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!
     """
-    if dataframe["Album Name"].empty:
+    if dataframe.index.get_level_values(0).empty:
         print("A coluna está vazia, a análise pode ser afetada")
     albuns = dataframe.index.get_level_values(0)
     albuns_list = list(dict.fromkeys(albuns)) #Cria uma lista com o nome dos álbuns
@@ -263,7 +263,7 @@ def common_words_by_song(dataframe):
     
     :note: Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!
     """
-    if dataframe["Track Name"].empty:
+    if dataframe.index.get_level_values(1).empty:
         print("A coluna está vazia, a análise pode ser afetada")
     songs = dataframe.index.get_level_values(1)
     songs_list = list(dict.fromkeys( songs))#Cria uma lista com o nome das músicas
@@ -317,7 +317,7 @@ def common_words_lyrics_album(dataframe):
     
     :note: Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!
     """
-    if dataframe["Album Name"].empty:
+    if dataframe.index.get_level_values(0).empty:
         print("A coluna está vazia, a análise pode ser afetada")
     new_dataframe = dataframe.groupby("Album Name").apply(common_words_by_lyrics)
     return new_dataframe
@@ -333,7 +333,7 @@ def album_in_lyrics(dataframe):
     
     :note: Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!
     """
-    if dataframe["Album Name"].empty or dataframe["Track Lyrics"].empty:
+    if dataframe.index.get_level_values(0).empty or dataframe["Track Lyrics"].empty:
         print("Alguma das colunas está vazia, a análise pode ser afetada")   
     albuns = dataframe.index.get_level_values(0)
     albuns_series = pd.Series(albuns).str.upper()
@@ -372,7 +372,7 @@ def song_in_lyrics(dataframe):
     
     :note: Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!
     """
-    if dataframe["Track Name"].empty or dataframe["Track Lyrics"].empty:
+    if dataframe.index.get_level_values(1).empty or dataframe["Track Lyrics"].empty:
         print("Alguma das colunas está vazia, a análise pode ser afetada")   
     songs = dataframe.index.get_level_values(1)
     songs_series = pd.Series(songs).str.upper()
@@ -426,7 +426,7 @@ def most_popular_album(dataframe):
     
     :note: Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!
     """
-    if dataframe["Album Name"].empty or dataframe["Popularity"].empty:
+    if dataframe.index.get_level_values(0).empty or dataframe["Popularity"].empty:
         print("Alguma das colunas está vazia, a análise pode ser afetada")   
     mean_popularity = dataframe.groupby("Album Name")["Popularity"].mean() #Calcula a popularidade média por álbum
     popularity_sorted= mean_popularity.sort_values(ascending=False) #Armazena em ordem crescente
@@ -444,7 +444,7 @@ def common_gender(dataframe):
     
     :note: Se alguma coluna estiver vazia, análise será afetada e será informado pelo console!
     """
-    if dataframe["Album Name"].empty or dataframe["Genre"].empty:
+    if dataframe.index.get_level_values(0).empty or dataframe["Genre"].empty:
         print("Alguma das colunas está vazia, a análise pode ser afetada")   
     dataframe.dropna(inplace=True)
     grouped = dataframe.groupby(level=0) # Agrupa o dataframe pelo índice "Album Name"
