@@ -22,12 +22,19 @@ def artist_info(searched_artist):
     :return: Tupla contendo nome oficial na plataforma, número de álbuns, número de fãs e álbuns do artista
     :rtype: `tuple(str, int, int, <class 'deezer.pagination.PaginatedList'>)`
     """
-    client = deezer.Client() #Sincroniza com a plataforma 
-    artist = client.search_artists(searched_artist)[0] #Retorna o primeiro resultado para o artista pesquisado
+    try:
+        client = deezer.Client() #Sincroniza com a plataforma 
+        artist = client.search_artists(searched_artist)[0] #Retorna o primeiro resultado para o artista pesquisado
+        artist_albums = artist.get_albums()
+    except ConnectionError as error:
+        print("Houve um problema de conexao")
+        raise error
+    except Exception as error:
+        print("Houve um problema durante a execucao do projeto")
+        raise error
     artist_name = artist.name
     artist_nb_album = artist.nb_album
     artist_nb_fans = artist.nb_fan
-    artist_albums = artist.get_albums()
     return artist_name, artist_nb_album, artist_nb_fans, artist_albums
 
 # Recebe um Ã¡lbum e retorna os seus gÃªneros em formato de string
