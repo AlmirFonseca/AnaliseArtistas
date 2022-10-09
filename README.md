@@ -42,7 +42,7 @@ pip install requirements.txt
 - [ ] Execute o main.py
   
 <h3 id=documentacao>Documentação:</h3>
-  Caso tenha alguma dúvida quanto a forma de utilização dos códigos, cheque nossa documentação no branch gh-pages e siga as orientações no README.md
+  Caso tenha alguma dúvida quanto a forma de utilização dos códigos, cheque nossa documentação (https://almirfonseca.github.io/AnaliseArtistas/) ou vá no branch gh-pages e siga as orientações no README.md para a documentação mais acessível e estilizada.
 
   
   <h3 id=equipe>Nossa equipe:</h3>
